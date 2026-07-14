@@ -162,5 +162,23 @@
         ]
       }
     ]
+  },
+  {
+    "id": "quote",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "quotation",
+        "label": "Quotation",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "attribution",
+        "label": "Attribution",
+        "valueType": "string"
+      }
+    ]
   }
 ]
