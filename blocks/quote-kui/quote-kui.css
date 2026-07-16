@@ -1,0 +1,14 @@
+/* APPROACH B — layout glue; the look comes from Kaizen Card/Flex/Text. */
+.quote-kui .nv-card-root { margin-inline: auto; max-width: 820px; }
+.quote-kui .quote-kui-quotation { margin: 0; }
+.quote-kui .quote-kui-attribution {
+  color: var(--color-text-secondary, #76797c);
+  margin: 0;
+  text-align: right;
+}
+.quote-kui .quote-kui-attribution::before { content: "\2014"; padding-right: 0.5ch; }
+.quote-kui .quote-kui-attribution cite {
+  color: var(--text-color-primary, #1a1a1a);
+  font-style: normal;
+  font-weight: 600;
+}
