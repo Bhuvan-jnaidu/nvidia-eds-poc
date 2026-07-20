@@ -27,3 +27,20 @@
 .cards .cards-cta {
   margin-top: var(--space-sm, 12px);
 }
+
+/* Link-list card (nav/menu style): heading + list of green links, no buttons. */
+.cards .cards-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 8px);
+}
+
+.cards .cards-links a {
+  color: var(--text-color-brand, #76b900);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cards .cards-links a:hover {
+  color: var(--color-nvidia-green-dark, #5c9400);
+}

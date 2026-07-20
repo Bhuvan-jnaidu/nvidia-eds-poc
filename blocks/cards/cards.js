@@ -22,8 +22,10 @@ const LIST_RESET = { listStyle: "none", margin: 0, padding: 0 };
 const pick = (v, allowed, fallback) => (allowed.includes(v) ? v : fallback);
 const text = (el) => el?.textContent.trim() || undefined;
 const parts = (v) => (v || "").split("|").map((s) => s.trim()).filter(Boolean);
+const anchorData = (a) => ({
+  href: a.href, text: a.textContent.trim(), rel: a.rel || undefined, target: a.target || undefined,
+});
 
-// One tag: "Label" or "Label (color)" or "Label (color, outline)".
 function parseTag(raw) {
   const m = raw.match(/\(([^)]*)\)/);
   const opts = m ? m[1].split(/[\s,]+/).map((o) => o.trim().toLowerCase()).filter(Boolean) : [];
@@ -39,7 +41,6 @@ function parseTags(str) {
     .filter((t) => t.label);
 }
 
-// CTA authored as "Label | url | kind | color | size".
 function parseCTAtext(v) {
   const p = parts(v);
   if (!p.length) return null;
@@ -52,13 +53,11 @@ function parseCTAtext(v) {
     size: rest.find((x) => BUTTON_SIZES.includes(x)) || "medium",
   };
 }
-// Image authored as "url | alt".
 function parseImgText(v) {
   const p = parts(v);
   return p.length ? { alt: p[1] || "", src: p[0] } : null;
 }
 
-// ---- key/value config authoring: "Field: value" lines per card ----
 const KNOWN_KEYS = ["title", "tags", "eyebrow", "date", "description", "body", "cta",
   "image", "kind", "sub-header", "subheader", "selected", "layout", "density"];
 
@@ -83,6 +82,7 @@ function fromConfig(row, cfg) {
     body: cfg.description || cfg.body,
     image: img ? { alt: img.alt || "", src: img.currentSrc || img.src } : parseImgText(cfg.image),
     link: cta && { ...cta, rel: undefined, target: undefined },
+    links: undefined,
     kind: pick((cfg.kind || "").toLowerCase(), CARD_KINDS, "solid"),
     layout: pick((cfg.layout || "").toLowerCase(), CARD_LAYOUTS, undefined),
     density: pick((cfg.density || "").toLowerCase(), CARD_DENSITIES, undefined),
@@ -90,7 +90,6 @@ function fromConfig(row, cfg) {
   };
 }
 
-// ---- legacy heading-style authoring (still supported) ----
 function parseCardOptions(str) {
   const match = (str || "").match(/[[(]\s*([^\])]+?)\s*[\])]/);
   if (!match) return null;
@@ -123,9 +122,12 @@ function parseButtonOptions(t) {
 }
 function fromHeadings(row) {
   const icon = row.querySelector("img");
-  const link = row.querySelector("a[href]");
+  const anchors = [...row.querySelectorAll("a[href]")];
   const tagsEl = row.querySelector("h5");
   const { opt, body } = collectText(row);
+  // A card with several links = a "link list" card (nav/menu style), not a CTA.
+  const multiLink = anchors.length > 1;
+  const link = multiLink ? null : anchors[0];
   const btn = link && parseButtonOptions(link.textContent.trim());
   return {
     tags: parseTags(tagsEl?.textContent),
@@ -134,6 +136,7 @@ function fromHeadings(row) {
     subheader: text(row.querySelector("h4")),
     body,
     image: icon && { alt: icon.alt || "", src: icon.currentSrc || icon.src },
+    links: multiLink ? anchors.map(anchorData) : undefined,
     link: link && {
       color: btn.color || pick(link.dataset.buttonColor, BUTTON_COLORS, "brand"),
       href: link.href,
@@ -160,12 +163,19 @@ const tagList = (tags) =>
   && h("div", { className: "cards-tags" },
     tags.map((tag, i) => h(Badge, { color: tag.color, key: i, kind: tag.kind }, tag.label)));
 
+const linkList = (links) =>
+  links && links.length > 0
+  && h("ul", { className: "cards-links", style: LIST_RESET },
+    links.map((l, i) => h("li", { key: i },
+      h(Text, { asChild: true, kind: "body/regular/md" },
+        h("a", { href: l.href, rel: l.rel, target: l.target }, l.text)))));
+
 const line = (kind, tag, value, className) =>
   value && h(Text, { asChild: true, kind }, h(tag, className ? { className } : null, value));
 
 function CardView(card) {
   const {
-    body, density, eyebrow, image, kind, layout, link, onSelect, selected, subheader, tags, title,
+    body, density, eyebrow, image, kind, layout, link, links, onSelect, selected, subheader, tags, title,
   } = card;
   const handleKey = onSelect
     ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }
@@ -193,6 +203,7 @@ function CardView(card) {
       line("title/lg", "h3", title),
       line("body/bold/md", "h4", subheader),
       line("body/regular/sm", "p", body),
+      linkList(links),
       link && h("div", { className: "cards-cta" },
         h(Button, {
           asChild: true,
@@ -212,7 +223,7 @@ function CardsApp({ cards }) {
       cards.map((card, i) => h("li", { key: i, style: { display: "grid" } },
         h(CardView, {
           ...card,
-          onSelect: () => setSelected(i === selected ? -1 : i),
+          onSelect: card.links ? undefined : (() => setSelected(i === selected ? -1 : i)),
           selected: i === selected,
         })))));
 }
