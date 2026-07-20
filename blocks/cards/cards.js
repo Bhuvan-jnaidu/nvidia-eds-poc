@@ -120,14 +120,27 @@ function parseButtonOptions(t) {
     size: opts.find((o) => BUTTON_SIZES.includes(o)),
   };
 }
+// A link is a CTA button only if it's bold/italic (EDS convention) or carries
+// button options like "(primary, small)". Everything else is a plain link.
+function linkIsButton(a) {
+  if (a.closest("strong, em")) return true;
+  const m = a.textContent.match(/\(([^)]*)\)/);
+  if (m) {
+    const toks = m[1].split(",").map((t) => t.trim().toLowerCase());
+    if (toks.some((t) => BUTTON_KINDS.includes(t) || BUTTON_COLORS.includes(t) || BUTTON_SIZES.includes(t))) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function fromHeadings(row) {
   const icon = row.querySelector("img");
   const anchors = [...row.querySelectorAll("a[href]")];
+  const listAnchors = anchors.filter((a) => !linkIsButton(a));
+  const link = anchors.find(linkIsButton) || null; // only bold/CTA links become buttons
   const tagsEl = row.querySelector("h5");
   const { opt, body } = collectText(row);
-  // A card with several links = a "link list" card (nav/menu style), not a CTA.
-  const multiLink = anchors.length > 1;
-  const link = multiLink ? null : anchors[0];
   const btn = link && parseButtonOptions(link.textContent.trim());
   return {
     tags: parseTags(tagsEl?.textContent),
@@ -136,7 +149,7 @@ function fromHeadings(row) {
     subheader: text(row.querySelector("h4")),
     body,
     image: icon && { alt: icon.alt || "", src: icon.currentSrc || icon.src },
-    links: multiLink ? anchors.map(anchorData) : undefined,
+    links: listAnchors.length ? listAnchors.map(anchorData) : undefined,
     link: link && {
       color: btn.color || pick(link.dataset.buttonColor, BUTTON_COLORS, "brand"),
       href: link.href,
