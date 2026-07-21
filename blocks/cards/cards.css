@@ -56,6 +56,6 @@
   transition: outline-color .15s ease, box-shadow .15s ease;
 }
 .cards .nv-card-root:hover {
-  outline: 2px solid var(--color-text, #1a1a1a);
-  outline-offset: 2px;
+  border-color: var(--color-text, #1a1a1a);
+  box-shadow: inset 0 0 0 1px var(--color-text, #1a1a1a), var(--shadow-lg, 0 8px 12px rgb(0 0 0 / 12%));
 }
