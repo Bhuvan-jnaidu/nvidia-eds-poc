@@ -1,0 +1,24 @@
+/* Bordered "panel" (Kaizen Card): section heading + inner columns of links. */
+.panel .panel-heading {
+  margin: 0 0 var(--space-lg, 24px);
+}
+
+.panel .panel-col h3 {
+  margin: 0 0 var(--space-md, 16px);
+}
+
+.panel .panel-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 12px);
+}
+
+.panel .panel-links a {
+  color: var(--text-color-brand, #76b900);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.panel .panel-links a:hover {
+  color: var(--color-nvidia-green-dark, #5c9400);
+}
