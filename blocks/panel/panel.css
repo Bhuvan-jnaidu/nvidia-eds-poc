@@ -10,7 +10,7 @@
 .panel .panel-links {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm, 12px);
+  gap: var(--space-xs, 8px);
 }
 
 .panel .panel-links a {
@@ -22,3 +22,8 @@
 .panel .panel-links a:hover {
   color: var(--color-nvidia-green-dark, #5c9400);
 }
+
+
+/* tighter link list */
+.panel .panel-links li { margin: 0; }
+.panel .panel-links a { display: inline-block; line-height: 1.4; }

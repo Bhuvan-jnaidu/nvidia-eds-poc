@@ -44,3 +44,8 @@
 .cards .cards-links a:hover {
   color: var(--color-nvidia-green-dark, #5c9400);
 }
+
+
+/* tighter link list */
+.cards .cards-links li { margin: 0; }
+.cards .cards-links a { display: inline-block; line-height: 1.4; }
