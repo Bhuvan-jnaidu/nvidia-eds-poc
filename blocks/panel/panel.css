@@ -14,13 +14,14 @@
 }
 
 .panel .panel-links a {
-  color: var(--text-color-brand, #76b900);
+  color: var(--color-text, #1a1a1a);
   text-decoration: underline;
+  text-decoration-color: var(--text-color-brand, #76b900);
   text-underline-offset: 3px;
 }
 
 .panel .panel-links a:hover {
-  color: var(--color-nvidia-green-dark, #5c9400);
+  color: var(--text-color-brand, #76b900);
 }
 
 
