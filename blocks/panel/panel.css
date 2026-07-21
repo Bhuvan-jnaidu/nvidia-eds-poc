@@ -28,3 +28,12 @@
 /* tighter link list */
 .panel .panel-links li { margin: 0; }
 .panel .panel-links a { display: inline-block; line-height: 1.4; }
+
+/* Hover: dark outline highlight on the panel. */
+.panel .nv-card-root {
+  transition: outline-color .15s ease, box-shadow .15s ease;
+}
+.panel .nv-card-root:hover {
+  outline: 2px solid var(--color-text, #1a1a1a);
+  outline-offset: 2px;
+}

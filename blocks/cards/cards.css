@@ -50,3 +50,12 @@
 /* tighter link list */
 .cards .cards-links li { margin: 0; }
 .cards .cards-links a { display: inline-block; line-height: 1.4; }
+
+/* Hover: dark outline highlight on the card. */
+.cards .nv-card-root {
+  transition: outline-color .15s ease, box-shadow .15s ease;
+}
+.cards .nv-card-root:hover {
+  outline: 2px solid var(--color-text, #1a1a1a);
+  outline-offset: 2px;
+}
