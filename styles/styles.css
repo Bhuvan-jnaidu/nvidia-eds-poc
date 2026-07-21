@@ -86,6 +86,8 @@ body.appear {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-heading);
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "ital" 0;
   font-weight: 700;
   line-height: 1.15;
   margin: 0 0 var(--space-sm);
