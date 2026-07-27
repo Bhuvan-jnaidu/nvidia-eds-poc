@@ -19,7 +19,9 @@
         "featured",
         "quote",
         "quote-kui",
-        "panel"
+        "panel",
+        "kcards",
+        "kpanel"
       ]
     }
   ]

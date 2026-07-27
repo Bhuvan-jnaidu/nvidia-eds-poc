@@ -1,0 +1,69 @@
+/* Kaizen-styled cards (kcards). Adobe JS is untouched; the look here comes from
+   Kaizen design tokens (with NVIDIA fallbacks). Block-scoped, mobile-first. */
+
+.kcards > ul {
+  display: grid;
+  gap: var(--space-lg, 24px);
+  grid-template-columns: 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 600px) {
+  .kcards > ul { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .kcards > ul { grid-template-columns: repeat(3, 1fr); }
+}
+
+.kcards > ul > li {
+  background: var(--background-color-surface-raised, #fff);
+  border: 1px solid var(--border-color-base, #dadada);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: var(--shadow-md, 0 1px 3px rgb(0 0 0 / 8%));
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kcards > ul > li:hover {
+  border-color: var(--color-text, #1a1a1a);
+  box-shadow: inset 0 0 0 1px var(--color-text, #1a1a1a), var(--shadow-lg, 0 8px 12px rgb(0 0 0 / 12%));
+}
+
+.kcards .cards-card-image {
+  line-height: 0;
+}
+
+.kcards > ul > li img {
+  aspect-ratio: 4 / 3;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.kcards .cards-card-body {
+  font-family: var(--font-sans, "NVIDIA Sans", system-ui, sans-serif);
+  padding: var(--space-lg, 24px);
+}
+
+.kcards .cards-card-body h3 {
+  color: var(--color-text, #1a1a1a);
+  margin: 0 0 var(--space-sm, 12px);
+}
+
+.kcards .cards-card-body p {
+  color: var(--color-text-secondary, #4a4f54);
+  margin: 0 0 var(--space-sm, 12px);
+}
+
+.kcards .cards-card-body a {
+  color: var(--text-color-brand, #76b900);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.kcards .cards-card-body a:hover {
+  color: var(--nv-green-dark, #5c9400);
+}

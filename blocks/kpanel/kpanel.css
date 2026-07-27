@@ -1,0 +1,66 @@
+/* OOTB `kpanel` — vanilla twin of `panel`. Look matches the Kaizen Card panel
+   but is built from Kaizen CSS tokens only (no React). Block-scoped, no !important. */
+
+.kpanel .kpanel-card {
+  background: var(--nv-color-surface, #fff);
+  border: 1px solid var(--nv-color-border, #e5e7eb);
+  border-radius: var(--radius-lg, 12px);
+  padding: var(--space-xl, 32px);
+  transition: outline-color .15s ease, box-shadow .15s ease;
+}
+
+.kpanel .kpanel-heading {
+  font-size: var(--font-size-xl, 1.5rem);
+  line-height: 1.2;
+  margin: 0 0 var(--space-lg, 24px);
+}
+
+.kpanel .kpanel-grid {
+  display: grid;
+  gap: var(--space-lg, 24px);
+  grid-template-columns: 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 600px) {
+  .kpanel .kpanel-grid { grid-template-columns: repeat(2, minmax(240px, 1fr)); }
+}
+
+@media (min-width: 900px) {
+  .kpanel .kpanel-grid { grid-template-columns: repeat(3, minmax(240px, 1fr)); }
+}
+
+.kpanel .kpanel-col h3 {
+  font-size: var(--font-size-md, 1.125rem);
+  margin: 0 0 var(--space-md, 16px);
+}
+
+.kpanel .kpanel-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 8px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.kpanel .kpanel-links li { margin: 0; }
+
+.kpanel .kpanel-links a {
+  color: var(--color-text, #1a1a1a);
+  display: inline-block;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-decoration-color: var(--text-color-brand, #76b900);
+  text-underline-offset: 3px;
+}
+
+.kpanel .kpanel-links a:hover { color: var(--text-color-brand, #76b900); }
+
+/* Hover: dark outline highlight, same as `panel`. */
+.kpanel .kpanel-card:hover {
+  outline: 2px solid var(--color-text, #1a1a1a);
+  outline-offset: 2px;
+}
