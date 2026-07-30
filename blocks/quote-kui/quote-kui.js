@@ -1,4 +1,3 @@
-import "../../scripts/kui-styles.js";
 // APPROACH B — same Adobe "quote" authoring, rendered with the Kaizen (KUI)
 // React library (Card/Flex/Text). Full Kaizen components, at the cost of
 // loading React + the KUI bundle.

@@ -1,4 +1,3 @@
-import "../../scripts/kui-styles.js";
 import { React, createRoot, flushSync } from "@kui/foundations-react";
 import { Button, Hero } from "@kui/foundations-react";
 
