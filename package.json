@@ -7,7 +7,7 @@
     "start": "npx serve . --listen 3001",
     "stop": "npx kill-port 3001",
     "build:json": "node scripts/build-json.js",
-    "build:kui": "esbuild scripts/kui/foundations-react.entry.js --bundle --format=esm --outfile=scripts/kui/foundations-react.bundle.js --external:react --external:react-dom --external:react/jsx-runtime --external:react-dom/client --alias:react-compiler-runtime=./scripts/kui/react-compiler-runtime.shim.js",
+    "build:kui": "node scripts/build-kui.mjs",
     "lint:js": "eslint .",
     "lint:css": "stylelint \"blocks/**/*.css\" \"styles/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
@@ -37,6 +37,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@kui/foundations-css": "^1.1.2",
-    "@kui/foundations-react": "^1.1.2"
+    "@kui/foundations-react": "^1.1.2",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
   }
 }

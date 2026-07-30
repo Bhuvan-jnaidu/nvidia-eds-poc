@@ -23,6 +23,13 @@ import "@kui/foundations-css/dist/components/tabs.css";
 import "@kui/foundations-css/dist/components/input-shell.css";
 import "@kui/foundations-css/dist/components/badge.css";
 
+// React is now bundled in (self-hosted, no esm.sh). Re-export it here so blocks
+// import React/createRoot/flushSync from this same bundle — guaranteeing ONE
+// React instance shared with the KUI components (avoids the "two Reacts" bug).
+export { default as React } from "react";
+export { flushSync } from "react-dom";
+export { createRoot } from "react-dom/client";
+
 // Matches block imports such as:
 // import { Badge, Button, Card, Flex, Grid, Hero, Text } from "@kui/foundations-react";
 export { Button } from "@kui/foundations-react/Button";

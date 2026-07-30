@@ -1,9 +1,7 @@
 // APPROACH B — same Adobe "quote" authoring, rendered with the Kaizen (KUI)
 // React library (Card/Flex/Text). Full Kaizen components, at the cost of
 // loading React + the KUI bundle.
-import React from "react";
-import { flushSync } from "react-dom";
-import { createRoot } from "react-dom/client";
+import { React, createRoot, flushSync } from "@kui/foundations-react";
 import { Card, Flex, Text } from "@kui/foundations-react";
 
 const h = React.createElement;
