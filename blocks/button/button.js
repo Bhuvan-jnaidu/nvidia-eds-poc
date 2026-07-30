@@ -1,3 +1,4 @@
+import "../../scripts/kui-styles.js";
 import { React, createRoot, flushSync } from "@kui/foundations-react";
 import { Button } from "@kui/foundations-react";
 
