@@ -12,6 +12,12 @@
     ]
   },
   {
+    "id": "kcards",
+    "components": [
+      "kcard"
+    ]
+  },
+  {
     "id": "section",
     "components": [
       "text",
@@ -28,7 +34,9 @@
       "featured",
       "quote",
       "quote-kui",
-      "panel"
+      "panel",
+      "kcards",
+      "kpanel"
     ]
   }
 ]

@@ -103,6 +103,9 @@ export function decorateMain(main) {
 
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  // KUI component styles: load non-blocking (not a blocking <head> stylesheet).
+  // loadCSS is idempotent; requested early here to minimize any unstyled flash.
+  loadCSS(`${window.hlx.codeBasePath}/scripts/kui/foundations-react.bundle.css`);
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
