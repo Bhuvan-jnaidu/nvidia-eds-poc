@@ -1,7 +1,5 @@
 import {
   buildBlock,
-  loadHeader,
-  loadFooter,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -11,6 +9,9 @@ import {
   loadSections,
   loadCSS,
 } from './aem.js';
+// TRIAL (global-nav-plugin branch): use Mark Yam's shared header/footer plugin
+// instead of the EDS nav.html/footer.html blocks.
+import { loadGlobalNav } from './global-nav.js';
 
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
@@ -124,7 +125,9 @@ async function loadEager(doc) {
 }
 
 async function loadLazy(doc) {
-  loadHeader(doc.querySelector('header'));
+  // TRIAL: header + footer come from the shared NVIDIA global-nav plugin
+  // instead of loadHeader()/loadFooter() (EDS nav.html/footer.html).
+  loadGlobalNav(doc);
 
   const main = doc.querySelector('main');
   await loadSections(main);
@@ -132,8 +135,6 @@ async function loadLazy(doc) {
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
-
-  loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
