@@ -213,14 +213,14 @@ main {
    number in a left column with wrapped lines aligned — matches the real page. */
 .section.legal ul {
   margin: 0 0 var(--space-sm);
-  padding-left: 0;
+  padding-left: 2em; /* nest the sub-clause group under the section heading */
   list-style: none;
 }
 
 .section.legal li {
   margin-bottom: var(--space-xs);
-  padding-left: 2.75em;
-  text-indent: -2.75em;
+  padding-left: 1.6em;
+  text-indent: -1.6em; /* hanging indent: "1.1" hangs, wrapped lines align */
   line-height: 1.55;
   color: var(--color-text, #1a1a1a);
 }
