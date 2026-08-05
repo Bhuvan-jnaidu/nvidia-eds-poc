@@ -180,10 +180,10 @@ main {
 /* Legal / long-form prose sections (e.g. agreements). OOTB path: no React,
    Kaizen typography tokens, left-aligned with a readable measure. Applied via
    a "Section Metadata" Style of "legal" in the authoring doc. */
+/* Left-align the prose; width stays at the default container (.section > div),
+   matching the real agreement page (body sits in a ~1280px centered container). */
 .section.legal > .default-content-wrapper {
   text-align: left;
-  max-width: none; /* fill the container width, like the real agreement page */
-  margin-inline: 0;
 }
 
 .section.legal h1 {
