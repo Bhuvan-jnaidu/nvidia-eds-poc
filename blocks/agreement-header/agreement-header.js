@@ -17,7 +17,13 @@ export default function decorate(block) {
   const textOf = (el) => (el ? el.textContent.trim() : "");
 
   const crumb = textOf(cell(0, 0)) || "Agreements";
-  const dl = cell(0, 1)?.querySelector("a[href]");
+  // Download link: prefer an authored <a>, but fall back to the cell text so the
+  // button still renders if EDS strips the anchor (relative-path links get
+  // stripped in the docx -> EDS conversion).
+  const dlCell = cell(0, 1);
+  const dlAnchor = dlCell?.querySelector("a[href]");
+  const dlLabel = (dlAnchor ? dlAnchor.textContent : (dlCell ? dlCell.textContent : "")).trim();
+  const dlHref = dlAnchor ? dlAnchor.href : "/nvidia-cloud-agreement.pdf";
   const title = textOf(cell(1));
   const modified = textOf(cell(2));
   const notice = textOf(cell(3));
@@ -33,13 +39,13 @@ export default function decorate(block) {
           { className: "agreement-topbar" },
           h(Text, { asChild: true, kind: "title/md" },
             h("span", { className: "agreement-crumb" }, crumb)),
-          dl && h(Button, { asChild: true, color: "brand", kind: "primary" },
+          dlLabel && h(Button, { asChild: true, color: "brand", kind: "primary" },
             h("a", {
               className: "agreement-download",
-              href: dl.href,
-              rel: dl.rel || undefined,
-              target: dl.target || undefined,
-            }, dl.textContent.trim() || "Download PDF")),
+              href: dlHref,
+              rel: dlAnchor?.rel || undefined,
+              target: dlAnchor?.target || undefined,
+            }, dlLabel)),
         ),
         h(
           "div",
