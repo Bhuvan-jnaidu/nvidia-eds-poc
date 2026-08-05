@@ -182,8 +182,8 @@ main {
    a "Section Metadata" Style of "legal" in the authoring doc. */
 .section.legal > .default-content-wrapper {
   text-align: left;
-  max-width: 52rem;
-  margin-inline: 0; /* left-align to the gutter, not centered */
+  max-width: none; /* fill the container width, like the real agreement page */
+  margin-inline: 0;
 }
 
 .section.legal h1 {
