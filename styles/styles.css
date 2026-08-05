@@ -127,6 +127,13 @@ p {
   line-height: 1.65;
 }
 
+/* Force upright text everywhere. NVIDIA Sans is a variable font; without pinning
+   the slant axis to 0 the body renders slanted (the h1–h6 rule pins headings). */
+body, p, li, td, th, a {
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "ital" 0;
+}
+
 a { color: var(--color-nvidia-green-dark); text-decoration: none; }
 a:hover { color: var(--color-nvidia-green-hover); }
 
@@ -168,6 +175,33 @@ main {
 
 .section > .default-content-wrapper {
   text-align: center;
+}
+
+/* Legal / long-form prose sections (e.g. agreements). OOTB path: no React,
+   Kaizen typography tokens, left-aligned with a readable measure. Applied via
+   a "Section Metadata" Style of "legal" in the authoring doc. */
+.section.legal > .default-content-wrapper {
+  text-align: left;
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.section.legal h1 {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-md);
+}
+
+.section.legal h2 {
+  font-size: var(--font-size-xl);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-2xs, 4px);
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+}
+
+.section.legal p {
+  color: var(--color-text, #1a1a1a);
+  line-height: 1.7;
 }
 
 /* Buttons — NVIDIA-branded, three variants */
