@@ -27,16 +27,8 @@
   letter-spacing: -0.01em;
 }
 
-.agreement-header a.button.agreement-download:any-link {
-  margin: 0;
-  border-color: var(--text-color-brand, #76b900);
-  background: var(--text-color-brand, #76b900);
-  color: #000;
-}
-
-.agreement-header a.button.agreement-download:any-link:hover {
-  filter: brightness(1.06);
-}
+/* Download PDF is a Kaizen Button (KUI styles it); just remove default margin. */
+.agreement-header .agreement-download { margin: 0; }
 
 .agreement-header .agreement-titleband {
   padding: var(--space-2xl, 48px) 24px;
