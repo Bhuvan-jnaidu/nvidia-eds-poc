@@ -182,8 +182,8 @@ main {
    a "Section Metadata" Style of "legal" in the authoring doc. */
 .section.legal > .default-content-wrapper {
   text-align: left;
-  max-width: 46rem;
-  margin-inline: auto;
+  max-width: 52rem;
+  margin-inline: 0; /* left-align to the gutter, not centered */
 }
 
 .section.legal h1 {
@@ -191,18 +191,23 @@ main {
   margin-bottom: var(--space-md);
 }
 
+/* Compact ALL-CAPS section headings (match the real agreement page). */
 .section.legal h2 {
-  font-size: var(--font-size-xl);
-  margin-top: var(--space-xl);
-  margin-bottom: var(--space-sm);
-  padding-bottom: var(--space-2xs, 4px);
-  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  margin: var(--space-lg) 0 var(--space-xs);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .section.legal p {
+  margin-bottom: var(--space-sm);
   color: var(--color-text, #1a1a1a);
-  line-height: 1.7;
+  line-height: 1.55;
 }
+
+/* Defined-term labels at the start of each clause are underlined in the doc. */
+.section.legal u { text-decoration: underline; }
 
 /* Buttons — NVIDIA-branded, three variants */
 p.button-wrapper {
