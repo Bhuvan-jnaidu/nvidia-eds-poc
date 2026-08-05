@@ -1,0 +1,63 @@
+/* OOTB agreement page header: dark breadcrumb bar + gray title band + notice.
+   Kaizen CSS tokens with NVIDIA fallbacks. Bands are full-bleed to match the
+   real nvidia.com agreement page. */
+
+/* Full-bleed dark bar and gray band (escape the section container). */
+.agreement-header .agreement-topbar,
+.agreement-header .agreement-titleband {
+  box-sizing: border-box;
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.agreement-header .agreement-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md, 16px);
+  padding: 12px max(24px, calc(50vw - 600px));
+  background: var(--color-text, #1a1a1a);
+  color: #fff;
+}
+
+.agreement-header .agreement-crumb {
+  font-weight: 600;
+  font-size: var(--font-size-lg, 1.125rem);
+  letter-spacing: -0.01em;
+}
+
+.agreement-header a.button.agreement-download:any-link {
+  margin: 0;
+  border-color: var(--text-color-brand, #76b900);
+  background: var(--text-color-brand, #76b900);
+  color: #000;
+}
+
+.agreement-header a.button.agreement-download:any-link:hover {
+  filter: brightness(1.06);
+}
+
+.agreement-header .agreement-titleband {
+  padding: var(--space-2xl, 48px) 24px;
+  background: var(--color-surface-subtle, #f7f7f7);
+  text-align: center;
+}
+
+.agreement-header .agreement-titleband h1 {
+  margin: 0 0 8px;
+  font-size: var(--font-size-3xl, 2rem);
+}
+
+.agreement-header .agreement-modified {
+  margin: 0;
+  color: var(--color-text-secondary, #6b7280);
+  font-size: var(--font-size-sm, 0.9375rem);
+}
+
+.agreement-header .agreement-notice {
+  max-width: 46rem;
+  margin: var(--space-xl, 32px) auto 0;
+  font-weight: 700;
+  text-align: center;
+}
