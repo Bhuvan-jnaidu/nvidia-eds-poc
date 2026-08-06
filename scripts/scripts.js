@@ -123,11 +123,25 @@ async function loadEager(doc) {
   }
 }
 
+// Indent legal sub-clauses by their number depth (7.1 < 7.1.1 < 7.1.1.1), so a
+// long agreement nests like the real page. Vanilla DOM only; runs on legal pages.
+function decorateLegalClauses(doc) {
+  const legal = doc.querySelector('.section.legal');
+  if (!legal) return;
+  legal.querySelectorAll('.default-content-wrapper > p, li').forEach((el) => {
+    const m = el.textContent.match(/^(\d+(?:\.\d+)+)\s/);
+    if (!m) return;
+    const depth = m[1].split('.').length - 1; // 7.1 -> 1, 7.1.1 -> 2
+    if (depth > 1) el.style.marginLeft = `${(depth - 1) * 1.75}em`;
+  });
+}
+
 async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  decorateLegalClauses(doc);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;

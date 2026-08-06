@@ -206,8 +206,13 @@ main {
   line-height: 1.55;
 }
 
-/* Defined-term labels at the start of each clause are underlined in the doc. */
-.section.legal u { text-decoration: underline; }
+/* Defined-term labels at the start of each clause are underlined (black, like the
+   real page). Links stay green via the global `a` rule. */
+.section.legal u {
+  color: var(--color-text, #1a1a1a);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+}
 
 /* Sub-clauses (1.1, 1.2, …) are authored as list items. Hanging indent puts the
    number in a left column with wrapped lines aligned — matches the real page. */
