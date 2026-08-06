@@ -61,9 +61,32 @@ export default function decorate(block) {
     );
   });
 
-  // Lift the dark bar to <main> so `position: sticky` pins it across the WHOLE
-  // page. (Kept in the block/section it only sticks within that short section.)
+  // Pin the dark bar to the top on scroll. position:sticky proved unreliable in
+  // this EDS/KUI layout, so drive it with JS + position:fixed (a spacer keeps
+  // the layout from jumping when the bar leaves the flow).
   const topbar = block.querySelector(".agreement-topbar");
   const main = block.closest("main");
-  if (topbar && main) main.prepend(topbar);
+  if (topbar && main) {
+    main.prepend(topbar);
+    const spacer = document.createElement("div");
+    spacer.setAttribute("aria-hidden", "true");
+    topbar.after(spacer);
+    let pinned = false;
+    let anchor = 0;
+    const remeasure = () => {
+      if (!pinned) anchor = topbar.getBoundingClientRect().top + window.scrollY;
+    };
+    const update = () => {
+      const shouldPin = window.scrollY > anchor;
+      if (shouldPin !== pinned) {
+        pinned = shouldPin;
+        spacer.style.height = pinned ? `${topbar.offsetHeight}px` : "0px";
+        topbar.classList.toggle("agreement-topbar--fixed", pinned);
+      }
+    };
+    remeasure();
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", () => { remeasure(); update(); });
+  }
 }
