@@ -228,6 +228,15 @@ main {
 
 .section.legal li::marker { content: ""; } /* no bullet — clauses carry their own "1.1" */
 
+/* Robust fallback: if EDS renders the sub-clauses as paragraphs (not list items),
+   still indent every clause that follows a section heading, with a hanging indent
+   so "1.1" sits in a left column and wrapped lines align — like the real page.
+   Intro paragraphs (before the first heading) are not matched, so they stay flush. */
+.section.legal h2 ~ p {
+  padding-left: 3.5em;
+  text-indent: -1.5em;
+}
+
 /* Buttons — NVIDIA-branded, three variants */
 p.button-wrapper {
   margin: 12px 0;
