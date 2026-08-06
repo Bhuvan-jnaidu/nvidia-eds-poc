@@ -68,25 +68,22 @@ export default function decorate(block) {
   const main = block.closest("main");
   if (topbar && main) {
     main.prepend(topbar);
+    // A 1px sentinel where the bar sits; a spacer keeps layout from jumping when
+    // the bar goes fixed. IntersectionObserver detects the sentinel leaving the
+    // top of the viewport regardless of which element actually scrolls (this page
+    // scrolls inside a container, so window scroll / sticky don't work).
+    const sentinel = document.createElement("div");
+    sentinel.setAttribute("aria-hidden", "true");
+    sentinel.style.height = "1px";
+    topbar.before(sentinel);
     const spacer = document.createElement("div");
     spacer.setAttribute("aria-hidden", "true");
     topbar.after(spacer);
-    let pinned = false;
-    let anchor = 0;
-    const remeasure = () => {
-      if (!pinned) anchor = topbar.getBoundingClientRect().top + window.scrollY;
-    };
-    const update = () => {
-      const shouldPin = window.scrollY > anchor;
-      if (shouldPin !== pinned) {
-        pinned = shouldPin;
-        spacer.style.height = pinned ? `${topbar.offsetHeight}px` : "0px";
-        topbar.classList.toggle("agreement-topbar--fixed", pinned);
-      }
-    };
-    remeasure();
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", () => { remeasure(); update(); });
+    const io = new IntersectionObserver(([e]) => {
+      const pin = e.boundingClientRect.top < 0;
+      spacer.style.height = pin ? `${topbar.offsetHeight}px` : "0px";
+      topbar.classList.toggle("agreement-topbar--fixed", pin);
+    }, { threshold: [0] });
+    io.observe(sentinel);
   }
 }
