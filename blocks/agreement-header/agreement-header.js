@@ -61,9 +61,9 @@ export default function decorate(block) {
     );
   });
 
-  // Lift the dark bar to section level so `position: sticky` works across the
-  // whole page (nested in the block it would only stick within the header).
+  // Lift the dark bar to <main> so `position: sticky` pins it across the WHOLE
+  // page. (Kept in the block/section it only sticks within that short section.)
   const topbar = block.querySelector(".agreement-topbar");
-  const section = block.closest(".section");
-  if (topbar && section) section.prepend(topbar);
+  const main = block.closest("main");
+  if (topbar && main) main.prepend(topbar);
 }
