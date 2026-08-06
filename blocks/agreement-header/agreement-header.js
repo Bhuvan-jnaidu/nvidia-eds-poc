@@ -60,4 +60,10 @@ export default function decorate(block) {
       ),
     );
   });
+
+  // Lift the dark bar to section level so `position: sticky` works across the
+  // whole page (nested in the block it would only stick within the header).
+  const topbar = block.querySelector(".agreement-topbar");
+  const section = block.closest(".section");
+  if (topbar && section) section.prepend(topbar);
 }

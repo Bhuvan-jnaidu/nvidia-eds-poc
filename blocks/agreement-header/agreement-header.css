@@ -1,17 +1,16 @@
-/* OOTB agreement page header: dark breadcrumb bar + gray title band + notice.
-   Kaizen CSS tokens with NVIDIA fallbacks. Bands are full-bleed to match the
-   real nvidia.com agreement page. */
+/* OOTB agreement page header: sticky dark breadcrumb bar + gray title band +
+   notice. Kaizen CSS tokens with NVIDIA fallbacks. */
 
-/* Full-bleed dark bar and gray band (escape the section container). */
-.agreement-header .agreement-topbar,
-.agreement-header .agreement-titleband {
+/* Dark bar — sticky across the whole page. The block JS lifts it to section
+   level so it can stick; full-bleed via negative margins (a transform would
+   break position: sticky). */
+.agreement-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
   box-sizing: border-box;
-  width: 100vw;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
-.agreement-header .agreement-topbar {
+  width: auto;
+  margin-inline: calc(50% - 50vw);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,16 +20,20 @@
   color: #fff;
 }
 
-.agreement-header .agreement-crumb {
+.agreement-crumb {
   font-weight: 600;
   font-size: var(--font-size-lg, 1.125rem);
   letter-spacing: -0.01em;
 }
 
-/* Download PDF is a Kaizen Button (KUI styles it); just remove default margin. */
-.agreement-header .agreement-download { margin: 0; }
+.agreement-download { margin: 0; }
 
+/* Gray title band (stays inside the block, full-bleed). */
 .agreement-header .agreement-titleband {
+  box-sizing: border-box;
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
   padding: var(--space-2xl, 48px) 24px;
   background: var(--color-surface-subtle, #f7f7f7);
   text-align: center;
@@ -41,13 +44,13 @@
   font-size: var(--font-size-3xl, 2rem);
 }
 
-.agreement-header .agreement-modified {
+.agreement-modified {
   margin: 0;
   color: var(--color-text-secondary, #6b7280);
   font-size: var(--font-size-sm, 0.9375rem);
 }
 
-.agreement-header .agreement-notice {
+.agreement-notice {
   max-width: 46rem;
   margin: var(--space-xl, 32px) auto 0;
   font-weight: 700;
