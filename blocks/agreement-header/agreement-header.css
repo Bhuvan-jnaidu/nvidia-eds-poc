@@ -57,7 +57,8 @@
 
 .agreement-notice {
   max-width: 46rem;
-  margin: var(--space-xl, 32px) auto 0;
+  margin: var(--space-md, 24px) auto 0;
+  font-size: 1rem;
   font-weight: 700;
   text-align: center;
 }

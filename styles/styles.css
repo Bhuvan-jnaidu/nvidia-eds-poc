@@ -184,6 +184,8 @@ main {
    matching the real agreement page (body sits in a ~1280px centered container). */
 .section.legal > .default-content-wrapper {
   text-align: left;
+  font-size: 0.9375rem; /* 15px — match nvidia.com body */
+  line-height: 1.6;
 }
 
 .section.legal h1 {
@@ -193,8 +195,8 @@ main {
 
 /* Compact ALL-CAPS section headings (match the real agreement page). */
 .section.legal h2 {
-  margin: var(--space-lg) 0 var(--space-xs);
-  font-size: var(--font-size-md);
+  margin: var(--space-md) 0 var(--space-xs);
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -203,7 +205,7 @@ main {
 .section.legal p {
   margin-bottom: var(--space-sm);
   color: var(--color-text, #1a1a1a);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* Defined-term labels at the start of each clause are underlined (black, like the
