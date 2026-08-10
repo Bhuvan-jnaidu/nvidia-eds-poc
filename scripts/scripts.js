@@ -129,12 +129,17 @@ function decorateLegalClauses(doc) {
   const legal = doc.querySelector('.section.legal');
   if (!legal) return;
   legal.querySelectorAll('.default-content-wrapper > p, li').forEach((el) => {
-    const m = el.textContent.match(/^(\d+(?:\.\d+)+)\s/);
-    if (!m) return;
-    const depth = m[1].split('.').length - 1; // 7.1 -> 1, 7.1.1 -> 2
-    // Hanging indent, deeper per level: 1.x ~6em, 7.1.1 ~10em (matches nvidia.com).
-    el.style.paddingLeft = `${2 + depth * 4}em`;
-    el.style.textIndent = '-2em';
+    const t = el.textContent;
+    const sub = t.match(/^(\d+(?:\.\d+)+)\s/); // 1.1, 7.1.1
+    if (sub) {
+      const depth = sub[1].split('.').length - 1; // 7.1 -> 1, 7.1.1 -> 2
+      // Hanging indent, deeper per level: 1.x ~6em, 7.1.1 ~10em (matches nvidia.com).
+      el.style.paddingLeft = `${2 + depth * 4}em`;
+      el.style.textIndent = '-2em';
+    } else if (/^\d+\.\s/.test(t)) {
+      // Inline section paragraph ("5. SLA ...") — align with section headings.
+      el.style.paddingLeft = '2.5em';
+    }
   });
 }
 
