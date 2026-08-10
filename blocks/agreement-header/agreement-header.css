@@ -1,9 +1,6 @@
-/* OOTB agreement page header: sticky dark breadcrumb bar + gray title band +
-   notice. Kaizen CSS tokens with NVIDIA fallbacks. */
+/* OOTB agreement page header: dark breadcrumb bar (pinned on scroll) + gray title
+   band + notice. Values tuned to match nvidia.com. */
 
-/* Dark bar — sticky across the whole page. The block JS lifts it to section
-   level so it can stick; full-bleed via negative margins (a transform would
-   break position: sticky). */
 .agreement-topbar {
   box-sizing: border-box;
   width: auto;
@@ -12,53 +9,58 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md, 16px);
-  padding: 12px max(16px, calc(50vw - 640px));
+  padding: 14px max(16px, calc(50vw - 640px));
   background: var(--color-text, #1a1a1a);
   color: #fff;
 }
 
-/* Pinned to the top on scroll (toggled by the block JS). */
+/* Pinned to the top on scroll (toggled by the block JS). High z-index so it sits
+   above the global nav instead of hiding behind it. */
 .agreement-topbar.agreement-topbar--fixed {
   position: fixed;
   inset: 0 0 auto;
   margin-inline: 0;
-  z-index: 30;
+  z-index: 1000;
 }
 
 .agreement-crumb {
-  font-weight: 600;
-  font-size: var(--font-size-lg, 1.125rem);
+  font-weight: 700;
+  font-size: 1.5rem; /* 24px */
   letter-spacing: -0.01em;
 }
 
 .agreement-download { margin: 0; }
 
-/* Gray title band (stays inside the block, full-bleed). */
+/* Gray title band. */
 .agreement-header .agreement-titleband {
   box-sizing: border-box;
   width: 100vw;
   margin-left: 50%;
   transform: translateX(-50%);
-  padding: var(--space-2xl, 48px) 24px;
-  background: var(--color-surface-subtle, #f7f7f7);
+  padding: 3.75rem 24px; /* 60px */
+  background: #eee;
   text-align: center;
 }
 
 .agreement-header .agreement-titleband h1 {
-  margin: 0 0 8px;
-  font-size: var(--font-size-3xl, 2rem);
+  margin: 0 0 4px;
+  font-size: 2.25rem; /* 36px */
+  line-height: 1.25; /* ~45px */
+  color: #000;
 }
 
 .agreement-modified {
   margin: 0;
-  color: var(--color-text-secondary, #6b7280);
-  font-size: var(--font-size-sm, 0.9375rem);
+  color: var(--color-text, #1a1a1a);
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 700;
 }
 
 .agreement-notice {
   max-width: 46rem;
-  margin: var(--space-md, 24px) auto 0;
-  font-size: 1rem;
+  margin: var(--space-xl, 32px) auto var(--space-sm, 16px);
+  font-size: 1.25rem; /* 20px */
   font-weight: 700;
+  color: #000;
   text-align: center;
 }

@@ -39,7 +39,7 @@ export default function decorate(block) {
           { className: "agreement-topbar" },
           h(Text, { asChild: true, kind: "title/md" },
             h("span", { className: "agreement-crumb" }, crumb)),
-          dlLabel && h(Button, { asChild: true, color: "brand", kind: "primary" },
+          dlLabel && h(Button, { asChild: true, color: "brand", kind: "primary", size: "large" },
             h("a", {
               className: "agreement-download",
               href: dlHref,
