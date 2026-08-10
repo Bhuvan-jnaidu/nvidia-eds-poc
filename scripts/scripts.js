@@ -133,12 +133,13 @@ function decorateLegalClauses(doc) {
     const sub = t.match(/^(\d+(?:\.\d+)+)\s/); // 1.1, 7.1.1
     if (sub) {
       const depth = sub[1].split('.').length - 1; // 7.1 -> 1, 7.1.1 -> 2
-      // Hanging indent, deeper per level: 1.x ~6em, 7.1.1 ~10em (matches nvidia.com).
-      el.style.paddingLeft = `${2 + depth * 4}em`;
+      // Indent the whole box (margin) so it matches the original's list items;
+      // hanging text-indent keeps "1.1" in a left column. 1.x ~6em, 7.1.1 ~10em.
+      el.style.marginLeft = `${2 + depth * 4}em`;
       el.style.textIndent = '-2em';
     } else if (/^\d+\.\s/.test(t)) {
       // Inline section paragraph ("5. SLA ...") — align with section headings.
-      el.style.paddingLeft = '2.5em';
+      el.style.marginLeft = '2.8em';
     }
   });
 }

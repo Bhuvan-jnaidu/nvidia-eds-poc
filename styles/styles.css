@@ -191,6 +191,7 @@ main {
 .section.legal > .default-content-wrapper {
   text-align: left;
   max-width: 1320px; /* match nvidia.com body column */
+  padding-left: 15px; /* match nvidia.com text gutter (38px) */
   font-size: 0.9375rem; /* 15px — match nvidia.com body */
   line-height: 1.66;
 }
@@ -207,8 +208,7 @@ main {
 }
 
 .section.legal h2 {
-  margin: var(--space-md) 0 var(--space-xs);
-  padding-left: 2.5em; /* sections indent under the numbering, like the real page */
+  margin: var(--space-md) 0 var(--space-xs) 2.8em; /* left-indent the whole heading box */
   font-size: 0.9375rem; /* 15px */
   line-height: 1.66;
   letter-spacing: 0;
@@ -262,11 +262,7 @@ main {
 /* Robust fallback: if EDS renders the sub-clauses as paragraphs (not list items),
    still indent every clause that follows a section heading, with a hanging indent
    so "1.1" sits in a left column and wrapped lines align — like the real page.
-   Intro paragraphs (before the first heading) are not matched, so they stay flush. */
-.section.legal h2 ~ p {
-  padding-left: 6em; /* sub-clauses indent deeper than section headings */
-  text-indent: -1.6em;
-}
+   Sub-clause indentation is applied by the block JS via margin-left per depth. */
 
 /* Buttons — NVIDIA-branded, three variants */
 p.button-wrapper {
