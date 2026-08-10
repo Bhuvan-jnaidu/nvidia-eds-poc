@@ -215,7 +215,9 @@ main {
   text-transform: uppercase;
 }
 
-.section.legal p {
+/* Scope body prose rules to the content wrapper so they don't hit the header
+   block's notice / last-modified paragraphs (which sit in the same section). */
+.section.legal .default-content-wrapper p {
   margin-bottom: 0;
   padding: 10px 0; /* nvidia.com uses 10px top/bottom padding, no bottom margin */
   color: var(--color-text, #1a1a1a);
@@ -223,7 +225,7 @@ main {
 }
 
 /* Agreement body links: black text with a green underline (like nvidia.com). */
-.section.legal a {
+.section.legal .default-content-wrapper a {
   color: var(--color-text, #1a1a1a);
   text-decoration: underline;
   text-decoration-color: var(--text-color-brand, #76b900);

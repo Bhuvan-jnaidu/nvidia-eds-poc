@@ -55,8 +55,7 @@ export default function decorate(block) {
           modified && h(Text, { asChild: true, kind: "body/regular/sm" },
             h("p", { className: "agreement-modified" }, modified)),
         ),
-        notice && h(Text, { asChild: true, kind: "body/bold/md" },
-          h("p", { className: "agreement-notice" }, notice)),
+        notice && h("p", { className: "agreement-notice" }, notice),
       ),
     );
   });
