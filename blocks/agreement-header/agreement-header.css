@@ -60,7 +60,7 @@
 }
 
 .agreement-header .agreement-notice {
-  max-width: 46rem;
+  max-width: none; /* keep the notice on one line, like nvidia.com */
   margin: var(--space-lg, 32px) auto var(--space-md, 24px);
   font-size: 1.25rem; /* 20px */
   line-height: 1.25; /* 25px */
