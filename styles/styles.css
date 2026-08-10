@@ -190,8 +190,9 @@ main {
 
 .section.legal > .default-content-wrapper {
   text-align: left;
+  max-width: 1320px; /* match nvidia.com body column */
   font-size: 0.9375rem; /* 15px — match nvidia.com body */
-  line-height: 1.6;
+  line-height: 1.66;
 }
 
 .section.legal h1 {
@@ -200,20 +201,33 @@ main {
 }
 
 /* Compact ALL-CAPS section headings (match the real agreement page). */
+.section.legal h2,
+.section.legal h2 strong {
+  font-weight: 700; /* not 900 */
+}
+
 .section.legal h2 {
   margin: var(--space-md) 0 var(--space-xs);
   padding-left: 2.5em; /* sections indent under the numbering, like the real page */
   font-size: 0.9375rem; /* 15px */
-  font-weight: 700;
-  line-height: 1.6;
+  line-height: 1.66;
   letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .section.legal p {
-  margin-bottom: var(--space-sm);
+  margin-bottom: 0;
+  padding: 10px 0; /* nvidia.com uses 10px top/bottom padding, no bottom margin */
   color: var(--color-text, #1a1a1a);
-  line-height: 1.6;
+  line-height: 1.66;
+}
+
+/* Agreement body links: black text with a green underline (like nvidia.com). */
+.section.legal a {
+  color: var(--color-text, #1a1a1a);
+  text-decoration: underline;
+  text-decoration-color: var(--text-color-brand, #76b900);
+  text-underline-offset: 2px;
 }
 
 /* Defined-term labels at the start of each clause are underlined (black, like the

@@ -132,7 +132,9 @@ function decorateLegalClauses(doc) {
     const m = el.textContent.match(/^(\d+(?:\.\d+)+)\s/);
     if (!m) return;
     const depth = m[1].split('.').length - 1; // 7.1 -> 1, 7.1.1 -> 2
-    if (depth > 1) el.style.marginLeft = `${(depth - 1) * 3}em`;
+    // Hanging indent, deeper per level: 1.x ~6em, 7.1.1 ~10em (matches nvidia.com).
+    el.style.paddingLeft = `${2 + depth * 4}em`;
+    el.style.textIndent = '-2em';
   });
 }
 
