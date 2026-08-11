@@ -144,12 +144,48 @@ function decorateLegalClauses(doc) {
   });
 }
 
+// Auto-link bare emails/URLs in the legal body (robust against doc/EDS dropping a
+// link), trimming trailing punctuation. Skips text already inside an <a>.
+function linkifyLegal(doc) {
+  const root = doc.querySelector('.section.legal .default-content-wrapper');
+  if (!root) return;
+  const RE = /(https?:\/\/[^\s<)]+|[\w.+-]+@[\w-]+\.[\w.-]+)/g;
+  const walker = doc.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+  const targets = [];
+  let node;
+  // eslint-disable-next-line no-cond-assign
+  while ((node = walker.nextNode())) {
+    if (node.parentElement && node.parentElement.closest('a')) continue;
+    if ([...node.nodeValue.matchAll(RE)].length) targets.push(node);
+  }
+  targets.forEach((n) => {
+    const text = n.nodeValue;
+    const frag = doc.createDocumentFragment();
+    let last = 0;
+    [...text.matchAll(RE)].forEach((m) => {
+      if (m.index > last) frag.appendChild(doc.createTextNode(text.slice(last, m.index)));
+      let tok = m[0];
+      const trail = (tok.match(/[.,;:)]+$/) || [''])[0];
+      if (trail) tok = tok.slice(0, tok.length - trail.length);
+      const a = doc.createElement('a');
+      a.href = tok.startsWith('http') ? tok : `mailto:${tok}`;
+      a.textContent = tok;
+      frag.appendChild(a);
+      if (trail) frag.appendChild(doc.createTextNode(trail));
+      last = m.index + m[0].length;
+    });
+    if (last < text.length) frag.appendChild(doc.createTextNode(text.slice(last)));
+    n.parentNode.replaceChild(frag, n);
+  });
+}
+
 async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
 
   const main = doc.querySelector('main');
   await loadSections(main);
   decorateLegalClauses(doc);
+  linkifyLegal(doc);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
