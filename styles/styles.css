@@ -224,12 +224,18 @@ main {
   line-height: 1.66;
 }
 
-/* Agreement body links: black text with a green underline (like nvidia.com). */
+/* Agreement body links: black text with a green underline; on hover the underline
+   turns black (matches nvidia.com). */
 .section.legal .default-content-wrapper a {
   color: var(--color-text, #1a1a1a);
   text-decoration: underline;
   text-decoration-color: var(--text-color-brand, #76b900);
   text-underline-offset: 2px;
+}
+
+.section.legal .default-content-wrapper a:hover {
+  color: var(--color-text, #1a1a1a);
+  text-decoration-color: var(--color-text, #1a1a1a);
 }
 
 /* Defined-term labels at the start of each clause are underlined (black, like the
