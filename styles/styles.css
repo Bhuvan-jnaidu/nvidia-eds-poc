@@ -191,7 +191,7 @@ main {
 .section.legal > .default-content-wrapper {
   text-align: left;
   max-width: 1320px; /* match nvidia.com body column */
-  padding-left: 15px; /* match nvidia.com text gutter (38px) */
+  padding-inline: 15px; /* match nvidia.com text gutter (38px) + right gutter */
   font-size: 0.9375rem; /* 15px — match nvidia.com body */
   line-height: 1.66;
 }

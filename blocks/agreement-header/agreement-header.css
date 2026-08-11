@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md, 16px);
-  padding: 11px max(16px, calc(50vw - 640px));
+  padding: 11px max(16px, calc(50vw - 645px)); /* align crumb with body gutter (38px) */
   background: var(--color-text, #1a1a1a);
   color: #fff;
 }
@@ -31,6 +31,8 @@
 .agreement-download {
   margin: 0;
   font-size: 1.125rem; /* 18px */
+  line-height: 1.25;
+  text-align: center;
 }
 
 /* Gray title band. */
@@ -38,6 +40,7 @@
   box-sizing: border-box;
   width: 100vw;
   margin-left: 50%;
+  margin-bottom: var(--space-xl, 48px); /* gap to the notice (keeps notice margins at 0) */
   transform: translateX(-50%);
   padding: 3.75rem 24px; /* 60px */
   background: #eee;
@@ -61,7 +64,7 @@
 
 .agreement-header .agreement-notice {
   max-width: none; /* keep the notice on one line, like nvidia.com */
-  margin: var(--space-lg, 32px) auto var(--space-md, 24px);
+  margin: 0 auto; /* gap comes from the title band's margin-bottom (like nvidia.com) */
   font-size: 1.25rem; /* 20px */
   line-height: 1.25; /* 25px */
   font-weight: 700;
