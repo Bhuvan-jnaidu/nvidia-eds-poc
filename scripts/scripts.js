@@ -227,6 +227,23 @@ function linkifyLegal(doc) {
   });
 }
 
+// Repair a link truncated by the source PDF extraction: the Enterprise Support
+// Policy URL (section 18 definition) lost its slug, leaving ".../nvidia-". Point
+// any anchor at the full URL, and drop the empty duplicate anchor EDS leaves.
+function repairLegalLinks(doc) {
+  const root = doc.querySelector('.section.legal .default-content-wrapper');
+  if (!root) return;
+  const TRUNC = 'https://www.nvidia.com/en-us/agreements/enterprise-services/nvidia-';
+  const FULL = 'https://www.nvidia.com/en-us/agreements/enterprise-services/nvidia-enterprise-support-policy/';
+  root.querySelectorAll('a[href]').forEach((a) => {
+    if (a.getAttribute('href').replace(/\/$/, '') !== TRUNC.replace(/\/$/, '')) return;
+    const empty = !a.textContent.trim() && !a.querySelector('img');
+    if (empty) { a.remove(); return; }
+    a.setAttribute('href', FULL);
+    a.textContent = FULL;
+  });
+}
+
 async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
 
@@ -234,6 +251,7 @@ async function loadLazy(doc) {
   await loadSections(main);
   buildLegalOl(doc);
   linkifyLegal(doc);
+  repairLegalLinks(doc);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
