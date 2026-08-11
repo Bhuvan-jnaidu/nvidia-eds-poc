@@ -238,6 +238,33 @@ main {
   text-decoration-color: var(--color-text, #1a1a1a);
 }
 
+/* Nested legal list (built by buildLegalOl in scripts.js). CSS counters regenerate
+   "1 / 1.1 / 7.1.1"; hanging indent keeps the numbers in a left column. */
+.section.legal .default-content-wrapper ol.legal-ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: item;
+}
+
+.section.legal .default-content-wrapper > ol.legal-ol {
+  margin-left: 2.8em; /* section-level gutter */
+}
+
+.section.legal .default-content-wrapper ol.legal-ol > li {
+  counter-increment: item;
+  padding: 10px 0 10px 3.2em; /* paragraph rhythm + hanging room for the number */
+  text-indent: -3.2em;
+}
+
+.section.legal .default-content-wrapper ol.legal-ol > li::before {
+  content: counters(item, ".") ". "; /* sections: "1. " */
+}
+
+.section.legal .default-content-wrapper ol.legal-ol ol.legal-ol > li::before {
+  content: counters(item, ".") " "; /* nested clauses: "1.1 " (no trailing dot) */
+}
+
 /* Defined-term labels at the start of each clause are underlined (black, like the
    real page). Links stay green via the global `a` rule. */
 .section.legal u {

@@ -123,25 +123,64 @@ async function loadEager(doc) {
   }
 }
 
-// Indent legal sub-clauses by their number depth (7.1 < 7.1.1 < 7.1.1.1), so a
-// long agreement nests like the real page. Vanilla DOM only; runs on legal pages.
-function decorateLegalClauses(doc) {
-  const legal = doc.querySelector('.section.legal');
-  if (!legal) return;
-  legal.querySelectorAll('.default-content-wrapper > p, li').forEach((el) => {
-    const t = el.textContent;
-    const sub = t.match(/^(\d+(?:\.\d+)+)\s/); // 1.1, 7.1.1
-    if (sub) {
-      const depth = sub[1].split('.').length - 1; // 7.1 -> 1, 7.1.1 -> 2
-      // Indent the whole box (margin) so it matches the original's list items;
-      // hanging text-indent keeps "1.1" in a left column. 1.x ~6em, 7.1.1 ~10em.
-      el.style.marginLeft = `${2 + depth * 4}em`;
-      el.style.textIndent = '-2em';
-    } else if (/^\d+\.\s/.test(t)) {
-      // Inline section paragraph ("5. SLA ...") — align with section headings.
-      el.style.marginLeft = '2.8em';
-    }
+// Rebuild the flat numbered agreement body into a real nested <ol><li> tree, like
+// nvidia.com. The literal "1." / "1.1" / "7.1.1" numbers are stripped; CSS counters
+// regenerate them. Section headings (h2) become <strong> inside the top-level <li>.
+function buildLegalOl(doc) {
+  const root = doc.querySelector('.section.legal .default-content-wrapper');
+  if (!root) return;
+
+  const items = [];
+  [...root.children].forEach((el) => {
+    if (el.tagName !== 'H2' && el.tagName !== 'P') return;
+    const m = el.textContent.replace(/^\s+/, '').match(/^(\d+(?:\.\d+)*)[.\s]/);
+    if (m) items.push({ el, path: m[1].split('.').map(Number), tag: el.tagName });
   });
+  if (!items.length) return;
+
+  const mkOl = () => { const o = doc.createElement('ol'); o.className = 'legal-ol'; return o; };
+  const stripNum = (el) => {
+    const f = el.firstChild;
+    if (f && f.nodeType === 3) f.nodeValue = f.nodeValue.replace(/^\s*\d+(?:\.\d+)*\.?\s*/, '');
+  };
+  const mkLi = ({ el, tag }) => {
+    const li = doc.createElement('li');
+    stripNum(el);
+    if (tag === 'H2') {
+      const s = doc.createElement('strong');
+      while (el.firstChild) s.appendChild(el.firstChild);
+      li.appendChild(s);
+    } else {
+      while (el.firstChild) li.appendChild(el.firstChild);
+    }
+    return li;
+  };
+
+  const topOl = mkOl();
+  const olAt = { 0: topOl };
+  const liAt = {};
+  items.forEach((it) => {
+    const depth = it.path.length - 1;
+    let ol;
+    if (depth === 0) {
+      ol = topOl;
+    } else {
+      const parentLi = liAt[depth - 1];
+      if (!parentLi) return;
+      if (!olAt[depth] || olAt[depth].parentNode !== parentLi) {
+        ol = mkOl(); parentLi.appendChild(ol); olAt[depth] = ol;
+      } else {
+        ol = olAt[depth];
+      }
+    }
+    ol.appendChild(mkLi(it));
+    liAt[depth] = ol.lastChild;
+    Object.keys(olAt).forEach((d) => { if (+d > depth) delete olAt[d]; });
+    Object.keys(liAt).forEach((d) => { if (+d > depth) delete liAt[d]; });
+  });
+
+  root.insertBefore(topOl, items[0].el);
+  items.forEach(({ el }) => el.remove());
 }
 
 // Auto-link bare emails/URLs in the legal body (robust against doc/EDS dropping a
@@ -184,7 +223,7 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
-  decorateLegalClauses(doc);
+  buildLegalOl(doc);
   linkifyLegal(doc);
 
   const { hash } = window.location;
