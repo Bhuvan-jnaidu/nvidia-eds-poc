@@ -139,9 +139,18 @@ function buildLegalOl(doc) {
   if (!items.length) return;
 
   const mkOl = () => { const o = doc.createElement('ol'); o.className = 'legal-ol'; return o; };
+  const firstText = (node) => {
+    for (const c of node.childNodes) {
+      if (c.nodeType === 3 && c.nodeValue.trim()) return c;
+      if (c.nodeType === 1) { const r = firstText(c); if (r) return r; }
+    }
+    return null;
+  };
   const stripNum = (el) => {
-    const f = el.firstChild;
-    if (f && f.nodeType === 3) f.nodeValue = f.nodeValue.replace(/^\s*\d+(?:\.\d+)*\.?\s*/, '');
+    // Strip the literal "N.M " from the first text node (EDS may put an anchor
+    // before heading text, so it isn't always the first child).
+    const t = firstText(el);
+    if (t) t.nodeValue = t.nodeValue.replace(/^\s*\d+(?:\.\d+)*\.?\s*/, '');
   };
   const mkLi = ({ el, tag }) => {
     const li = doc.createElement('li');
