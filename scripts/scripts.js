@@ -155,13 +155,17 @@ function buildLegalOl(doc) {
   const mkLi = ({ el, tag }) => {
     const li = doc.createElement('li');
     stripNum(el);
+    // Wrap each item's text in a <p> (like nvidia.com's markup). CSS renders it
+    // inline so the counter numbering stays put; only the tag structure matches.
+    const p = doc.createElement('p');
     if (tag === 'H2') {
       const s = doc.createElement('strong');
       while (el.firstChild) s.appendChild(el.firstChild);
-      li.appendChild(s);
+      p.appendChild(s);
     } else {
-      while (el.firstChild) li.appendChild(el.firstChild);
+      while (el.firstChild) p.appendChild(el.firstChild);
     }
+    li.appendChild(p);
     return li;
   };
 

@@ -257,6 +257,15 @@ main {
   text-indent: -3.2em;
 }
 
+/* Each item's text lives in a <p> (matches nvidia.com markup) but renders inline
+   so the hanging-indent number stays on the same line and vertical rhythm from the
+   <li> padding is unchanged. */
+.section.legal .default-content-wrapper ol.legal-ol > li > p {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
 .section.legal .default-content-wrapper ol.legal-ol > li::before {
   content: counters(item, ".") ". "; /* sections: "1. " */
 }
