@@ -30,6 +30,7 @@
 
 .agreement-download {
   margin: 0;
+  padding: 12px 22px; /* trim to ~48.5px tall / 155px wide, like nvidia.com */
   font-size: 1.125rem; /* 18px */
   line-height: 1.25;
   text-align: center;
