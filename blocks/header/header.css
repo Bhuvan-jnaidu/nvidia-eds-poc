@@ -1,0 +1,17 @@
+#nvidia-global-nav a.button:any-link {
+  display: unset;
+  background-color: unset;
+  border: unset;
+  border-radius: unset;
+  padding: unset;
+  font-weight: unset;
+  font-size: unset;
+  letter-spacing: unset;
+  text-transform: unset;
+  color: unset;
+  white-space: unset;
+  justify-content: unset;
+  align-items: unset;
+  transition: unset;
+  font-weight: 700;
+}
