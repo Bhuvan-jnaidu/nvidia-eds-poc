@@ -60,29 +60,13 @@ export default function decorate(block) {
     );
   });
 
-  // Pin the dark bar to the top on scroll. position:sticky proved unreliable in
-  // this EDS/KUI layout, so drive it with JS + position:fixed (a spacer keeps
-  // the layout from jumping when the bar leaves the flow).
+  // Place the dark bar at the top of the page content, in normal flow, right
+  // below the NVIDIA global-nav header. We no longer pin it with position:fixed —
+  // the global nav is itself fixed at top:0, so a fixed agreement bar would sit
+  // behind it and get clipped. In-flow keeps it visible under the nav.
   const topbar = block.querySelector(".agreement-topbar");
   const main = block.closest("main");
   if (topbar && main) {
     main.prepend(topbar);
-    // A 1px sentinel where the bar sits; a spacer keeps layout from jumping when
-    // the bar goes fixed. IntersectionObserver detects the sentinel leaving the
-    // top of the viewport regardless of which element actually scrolls (this page
-    // scrolls inside a container, so window scroll / sticky don't work).
-    const sentinel = document.createElement("div");
-    sentinel.setAttribute("aria-hidden", "true");
-    sentinel.style.height = "1px";
-    topbar.before(sentinel);
-    const spacer = document.createElement("div");
-    spacer.setAttribute("aria-hidden", "true");
-    topbar.after(spacer);
-    const io = new IntersectionObserver(([e]) => {
-      const pin = e.boundingClientRect.top < 0;
-      spacer.style.height = pin ? `${topbar.offsetHeight}px` : "0px";
-      topbar.classList.toggle("agreement-topbar--fixed", pin);
-    }, { threshold: [0] });
-    io.observe(sentinel);
   }
 }
