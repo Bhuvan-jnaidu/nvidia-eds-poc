@@ -1,7 +1,6 @@
 import {
   buildBlock,
   loadHeader,
-  loadFooter,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -261,7 +260,8 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('footer'));
+  // Footer is rendered by the NVIDIA global-nav plugin (mounted from the header
+  // block into the <footer> element), so we don't load a separate footer block.
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

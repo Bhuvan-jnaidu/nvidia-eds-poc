@@ -1,0 +1,2 @@
+/* The header is the NVIDIA global-nav plugin, which ships its own styles.
+   This file exists only so EDS's block loader doesn't 404 on header.css. */
