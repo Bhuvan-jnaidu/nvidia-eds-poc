@@ -84,7 +84,7 @@ body.appear {
   opacity: 1;
 }
 
-h1, h2, h3, h4, h5, h6 {
+main h1, main h2, main h3, main h4, main h5, main h6 {
   font-family: var(--font-family-heading);
   font-style: normal;
   font-variation-settings: "slnt" 0, "ital" 0;
@@ -97,30 +97,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* NVIDIA uses heavy weight + tight tracking for large headings */
-h1 {
+main h1 {
   font-size: var(--font-size-4xl);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
-h2 {
+main h2 {
   font-size: var(--font-size-3xl);
   font-weight: 700;
   letter-spacing: -0.015em;
 }
 
-h3 {
+main h3 {
   font-size: var(--font-size-xl);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
-h4 { font-size: var(--font-size-lg); font-weight: 600; }
-h5 { font-size: var(--font-size-md); font-weight: 600; }
-h6 { font-size: var(--font-size-base); font-weight: 600; }
+main h4 { font-size: var(--font-size-lg); font-weight: 600; }
+main h5 { font-size: var(--font-size-md); font-weight: 600; }
+main h6 { font-size: var(--font-size-base); font-weight: 600; }
 
-p {
+main p {
   margin: 0 0 var(--space-sm);
   color: var(--color-text-secondary);
   font-weight: 400;
@@ -129,7 +129,7 @@ p {
 
 /* Force upright text everywhere. NVIDIA Sans is a variable font; without pinning
    the slant axis to 0 the body renders slanted (the h1–h6 rule pins headings). */
-body, p, li, td, th, a {
+main, main p, main li, main td, main th, main a {
   font-style: normal;
   font-variation-settings: "slnt" 0, "ital" 0;
 }
@@ -137,7 +137,7 @@ body, p, li, td, th, a {
 main a { color: var(--color-nvidia-green-dark); text-decoration: none; }
 main a:hover { color: var(--color-nvidia-green-hover); }
 
-img, picture { max-width: 100%; display: block; }
+main img, main picture { max-width: 100%; display: block; }
 
 /* Icons */
 .icon { display: inline-block; height: 24px; width: 24px; }
