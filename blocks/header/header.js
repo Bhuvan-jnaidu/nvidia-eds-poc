@@ -25,6 +25,20 @@ export default async function decorate(block) {
 
   await loadScript('https://www.nvidia.com/assets/raw-html-components/global-navigation-react2/bundle.js');
 
+  // The global nav renders as a position:fixed bar overlaying the top of the
+  // page, but it does NOT reserve layout space — so page content (e.g. the
+  // agreement dark bar) hides underneath it. Measure the fixed nav's height and
+  // pad the body by it. Re-run as the async nav settles and on resize.
+  const reserveNavSpace = () => {
+    let h = 0;
+    document.querySelectorAll('body *').forEach((el) => {
+      if (getComputedStyle(el).position !== 'fixed') return;
+      const r = el.getBoundingClientRect();
+      if (r.top <= 2 && r.height > h && r.height < 200) h = r.height;
+    });
+    document.body.style.paddingTop = h ? `${h}px` : '';
+  };
+
   const doMount = () => {
     window.NVIDIAHeaderFooterPlugin.mount({
       headerElemID: 'nvidia-global-nav',
@@ -33,6 +47,8 @@ export default async function decorate(block) {
       showFooter: !!footerEl,
       ...(fallbackJSON && { fallbackJSON }),
     });
+    [50, 200, 500, 1000].forEach((d) => setTimeout(reserveNavSpace, d));
+    window.addEventListener('resize', reserveNavSpace);
   };
 
   // The bundle dispatches 'global-navigation:ready' after it loads.
