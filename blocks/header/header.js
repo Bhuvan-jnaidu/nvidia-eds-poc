@@ -39,22 +39,6 @@ export default async function decorate(block) {
     document.body.style.paddingTop = h ? `${h}px` : '';
   };
 
-  // The mega-menu should be a desktop CSS grid, but on this origin the plugin can
-  // render its mobile layout (display:flex) at desktop width, so the 3 columns
-  // collapse and overlap. Force any nav element that carries a real
-  // grid-template-columns back to display:grid. Keyed on behaviour, not the
-  // plugin's hashed class names, so it survives bundle rebuilds and React
-  // re-renders.
-  const fixMegaMenuGrid = () => {
-    document.querySelectorAll('[class*="global-nav-react-emotion-cache"]').forEach((el) => {
-      const cs = getComputedStyle(el);
-      if (cs.display === 'flex' && cs.gridTemplateColumns
-          && cs.gridTemplateColumns !== 'none' && /px|repeat/.test(cs.gridTemplateColumns)) {
-        el.style.display = 'grid';
-      }
-    });
-  };
-
   const doMount = () => {
     window.NVIDIAHeaderFooterPlugin.mount({
       headerElemID: 'nvidia-global-nav',
@@ -64,14 +48,7 @@ export default async function decorate(block) {
       ...(fallbackJSON && { fallbackJSON }),
     });
     [50, 200, 500, 1000].forEach((d) => setTimeout(reserveNavSpace, d));
-    [200, 600, 1200].forEach((d) => setTimeout(fixMegaMenuGrid, d));
     window.addEventListener('resize', reserveNavSpace);
-    // Re-apply the grid fix whenever the nav re-renders (React swaps classes).
-    let raf;
-    new MutationObserver(() => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(fixMegaMenuGrid);
-    }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
   };
 
   // The bundle dispatches 'global-navigation:ready' after it loads.
