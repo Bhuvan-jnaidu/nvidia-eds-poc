@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Home Banner block preview using KUI components.">
+  <title>Home Banner Preview</title>
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/scripts/kui/foundations-react.bundle.css">
+  <script nonce="aem" type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.2.7",
+      "react/jsx-runtime": "https://esm.sh/react@19.2.7/jsx-runtime",
+      "react-dom": "https://esm.sh/react-dom@19.2.7?external=react",
+      "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?external=react",
+      "@kui/foundations-react": "/scripts/kui/foundations-react.bundle.js"
+    }
+  }
+  </script>
+  <script nonce="aem" src="/scripts/scripts.js" type="module"></script>
+</head>
+<body>
+  <header></header>
+  <main>
+    <div>
+      <div class="home-banner">
+        <div>
+          <div>
+            <p>Featured</p>
+            <p>Artificial Intelligence</p>
+            <p>Cloud and Data Center</p>
+            <p>Design and Simulation</p>
+            <p><strong>Gaming and Creating</strong></p>
+            <p>High-Performance Computing</p>
+            <p>Robotics</p>
+          </div>
+        </div>
+        <div>
+          <div data-category="Cloud and Data Center">
+            <h2>SK Telecom and NVIDIA Build AI Infrastructure in Korea</h2>
+            <p>Data Center | Announcement</p>
+            <p>Korea's leading telco is adding NVIDIA-powered AI cloud capacity to accelerate AI innovation.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="primary" data-button-color="brand" data-button-size="large">Read the Press Release</a></strong></p>
+            <img src="/icons/icon-partner.png" alt="SK Telecom and NVIDIA logos" width="504" height="324" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div data-category="Artificial Intelligence">
+            <h2>NAVER Expands AI Infrastructure to Serve Customers</h2>
+            <p>Artificial Intelligence | News</p>
+            <p>NVIDIA accelerated computing helps power high-performance AI services at scale.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="primary" data-button-color="brand" data-button-size="large">Read More</a></strong></p>
+            <img src="/icons/icon-support.png" alt="AI infrastructure illustration" width="320" height="320" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Category: Featured</p>
+            <p>Eyebrow: Robotics</p>
+            <p>Title: NVIDIA Jetson Brings Agentic AI to the Physical World</p>
+            <p>Description: NVIDIA JetPack 7.2 and NVIDIA NemoClaw make Jetson agentic-ready for robotics, healthcare, and industrial automation.</p>
+            <p>CTA: Read the Blog | https://www.nvidia.com/ | primary | brand | large</p>
+            <p>Image: /icons/icon-partner.png | Robotics preview</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Category: Featured</p>
+            <p>Eyebrow: Manufacturing</p>
+            <p>Title: Build AI Factories Faster With NVIDIA DSX</p>
+            <p>Description: NVIDIA infrastructure helps teams scale AI factories from design to deployment.</p>
+            <p>CTA: Learn More | https://www.nvidia.com/ | primary | brand | large</p>
+            <p>Image: /icons/icon-sales.png | AI factory preview</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Category: Featured</p>
+            <p>Eyebrow: Artificial Intelligence</p>
+            <p>Title: Nemotron 3 Ultra Launches to Power Long-Running Reasoning</p>
+            <p>Description: NVIDIA models bring faster agentic workflows to enterprise AI applications.</p>
+            <p>CTA: Explore Models | https://www.nvidia.com/ | primary | brand | large</p>
+            <p>Image: /icons/icon-support.png | Nemotron preview</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Category: Featured</p>
+            <p>Eyebrow: Research</p>
+            <p>Title: The New Frontier Open Foundation Model for Physical AI</p>
+            <p>Description: Researchers and developers can build intelligent systems with accelerated simulation and robotics tools.</p>
+            <p>CTA: Read More | https://www.nvidia.com/ | primary | brand | large</p>
+            <p>Image: /icons/icon-partner.png | Foundation model preview</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Category: Featured</p>
+            <p>Eyebrow: Robotics</p>
+            <p>Title: The World Is Building Robotaxis on NVIDIA DRIVE</p>
+            <p>Description: NVIDIA DRIVE brings high-performance AI computing to autonomous transportation.</p>
+            <p>CTA: Explore DRIVE | https://www.nvidia.com/ | primary | brand | large</p>
+            <p>Image: /icons/icon-sales.png | Robotaxi preview</p>
+          </div>
+        </div>
+        <div>
+          <div data-category="Design and Simulation">
+            <h2>Design Teams Accelerate Simulation Workflows</h2>
+            <p>Design and Simulation | Customer Story</p>
+            <p>Engineers and creators can iterate faster with NVIDIA-powered real-time rendering and simulation.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="primary" data-button-color="brand" data-button-size="large">See Design Solutions</a></strong></p>
+            <img src="/icons/icon-partner.png" alt="Design and simulation visualization" width="504" height="324" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Category: Gaming and Creating</p>
+            <p>Text Align: center</p>
+            <p>Eyebrow: Artificial Intelligence</p>
+            <p>Title: Introducing NVIDIA RTX Spark</p>
+            <p>Description: The fusion of NVIDIA AI and RTX graphics in a single chip, powering a new beginning of Windows PCs.</p>
+            <p>CTA: Learn More | https://www.nvidia.com/ | primary | brand | large</p>
+            <p>Image: https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/graphic-cards/50-series/geforce-rtx-5090-af360-p.jpg | GeForce RTX 5090 graphics card</p>
+          </div>
+        </div>
+        <div>
+          <div data-category="Gaming and Creating">
+            <h2>GeForce at COMPUTEX 2026</h2>
+            <p>Media Theme: dark</p>
+            <p>Gaming and Creating | Event</p>
+            <p>See the newest RTX announcements for gamers, creators, and AI-powered PCs.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="primary" data-button-color="brand" data-button-size="large">View Highlights</a></strong></p>
+            <img src="https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container/nv_image_copy.coreimg.100.630.jpeg/1784567258296/nvidia-jobs.jpeg" alt="GeForce COMPUTEX preview" width="504" height="324" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div data-category="Gaming and Creating">
+            <h2>NVIDIA DLSS 4.5</h2>
+            <p>Gaming and Creating | Technology</p>
+            <p>Neural rendering advances bring higher performance and image quality to the latest games.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="primary" data-button-color="brand" data-button-size="large">Explore DLSS</a></strong></p>
+            <img src="https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container_section_1769459189/nv_tabs_section_14/nv_container_tab2_educators_6/nv_container_tab2_image_column_5/nv_image_4.coreimg.100.630.jpeg/1784567253667/siggraph-25-programs-educators-teaching-kit-ari-1920x1080.jpeg" alt="DLSS technology preview" width="320" height="320" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div data-category="Gaming and Creating">
+            <h2>GeForce RTX 50 Series Graphics Cards and Desktops</h2>
+            <p>Gaming and Creating | Products</p>
+            <p>Next-generation GeForce RTX graphics cards deliver performance for games, streaming, and creative apps.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="secondary" data-button-color="brand" data-button-size="large">Shop Graphics Cards</a></strong></p>
+            <img src="https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container_section_1769459189/nv_tabs_section_14/nv_container_tab3_developers_9/nv_container_tab3_image_column_8/nv_image_8.coreimg.100.630.jpeg/1784567254672/siggraph-25-programs-developers-program-ari-1920x1080.jpeg" alt="GeForce RTX graphics cards" width="320" height="320" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div data-category="Gaming and Creating">
+            <h2>GeForce RTX 50 Series Laptops</h2>
+            <p>Gaming and Creating | Laptops</p>
+            <p>Thin and powerful RTX laptops bring AI performance to gaming, school, work, and creation.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="primary" data-button-color="brand" data-button-size="large">Explore Laptops</a></strong></p>
+            <img src="/icons/icon-partner.png" alt="GeForce RTX laptops" width="504" height="324" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div data-category="High-Performance Computing">
+            <h2>NVIDIA and SK hynix Announce Multi-Year Collaboration</h2>
+            <p>High-Performance Computing | Partner News</p>
+            <p>Memory and accelerated computing partners continue to scale AI infrastructure for enterprise workloads.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="primary" data-button-color="brand" data-button-size="large">Explore the Story</a></strong></p>
+            <img src="/icons/icon-sales.png" alt="High-performance computing collaboration" width="320" height="320" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div data-category="Robotics">
+            <h2>Robotics Developers Build Physical AI</h2>
+            <p>Robotics | Developer News</p>
+            <p>NVIDIA robotics platforms help teams train, simulate, and deploy intelligent machines at scale.</p>
+            <p><strong><a href="https://www.nvidia.com/" target="_blank" rel="noopener" data-button-kind="primary" data-button-color="brand" data-button-size="large">Explore Robotics</a></strong></p>
+            <img src="/icons/icon-partner.png" alt="Robotics platform illustration" width="504" height="324" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="ai-search">
+        <div>
+          <div>Heading</div>
+          <div>What can I help you with?</div>
+        </div>
+        <div>
+          <div>Placeholder</div>
+          <div>Ask AI</div>
+        </div>
+        <div>
+          <div>Site</div>
+          <div>https://www.nvidia.com</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="featured">
+        <div>
+          <div>
+            <p>Heading: What's New</p>
+            <p>View More: View More Blogs | https://www.nvidia.com/en-in/ | secondary</p>
+            <p>Intro: Keep up to date with the latest news from the world leader in accelerated computing.</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Tags: AI Infrastructure, Corporate</p>
+            <p>Date: June 4, 2026</p>
+            <p>Title: Seoul Purpose: How NVIDIA and South Korea Are Building the Future of AI</p>
+            <p>Description: Home to cutting-edge sovereign AI infrastructure and robotics innovators, as well as one of the world's most passionate gaming communities, South Korea is one of the world's centers of AI.</p>
+            <p>Image: https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container/nv_image_copy.coreimg.100.630.jpeg/1784567258296/nvidia-jobs.jpeg | NVIDIA AI announcement event</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Tags: AI</p>
+            <p>Date: June 7, 2026</p>
+            <p>Title: How the UK Is Turning Sovereign AI Ambition Into Action With NVIDIA Technologies</p>
+            <p>Image: https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container_section_1769459189/nv_tabs_section_14/nv_container_tab2_educators_6/nv_container_tab2_image_column_5/nv_image_4.coreimg.100.630.jpeg/1784567253667/siggraph-25-programs-educators-teaching-kit-ari-1920x1080.jpeg | City skyline at dusk</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Tags: AI Infrastructure, Robotics</p>
+            <p>Date: June 7, 2026</p>
+            <p>Title: NVIDIA and LG Group Build an AI Factory to Advance Physical AI, Mobility and AI Infrastructure</p>
+            <p>Image: https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container_section_1769459189/nv_tabs_section_14/nv_container_tab3_developers_9/nv_container_tab3_image_column_8/nv_image_8.coreimg.100.630.jpeg/1784567254672/siggraph-25-programs-developers-program-ari-1920x1080.jpeg | Robots in an AI factory</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Tags: AI Infrastructure (green), Robotics (teal)</p>
+            <p>Date: June 7, 2026</p>
+            <p>Title: NVIDIA and Doosan Group Collaborate to Advance Physical AI and AI Factory Infrastructure</p>
+            <p>Image: https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/graphic-cards/50-series/geforce-rtx-5090-af360-p.jpg | Robotic manufacturing arm</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="carousel">
+        <div>
+          <div>Type: success-stories</div>
+        </div>
+        <div>
+          <div>Aria Label: Success Stories</div>
+        </div>
+        <div>
+          <div>Loop: true</div>
+        </div>
+        <div>
+          <div>Controls: none</div>
+        </div>
+        <div>
+          <div>
+            <h2>Success Stories</h2>
+            <p>See how industry leaders are driving innovations with AI, accelerated computing, and simulation to modernize business.</p>
+            <p><strong><a href="https://www.nvidia.com/en-us/customer-stories/" target="_blank" rel="noopener" data-button-kind="secondary" data-button-color="brand" data-button-size="large">See All Success Stories</a></strong></p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h6>Manufacturing</h6>
+            <p>Logo: AGILITY ROBOTICS</p>
+            <p>Logo Image: https://www.nvidia.com/content/dam/en-zz/Solutions/logos/novatech/gpu-virtualization-partners-novatech-tile-188-udt.jpg</p>
+            <h3>Humanoid Robot "Digit" Powered by Whole-Body-Control Foundation Model</h3>
+            <p>Learn how Agility Robotics' humanoid robot works seamlessly in human-built environments without costly facility modification.</p>
+            <p><strong><a href="https://www.nvidia.com/en-us/customer-stories/" target="_blank" rel="noopener" data-button-kind="tertiary" data-button-color="brand" data-button-size="large">Read the Story</a></strong></p>
+            <img src="https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container/nv_image_copy.coreimg.100.630.jpeg/1784567258296/nvidia-jobs.jpeg" alt="Humanoid robot in a manufacturing environment" width="960" height="540" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div>
+            <h6>Robotics</h6>
+            <p>Logo: Uber</p>
+            <p>Logo Image: https://www.nvidia.com/content/dam/en-zz/es_es/Solutions/deep-learning/deep-learning-education/ai-and-deep-learning-dli-partners-coursera-297-m.jpg</p>
+            <h3>AI-Powered Automation Helps Teams Build Smarter Operations</h3>
+            <p>NVIDIA accelerated computing helps robotics teams train, simulate, and deploy intelligent systems at scale.</p>
+            <p><strong><a href="https://www.nvidia.com/en-us/customer-stories/" target="_blank" rel="noopener" data-button-kind="tertiary" data-button-color="brand" data-button-size="large">Read the Story</a></strong></p>
+            <img src="https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container_section_1769459189/nv_tabs_section_14/nv_container_tab2_educators_6/nv_container_tab2_image_column_5/nv_image_4.coreimg.100.630.jpeg/1784567253667/siggraph-25-programs-educators-teaching-kit-ari-1920x1080.jpeg" alt="People using AI-powered tools in a retail environment" width="960" height="540" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div>
+            <h6>Simulation</h6>
+            <p>Logo: SCHAEFFLER</p>
+            <p>Logo Image: https://www.nvidia.com/content/dam/en-zz/es_es/Solutions/deep-learning/deep-learning-education/ai-and-deep-learning-dli-partners-boston-297-udt.jpg</p>
+            <h3>Developers Use NVIDIA Platforms to Create Real-Time Digital Twins</h3>
+            <p>Simulation workflows help organizations test ideas faster before bringing physical systems into production.</p>
+            <p><strong><a href="https://www.nvidia.com/en-us/customer-stories/" target="_blank" rel="noopener" data-button-kind="tertiary" data-button-color="brand" data-button-size="large">Read the Story</a></strong></p>
+            <img src="https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container_section_1769459189/nv_tabs_section_14/nv_container_tab3_developers_9/nv_container_tab3_image_column_8/nv_image_8.coreimg.100.630.jpeg/1784567254672/siggraph-25-programs-developers-program-ari-1920x1080.jpeg" alt="Developers working with simulation technology" width="960" height="540" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div>
+            <h6>Manufacturing</h6>
+            <p>Logo: FOXCONN</p>
+            <p>Logo Image: https://www.nvidia.com/content/dam/en-zz/es_es/Solutions/deep-learning/deep-learning-education/ai-and-deep-learning-dli-partners-udacity-297-udt.jpg</p>
+            <h3>AI Factories Help Manufacturers Improve Production Workflows</h3>
+            <p>Manufacturers use NVIDIA platforms to connect design, simulation, and production data for faster decisions.</p>
+            <p><strong><a href="https://www.nvidia.com/en-us/customer-stories/" target="_blank" rel="noopener" data-button-kind="tertiary" data-button-color="brand" data-button-size="large">Read the Story</a></strong></p>
+            <img src="https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/graphic-cards/50-series/geforce-rtx-5090-af360-p.jpg" alt="NVIDIA accelerated computing hardware" width="960" height="540" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div>
+            <h6>Gaming</h6>
+            <p>Logo: ACTIVISION</p>
+            <p>Logo Image: https://www.nvidia.com/content/dam/en-zz/fr_fr/Solutions/deep-learning/deep-learning-education/ai-and-deep-learning-dli-partners-udacity-297-tm.jpg</p>
+            <h3>Real-Time Graphics Bring Interactive Worlds to Life</h3>
+            <p>NVIDIA RTX technologies help creative teams deliver richer interactive experiences with faster rendering.</p>
+            <p><strong><a href="https://www.nvidia.com/en-us/customer-stories/" target="_blank" rel="noopener" data-button-kind="tertiary" data-button-color="brand" data-button-size="large">Read the Story</a></strong></p>
+            <img src="https://www.nvidia.com/content/dam/en-zz/nvidiaweb/homepage/mfg/nvidia-cpu-vera-rack-wmfg-offset-l@2x.png" alt="NVIDIA data center systems" width="960" height="540" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>Learn More About NVIDIA</h2>
+      <div class="cards">
+        <div>
+          <div>
+            <p>Image: <a href="https://nvidianews.nvidia.com/_gallery/get_file/?file_id=5dc092aa2cfac24ba40e9c30">https://nvidianews.nvidia.com/_gallery/get_file/?file_id=5dc092aa2cfac24ba40e9c30</a> | NVIDIA Endeavor building in Santa Clara</p>
+            <p>[float]</p>
+            <h3>About Us</h3>
+            <p>NVIDIA pioneered accelerated computing to tackle challenges no one else can solve. Our work in AI and digital twins is transforming the world's largest industries and profoundly impacting society.</p>
+            <p><strong><a href="https://www.nvidia.com/en-us/about-nvidia/" target="_blank" rel="noopener" data-button-kind="tertiary" data-button-color="brand" data-button-size="small">Read More</a></strong></p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Image: <a href="https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container/nv_image_copy.coreimg.100.630.jpeg/1784567258296/nvidia-jobs.jpeg">https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container/nv_image_copy.coreimg.100.630.jpeg/1784567258296/nvidia-jobs.jpeg</a> | People attending an NVIDIA event</p>
+            <p>[float]</p>
+            <h3>Events</h3>
+            <p>Find upcoming NVIDIA corporate events, CUDA and developer events, and events for investors.</p>
+            <p><strong><a href="https://www.nvidia.com/en-us/events/" target="_blank" rel="noopener" data-button-kind="tertiary" data-button-color="brand" data-button-size="small">View Upcoming Events</a></strong></p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Image: <a href="https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container_section_1769459189/nv_tabs_section_14/nv_container_tab2_educators_6/nv_container_tab2_image_column_5/nv_image_4.coreimg.100.630.jpeg/1784567253667/siggraph-25-programs-educators-teaching-kit-ari-1920x1080.jpeg">https://www.nvidia.com/content/nvidiaGDC/us/en_US/events/siggraph/_jcr_content/root/responsivegrid/nv_container_section_1769459189/nv_tabs_section_14/nv_container_tab2_educators_6/nv_container_tab2_image_column_5/nv_image_4.coreimg.100.630.jpeg/1784567253667/siggraph-25-programs-educators-teaching-kit-ari-1920x1080.jpeg</a> | People collaborating with NVIDIA technology</p>
+            <p>[float]</p>
+            <h3>Careers</h3>
+            <p>The breakthroughs we're making at NVIDIA are impacting businesses everywhere, helping them work faster, better, and smarter. Join our team. Make an impact.</p>
+            <p><strong><a href="https://jobs.nvidia.com/" target="_blank" rel="noopener" data-button-kind="tertiary" data-button-color="brand" data-button-size="small">View Open Positions</a></strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+/*
+ * Layout only. All accordion visuals (triggers, chevrons, panels, dividers)
+ * come from the Kaizen `accordion.css` already bundled in the KUI bundle.
+ */
+.accordion.block {
+  margin-inline: auto;
+  max-width: 800px;
+  width: 100%;
+}

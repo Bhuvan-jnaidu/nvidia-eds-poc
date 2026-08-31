@@ -1,0 +1,204 @@
+/*
+ * Press Releases carousel.
+ * KUI-first: KUI components (Card/Text/Button) + KUI CSS tokens do the styling.
+ * This file only adds the carousel layout KUI doesn't provide (track, dots, arrows),
+ * and reuses KUI design tokens (--color-brand, --color-gray-*) for consistency.
+ */
+
+/* ============================================================
+   1. RESPONSIVE CONTROL PANEL  — edit these to tune each breakpoint
+   ============================================================ */
+.press-releases {
+  --pr-cards-per-view: 1;      /* mobile: 1 card per view */
+  --pr-gap: 16px;              /* space between cards */
+  --pr-max-width: 1290px;      /* content max width */
+  --pr-dot: var(--color-gray-300, #a7a7a7);
+  --pr-dot-active: var(--color-brand, #76b900);
+  --pr-arrow-border: var(--color-brand, #76b900);
+  --pr-description-size: 14px;
+}
+
+@media (min-width: 600px) {
+  .press-releases { --pr-cards-per-view: 2; --pr-gap: 24px; }
+}
+
+@media (min-width: 900px) {
+  .press-releases { --pr-cards-per-view: 3; }
+}
+
+@media (min-width: 1200px) {
+  .press-releases { --pr-gap: 30px; }
+}
+
+/* ============================================================
+   2. CAROUSEL LAYOUT  (the gap KUI doesn't cover)
+   ============================================================ */
+.press-releases__inner {
+  max-width: var(--pr-max-width);
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.press-releases__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.press-releases__header-text {
+  max-width: 640px;
+}
+
+/* "View More" button: black text, no underline on hover (overrides global link styles) */
+.press-releases__cta,
+.press-releases__cta:hover {
+  color: var(--color-black, #000);
+  text-decoration: none;
+}
+
+/* description font size (default 14px; overrides heading styles when tag is h3) */
+.press-releases__description {
+  font-size: var(--pr-description-size);
+}
+
+/* horizontal scroll viewport (native scroll = free touch swipe) */
+.press-releases__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;                 /* prevent the horizontal scroller from clipping cards vertically */
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;              /* firefox */
+  -ms-overflow-style: none;           /* old edge */
+  outline: none;
+  padding-bottom: 8px;                /* room for card shadow */
+}
+
+.press-releases__viewport::-webkit-scrollbar {
+  display: none;                      /* chrome/safari */
+}
+
+.press-releases__track {
+  display: flex;
+  align-items: stretch;               /* all cards equal height */
+  gap: var(--pr-gap);
+}
+
+/* each slide is sized so exactly --pr-cards-per-view fill the viewport width */
+.press-releases__slide {
+  display: flex;
+  flex: 0 0 calc(
+    (100% - (var(--pr-cards-per-view) - 1) * var(--pr-gap)) / var(--pr-cards-per-view)
+  );
+  scroll-snap-align: start;
+}
+
+/* card content */
+.press-releases__card-link {
+  display: block;
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* full-bleed image inside KUI Card's media slot (.nv-card-media supplies the aspect ratio) */
+.press-releases__card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.press-releases__card-date {
+  color: var(--color-gray-500, #757575);
+}
+
+/* clamp the title to 3 lines so every card is the same height */
+.press-releases__slide h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* status text (loading / error) */
+.press-releases__status {
+  padding: 24px 0;
+  color: var(--color-gray-500, #757575);
+}
+
+/* ============================================================
+   3. CONTROLS  — dots centered, arrows to the right
+   ============================================================ */
+.press-releases__controls {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 24px;
+}
+
+.press-releases__dots {
+  display: flex;
+  gap: 10px;
+}
+
+.press-releases__dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--pr-dot);
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.press-releases__dot:hover {
+  opacity: 0.7;
+}
+
+.press-releases__dot.is-active {
+  background: var(--pr-dot-active);
+}
+
+.press-releases__arrows {
+  position: absolute;
+  right: 0;
+  display: flex;
+  gap: 12px;
+}
+
+.press-releases__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--pr-arrow-border);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.press-releases__arrow:hover:not(:disabled) {
+  border-color: var(--pr-dot-active);
+}
+
+.press-releases__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* on small screens, stack arrows under the centered dots */
+@media (max-width: 599px) {
+  .press-releases__arrows {
+    position: static;
+    margin-left: 16px;
+  }
+}

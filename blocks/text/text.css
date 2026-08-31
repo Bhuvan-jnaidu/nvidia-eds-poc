@@ -1,0 +1,7 @@
+/*
+ * Layout only. Typography comes from the Kaizen Text component (text.css in the
+ * KUI bundle) via the authored `kind`.
+ */
+.text.block {
+  margin-block: var(--space-sm);
+}

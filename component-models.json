@@ -1,0 +1,535 @@
+[
+  {
+    "id": "accordion",
+    "fields": []
+  },
+  {
+    "id": "accordion-item",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "trigger",
+        "label": "Title",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "content",
+        "label": "Content",
+        "valueType": "string",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "ai-search",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Heading",
+        "value": "What can I help you with?"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "placeholder",
+        "label": "Placeholder",
+        "value": "Ask AI"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "site",
+        "label": "Site",
+        "value": "https://www.nvidia.com"
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "overlay",
+        "label": "Overlay",
+        "value": false
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "expandPills",
+        "label": "Expand Pills",
+        "value": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "pills",
+        "label": "Suggested Search Pills"
+      }
+    ]
+  },
+  {
+    "id": "button",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "text",
+        "label": "Label"
+      },
+      {
+        "component": "aem-content",
+        "valueType": "string",
+        "name": "href",
+        "label": "Link"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "kind",
+        "label": "Kind",
+        "value": "primary",
+        "options": [
+          {
+            "name": "Primary",
+            "value": "primary"
+          },
+          {
+            "name": "Secondary",
+            "value": "secondary"
+          },
+          {
+            "name": "Tertiary",
+            "value": "tertiary"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "color",
+        "label": "Color",
+        "value": "brand",
+        "options": [
+          {
+            "name": "Brand",
+            "value": "brand"
+          },
+          {
+            "name": "Neutral",
+            "value": "neutral"
+          },
+          {
+            "name": "Danger",
+            "value": "danger"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "size",
+        "label": "Size",
+        "value": "medium",
+        "options": [
+          {
+            "name": "Tiny",
+            "value": "tiny"
+          },
+          {
+            "name": "Small",
+            "value": "small"
+          },
+          {
+            "name": "Medium",
+            "value": "medium"
+          },
+          {
+            "name": "Large",
+            "value": "large"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cards",
+    "fields": []
+  },
+  {
+    "id": "card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Icon / Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Icon alt text",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "label": "Card Content",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "aem-content",
+        "name": "cta",
+        "label": "CTA Link",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "ctaText",
+        "label": "CTA Label",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "carousel",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ariaLabel",
+        "label": "Accessibility label",
+        "value": "Carousel"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "type",
+        "label": "Type",
+        "value": "home-banner",
+        "options": [
+          {
+            "name": "Home Banner",
+            "value": "home-banner"
+          },
+          {
+            "name": "Success Stories",
+            "value": "success-stories"
+          }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "itemsPerView",
+        "label": "Items per view",
+        "value": "1"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "itemWidth",
+        "label": "Item width"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "loop",
+        "label": "Loop",
+        "value": "true",
+        "options": [
+          {
+            "name": "True",
+            "value": "true"
+          },
+          {
+            "name": "False",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "controls",
+        "label": "Controls",
+        "value": "footer",
+        "options": [
+          {
+            "name": "Footer",
+            "value": "footer"
+          },
+          {
+            "name": "None",
+            "value": "none"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "carousel-slide",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "content",
+        "label": "Slide content",
+        "valueType": "string",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "columns",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "text",
+        "label": "Column Content",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "contact-info",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "text",
+        "label": "Heading & Subtitle",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "locations",
+        "label": "Location Details",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "fragment",
+    "fields": [
+      {
+        "component": "aem-content",
+        "name": "reference",
+        "label": "Reference",
+        "valueType": "string",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "hero",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "text",
+        "label": "Text",
+        "valueType": "string",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "home-banner",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "categories",
+        "label": "Category Tabs",
+        "valueType": "string",
+        "description": "Add one paragraph per category. Bold the initially selected category."
+      }
+    ]
+  },
+  {
+    "id": "home-banner-slide",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "category",
+        "label": "Category",
+        "description": "Must match one of the Home Banner categories. In Google Docs, add this as a paragraph like: Category: Gaming and Creating."
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Media Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image alt text"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "eyebrow",
+        "label": "Eyebrow / Metadata"
+      },
+      {
+        "component": "text",
+        "name": "title",
+        "label": "Title",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "description",
+        "label": "Description",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "name": "cta",
+        "label": "CTA Link",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "ctaText",
+        "label": "CTA Label",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "input-shell",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "label",
+        "label": "Label"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "placeholder",
+        "label": "Placeholder"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "inputType",
+        "label": "Input type",
+        "value": "text",
+        "options": [
+          {
+            "name": "Text",
+            "value": "text"
+          },
+          {
+            "name": "Email",
+            "value": "email"
+          },
+          {
+            "name": "Search",
+            "value": "search"
+          },
+          {
+            "name": "Telephone",
+            "value": "tel"
+          },
+          {
+            "name": "URL",
+            "value": "url"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kcards",
+    "fields": []
+  },
+  {
+    "id": "kcard",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image alt text"
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "quote",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "quotation",
+        "label": "Quotation",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "attribution",
+        "label": "Attribution",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "quote-kui",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "quotation",
+        "label": "Quotation",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "attribution",
+        "label": "Attribution",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "text",
+    "fields": [
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "content",
+        "label": "Content"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "style",
+        "label": "Style",
+        "description": "Space or comma-separated KUI style tokens, e.g. title/lg h2 or size:32 bold."
+      }
+    ]
+  }
+]

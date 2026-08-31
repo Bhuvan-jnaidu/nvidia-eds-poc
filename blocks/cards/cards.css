@@ -1,0 +1,68 @@
+.cards {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin-inline: auto;
+}
+
+.cards .cards-img {
+    aspect-ratio: 16 / 10;
+    display: block;
+    height: auto;
+    object-fit: cover;
+    width: 100%;
+}
+
+/* Tag/badge row (Heading 5, comma-separated -> Kaizen Badge pills). */
+.cards .cards-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs, 8px);
+}
+
+/* Eyebrow (Heading 6 -> publisher / date / category). */
+.cards .cards-eyebrow {
+    color: var(--color-text-secondary, #76797c);
+    margin: 0;
+}
+
+.cards .cards-cta .nv-button--kind-tertiary::after {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-inline-start: 6px;
+    content: "";
+    border-block-start: 2px solid var(--color-brand, #76b900);
+    border-inline-end: 2px solid var(--color-brand, #76b900);
+    transform: rotate(45deg);
+}
+
+@media (width >= 900px) {
+    .cards .cards-media-end.nv-card-root--layout-horizontal .nv-card-media {
+        order: 2;
+    }
+}
+
+/* Link-list card (nav/menu style): heading + list of green links, no buttons. */
+.cards .cards-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs, 8px);
+}
+
+.cards .cards-links a {
+    color: var(--color-text, #1a1a1a);
+    display: inline-block;
+    line-height: 1.4;
+    text-decoration: underline;
+    text-decoration-color: var(--text-color-brand, #76b900);
+    text-underline-offset: 3px;
+}
+
+.cards .cards-links a:hover {
+    color: var(--text-color-brand, #76b900);
+}
+
+/* tighter link list */
+.cards .cards-links li {
+    margin: 0;
+}

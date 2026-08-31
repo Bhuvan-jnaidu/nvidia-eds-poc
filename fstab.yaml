@@ -1,0 +1,13 @@
+# fstab.yaml — Content mount for Edge Delivery Services (document authoring)
+#
+# We are using the Google Drive document-authoring flow:
+#   1. Author pages as Google Docs inside a Drive folder.
+#   2. Share that folder with Adobe's AEM service account (see SETUP-EDS.md).
+#   3. Point the mountpoint below at the folder URL.
+#
+# Replace <FOLDER_ID> with the ID from your Drive folder URL
+# (https://drive.google.com/drive/folders/<FOLDER_ID>).
+#
+# trigger AEM code sync
+mountpoints:
+  /: https://drive.google.com/drive/folders/1VrWpwFBC43cPBn1EdpAvYXeXJpLGtXOf

@@ -1,0 +1,5 @@
+.ai-search {
+  max-width: min(100%, 1070px);
+  min-height: 120px;
+  margin-inline: auto;
+}

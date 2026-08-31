@@ -1,0 +1,118 @@
+{
+  "definitions": [
+    {
+      "title": "Carousel",
+      "id": "carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Carousel",
+              "model": "carousel",
+              "ariaLabel": "Carousel",
+              "type": "home-banner",
+              "itemsPerView": "1",
+              "loop": "true",
+              "controls": "footer"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Carousel Slide",
+      "id": "carousel-slide",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Carousel Slide",
+              "model": "carousel-slide",
+              "content": "<p>Carousel slide content</p>"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "carousel",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "ariaLabel",
+          "label": "Accessibility label",
+          "value": "Carousel"
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Type",
+          "value": "home-banner",
+          "options": [
+            { "name": "Home Banner", "value": "home-banner" },
+            { "name": "Success Stories", "value": "success-stories" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "itemsPerView",
+          "label": "Items per view",
+          "value": "1"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "itemWidth",
+          "label": "Item width"
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "loop",
+          "label": "Loop",
+          "value": "true",
+          "options": [
+            { "name": "True", "value": "true" },
+            { "name": "False", "value": "false" }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "controls",
+          "label": "Controls",
+          "value": "footer",
+          "options": [
+            { "name": "Footer", "value": "footer" },
+            { "name": "None", "value": "none" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "carousel-slide",
+      "fields": [
+        {
+          "component": "richtext",
+          "name": "content",
+          "label": "Slide content",
+          "valueType": "string",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "carousel",
+      "components": ["carousel-slide"]
+    }
+  ]
+}

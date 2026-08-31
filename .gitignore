@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Playwright
+playwright-report/
+test-results/
+.playwright/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+*.swo
+
+# Env
+.env
+.env.local
+
+# local doc->EDS demo artifacts
+*.docx
+/doc.html
+/doc-blocks.html
+/assets/remix/
+master.md
+
+.cursor/
+.codex/
+.agents/
+.claude/
+.vscode/

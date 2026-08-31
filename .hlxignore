@@ -1,0 +1,39 @@
+# Files excluded from AEM EDS website serving
+# Uses .gitignore syntax
+
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+.cache/
+
+# Local dev / IDE
+.claude/
+.vscode/
+.idea/
+*.local
+
+# Docs (not served as web pages)
+README.md
+CLAUDE.md
+AGENTS.md
+TODO.md
+PROJECT-FLOW.md
+LICENSE
+
+# Test suite (not served as web pages)
+tests/
+playwright.config.js
+playwright-report/
+test-results/
+
+# Package metadata
+package.json
+package-lock.json
+.renovaterc.json
+
+# OS artefacts
+.DS_Store
+Thumbs.db

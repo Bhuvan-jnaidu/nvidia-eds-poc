@@ -1,0 +1,36 @@
+/*
+ * Layout only. The input shell, dismiss button and submit button are all styled
+ * by Kaizen (input-shell.css + button.css) already in the KUI bundle.
+ */
+.input-shell.block {
+  margin-inline: auto;
+  max-width: 560px;
+  width: 100%;
+}
+
+.input-shell-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.input-shell-label {
+  font-weight: 600;
+}
+
+.input-shell-row {
+  align-items: center;
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* let the input shell grow, keep the submit button at its natural width */
+.input-shell-row > *:first-child {
+  flex: 1 1 auto;
+}
+
+.input-shell-success {
+  color: var(--color-nvidia-green-dark);
+  font-weight: 600;
+  margin: 0;
+}

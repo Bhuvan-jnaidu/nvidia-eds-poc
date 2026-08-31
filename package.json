@@ -1,0 +1,45 @@
+{
+  "name": "nvidia-contact-eds-poc",
+  "version": "1.0.0",
+  "description": "NVIDIA Contact page POC built with Adobe Edge Delivery Services (EDS) patterns",
+  "type": "module",
+  "scripts": {
+    "start": "npx serve . --listen 3001",
+    "stop": "npx kill-port 3001",
+    "build:json": "node scripts/build-json.js",
+    "build:kui": "node scripts/build-kui.mjs",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"blocks/**/*.css\" \"styles/*.css\"",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix",
+    "prepare": "husky",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@adobe/aem-cli": "^16.0.0",
+    "@babel/eslint-parser": "7.29.7",
+    "@playwright/test": "^1.60.0",
+    "esbuild": "^0.28.1",
+    "eslint": "8.57.1",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.32.0",
+    "husky": "^9.0.0",
+    "kill-port": "^2.0.0",
+    "serve": "^14.0.0",
+    "stylelint": "17.12.0",
+    "stylelint-config-standard": "40.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kui/foundations-css": "^1.10.0",
+    "@kui/foundations-react": "^1.10.0",
+    "@nv-brand-assets/react-icons-inline": "^3.10.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  }
+}

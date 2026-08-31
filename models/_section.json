@@ -1,0 +1,30 @@
+{
+  "definitions": [],
+  "models": [],
+  "filters": [
+    {
+      "id": "section",
+      "components": [
+        "text",
+        "image",
+        "button",
+        "title",
+        "hero",
+        "cards",
+        "columns",
+        "fragment",
+        "contact-info",
+        "ai-search",
+        "home-banner",
+        "accordion",
+        "input-shell",
+        "featured",
+        "quote",
+        "quote-kui",
+        "panel",
+        "kcards",
+        "kpanel"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,357 @@
+/* EDS Base Styles — NVIDIA Contact Page POC */
+
+/*
+ * styles.css must stay LCP-critical only — no @import, no web fonts.
+ * Fonts (NVIDIA Sans) are loaded lazily via styles/fonts.css after first paint.
+ */
+
+/*
+ * Font fallback with size-adjust — prevents CLS when NVIDIA Sans loads.
+ * Arial is adjusted to match NVIDIA Sans metrics so no layout shift occurs.
+ */
+@font-face {
+    font-family: "NVIDIA Sans Fallback";
+    size-adjust: 97.5%;
+    src: local("Arial");
+}
+
+:root {
+    /* Colors */
+    --color-page-bg: #f7f7f7;
+    --color-surface: #fff;
+    --color-surface-alt: #f0f0f0;
+    --color-border: #e0e0e0;
+    --color-border-strong: #ccc;
+    --color-text: #1a1a1a;
+    --color-text-secondary: #444;
+    --color-muted: #777;
+    --color-nvidia-green: #76b900;
+    --color-nvidia-green-dark: #5a8f00;
+    --color-nvidia-green-hover: #649e00;
+
+    /* Typography */
+    --font-family-body:
+        "NVIDIA Sans", "NVIDIA Sans Fallback", -apple-system,
+        BlinkMacSystemFont, sans-serif;
+    --font-family-heading:
+        "NVIDIA Sans", "NVIDIA Sans Fallback", -apple-system,
+        BlinkMacSystemFont, sans-serif;
+    --font-family-condensed: "NVIDIA Sans", "NVIDIA Sans Fallback", sans-serif;
+
+    --font-size-xs: 0.75rem; /* 12px */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-base: 1rem; /* 16px */
+    --font-size-md: 1.125rem; /* 18px */
+    --font-size-lg: 1.25rem; /* 20px */
+    --font-size-xl: 1.5rem; /* 24px */
+    --font-size-2xl: 2rem; /* 32px */
+    --font-size-3xl: 2.5rem; /* 40px */
+    --font-size-4xl: 3.25rem; /* 52px — matches NVIDIA hero sizing */
+
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
+
+    /* Layout */
+    --container-max-width: 1280px;
+    --section-padding: var(--space-xl) var(--space-sm);
+
+    /* Transitions */
+    --transition-base: 0.2s ease;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+body.appear {
+    opacity: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0,
+        "ital" 0;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 var(--space-sm);
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+    scroll-margin: 40px;
+}
+
+/* NVIDIA uses heavy weight + tight tracking for large headings */
+h1 {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+}
+
+h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+h4 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+h5 {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+}
+
+h6 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+}
+
+p {
+    margin: 0 0 var(--space-sm);
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    line-height: 1.65;
+}
+
+a {
+    color: var(--color-nvidia-green-dark);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--color-nvidia-green-hover);
+}
+
+img,
+picture {
+    max-width: 100%;
+    display: block;
+}
+
+/* Icons */
+.icon {
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+.icon img {
+    height: 100%;
+    width: 100%;
+}
+
+/* Header/footer visibility — hidden until block is fully loaded */
+header .header,
+footer .footer {
+    visibility: hidden;
+}
+
+header .header[data-block-status="loaded"],
+footer .footer[data-block-status="loaded"] {
+    visibility: visible;
+}
+
+/* Main layout */
+main {
+    display: block;
+    min-height: calc(100vh - 64px - 200px);
+}
+
+.section {
+    padding: var(--section-padding);
+}
+
+.section > div {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+}
+
+.section > div + div {
+    margin-top: var(--space-xl);
+}
+
+.section > .default-content-wrapper {
+    text-align: center;
+}
+
+.section.nv-dark :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--text-color-primary);
+}
+
+.section.nv-dark p {
+    color: var(--text-color-subtle);
+}
+
+/* Buttons — NVIDIA-branded, three variants */
+p.button-wrapper {
+    margin: 12px 0;
+}
+
+a.button:any-link,
+button.button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    padding: 0.7rem 1.75rem;
+    font: inherit;
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition:
+        background-color var(--transition-base),
+        border-color var(--transition-base),
+        transform var(--transition-base);
+    /* default = primary */
+    background-color: var(--color-nvidia-green);
+    border-color: var(--color-nvidia-green);
+    color: #fff;
+}
+
+a.button[aria-disabled="true"],
+button.button:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Primary — authored <strong> links */
+a.button.primary:any-link,
+button.button.primary {
+    background-color: var(--color-nvidia-green);
+    border-color: var(--color-nvidia-green);
+    color: #fff;
+}
+
+a.button.primary:hover,
+a.button.primary:focus-visible,
+button.button.primary:hover,
+button.button.primary:focus-visible {
+    background-color: var(--color-nvidia-green-hover);
+    border-color: var(--color-nvidia-green-hover);
+    transform: translateY(-1px);
+}
+
+a.button.primary[aria-disabled="true"],
+button.button.primary:disabled {
+    background-color: var(--color-surface-alt);
+    border-color: var(--color-surface-alt);
+    color: var(--color-muted);
+}
+
+/* Secondary — authored <em> links */
+a.button.secondary:any-link,
+button.button.secondary {
+    background-color: transparent;
+    border-color: var(--color-nvidia-green);
+    color: var(--color-nvidia-green-dark);
+}
+
+a.button.secondary:hover,
+a.button.secondary:focus-visible,
+button.button.secondary:hover,
+button.button.secondary:focus-visible {
+    background-color: var(--color-nvidia-green);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+a.button.secondary[aria-disabled="true"],
+button.button.secondary:disabled {
+    background-color: var(--color-surface-alt);
+    border-color: var(--color-border);
+    color: var(--color-muted);
+}
+
+/* Accent — authored <strong><em> links */
+a.button.accent:any-link,
+button.button.accent {
+    background-color: var(--color-nvidia-green-dark);
+    border-color: var(--color-nvidia-green-dark);
+    color: #fff;
+}
+
+a.button.accent:hover,
+a.button.accent:focus-visible,
+button.button.accent:hover,
+button.button.accent:focus-visible {
+    background-color: #4a7a00;
+    border-color: #4a7a00;
+    transform: translateY(-1px);
+}
+
+a.button.accent[aria-disabled="true"],
+button.button.accent:disabled {
+    background-color: var(--color-surface-alt);
+    border-color: var(--color-surface-alt);
+    color: var(--color-muted);
+}
+
+/* Divider */
+hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: var(--space-xl) 0;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: var(--font-size-2xl);
+    }
+    h2 {
+        font-size: var(--font-size-xl);
+    }
+    .section {
+        padding: var(--space-lg) var(--space-sm);
+    }
+    .section > div + div {
+        margin-top: var(--space-lg);
+    }
+}

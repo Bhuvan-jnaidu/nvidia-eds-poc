@@ -1,0 +1,39 @@
+/* Bordered "panel" (Kaizen Card): section heading + inner columns of links. */
+.panel .panel-heading {
+  margin: 0 0 var(--space-lg, 24px);
+}
+
+.panel .panel-col h3 {
+  margin: 0 0 var(--space-md, 16px);
+}
+
+.panel .panel-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 8px);
+}
+
+.panel .panel-links a {
+  color: var(--color-text, #1a1a1a);
+  display: inline-block;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-decoration-color: var(--text-color-brand, #76b900);
+  text-underline-offset: 3px;
+}
+
+.panel .panel-links a:hover {
+  color: var(--text-color-brand, #76b900);
+}
+
+/* tighter link list */
+.panel .panel-links li { margin: 0; }
+
+/* Hover: dark outline highlight on the panel. */
+.panel .nv-card-root {
+  transition: outline-color .15s ease, box-shadow .15s ease;
+}
+.panel .nv-card-root:hover {
+  outline: 2px solid var(--color-text, #1a1a1a);
+  outline-offset: 2px;
+}

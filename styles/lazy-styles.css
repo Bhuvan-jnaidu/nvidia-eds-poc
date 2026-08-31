@@ -1,0 +1,48 @@
+/*
+ * lazy-styles.css — loaded after LCP paint.
+ * Safe place for web fonts, below-the-fold styles, and non-critical CSS.
+ */
+
+/* NVIDIA Sans — variable font covering weight 100–900 */
+@font-face {
+  font-family: 'NVIDIA Sans';
+  src: url('/fonts/NVIDIASansVF_NALA_W_Wght.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font Awesome — Regular, Sharp Light, Solid */
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  src: url('/fonts/fa-regular-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Sharp';
+  src: url('/fonts/fa-sharp-light-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  src: url('/fonts/fa-solid-900.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: block;
+}
+
+::selection {
+  background: var(--color-nvidia-green);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-nvidia-green);
+  outline-offset: 2px;
+}

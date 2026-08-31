@@ -1,0 +1,340 @@
+{
+  "groups": [
+    {
+      "title": "Blocks",
+      "id": "blocks",
+      "components": [
+        {
+          "title": "Accordion",
+          "id": "accordion",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Accordion",
+                  "model": "accordion"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Accordion Item",
+          "id": "accordion-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Accordion Item",
+                  "model": "accordion-item",
+                  "trigger": "Section title",
+                  "content": "<p>Section content goes here.</p>"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "AI Search",
+          "id": "ai-search",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "AI Search",
+                  "model": "ai-search"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Button",
+          "id": "button",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Button",
+                  "model": "button",
+                  "text": "Learn More",
+                  "href": "#"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Cards",
+          "id": "cards",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Cards",
+                  "model": "cards"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Card",
+          "id": "card",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Card",
+                  "model": "card",
+                  "imageAlt": "Card icon",
+                  "ctaText": "Learn More"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Carousel",
+          "id": "carousel",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Carousel",
+                  "model": "carousel",
+                  "ariaLabel": "Carousel",
+                  "type": "home-banner",
+                  "itemsPerView": "1",
+                  "loop": "true",
+                  "controls": "footer"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Carousel Slide",
+          "id": "carousel-slide",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Carousel Slide",
+                  "model": "carousel-slide",
+                  "content": "<p>Carousel slide content</p>"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Columns",
+          "id": "columns",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Columns",
+                  "model": "columns"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Contact Info",
+          "id": "contact-info",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Contact Info",
+                  "model": "contact-info",
+                  "text": "<h2>Our Locations</h2><p>More than 50 offices worldwide.</p>"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Fragment",
+          "id": "fragment",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Fragment",
+                  "model": "fragment"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Hero",
+          "id": "hero",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Hero",
+                  "model": "hero",
+                  "text": "<h1>Page Title</h1><p>Page subtitle goes here.</p>"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Home Banner",
+          "id": "home-banner",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Home Banner",
+                  "model": "home-banner",
+                  "categories": "<p>Featured</p><p>Artificial Intelligence</p><p><strong>Cloud and Data Center</strong></p><p>Design and Simulation</p><p>Gaming and Creating</p><p>High-Performance Computing</p><p>Robotics</p>"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Home Banner Slide",
+          "id": "home-banner-slide",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Home Banner Slide",
+                  "model": "home-banner-slide",
+                  "category": "Gaming and Creating",
+                  "imageAlt": "Banner media",
+                  "eyebrow": "Data Center | Announcement",
+                  "title": "SK Telecom and NVIDIA Build AI Infrastructure in Korea",
+                  "description": "Korea's leading telco is adding NVIDIA-powered AI cloud capacity to accelerate AI innovation.",
+                  "ctaText": "Read the Press Release"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Input Shell",
+          "id": "input-shell",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Input Shell",
+                  "model": "input-shell",
+                  "label": "Email address",
+                  "placeholder": "you@example.com"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Kaizen Cards",
+          "id": "kcards",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Kaizen Cards",
+                  "model": "kcards",
+                  "filter": "kcards"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Kaizen Card",
+          "id": "kcard",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Card",
+                  "model": "kcard"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Quote",
+          "id": "quote",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Quote",
+                  "model": "quote",
+                  "quotation": "<p>Your quote goes here.</p>",
+                  "attribution": "<p><em>Author Name</em>, Company</p>"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Quote (KUI)",
+          "id": "quote-kui",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Quote (KUI)",
+                  "model": "quote-kui",
+                  "quotation": "<p>Your quote goes here.</p>",
+                  "attribution": "<p><em>Author Name</em>, Company</p>"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Text",
+          "id": "text",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Text",
+                  "model": "text",
+                  "content": "The quick brown fox jumps over the lazy dog",
+                  "style": "body/regular/md p"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

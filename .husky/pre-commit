@@ -1,0 +1,2 @@
+npm run build:json
+git add component-definition.json component-models.json component-filters.json

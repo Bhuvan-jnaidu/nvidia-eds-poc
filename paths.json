@@ -1,0 +1,10 @@
+{
+  "mappings": [
+    "/content/nvidia-contact/:/",
+    "/content/nvidia-contact/configuration:/.helix/config.json",
+    "/content/nvidia-contact/metadata:/metadata.json"
+  ],
+  "includes": [
+    "/content/nvidia-contact/"
+  ]
+}

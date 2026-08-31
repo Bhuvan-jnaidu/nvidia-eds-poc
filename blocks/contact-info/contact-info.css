@@ -1,0 +1,230 @@
+/* ── Contact Info block ─────────────────────────────────────────────────── */
+
+.contact-info-container {
+  background: var(--color-surface);
+  padding: var(--space-3xl) var(--space-sm) !important;
+}
+
+.contact-info-wrapper {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+}
+
+/* ── Tab bar ─────────────────────────────────────────────────────────────── */
+
+.contact-info-tabs ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0 0 var(--space-xl);
+  padding: 0;
+  border-bottom: 1px solid var(--color-border);
+  gap: var(--space-md);
+}
+
+.contact-info-tabs button {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  color: var(--color-muted);
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  padding: var(--space-xs) var(--space-md);
+  cursor: pointer;
+  transition: color var(--transition-base), border-color var(--transition-base);
+  letter-spacing: 0.02em;
+}
+
+.contact-info-tabs button:hover {
+  color: var(--color-text);
+}
+
+.contact-info-tabs button.active {
+  color: var(--color-text);
+  border-bottom-color: var(--color-nvidia-green);
+}
+
+/* ── Panel 3-column grid ─────────────────────────────────────────────────── */
+
+.contact-panel-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0 var(--space-2xl);
+  align-items: start;
+  padding-top: var(--space-lg);
+}
+
+/* ── Section (large heading group like "NVIDIA Corporate", "North America") */
+
+.contact-section {
+  margin-bottom: var(--space-lg);
+}
+
+.contact-section-heading {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-xl);   /* 24px — matches screenshot heading size */
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--space-sm);
+  line-height: 1.2;
+}
+
+/* ── HQ section: address, map links, tel, email, extras ─────────────────── */
+
+.contact-address {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: 0 0 var(--space-xs);
+}
+
+.contact-map-link {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-nvidia-green-dark);
+  text-decoration: underline;
+  margin-bottom: 3px;
+}
+
+.contact-map-link:hover {
+  color: var(--color-nvidia-green);
+}
+
+.contact-hq-details {
+  margin-top: var(--space-sm);
+}
+
+.contact-tel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  margin: 0 0 3px;
+}
+
+.contact-email-link {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-nvidia-green-dark);
+  text-decoration: none;
+  margin-bottom: var(--space-xs);
+}
+
+.contact-email-link:hover {
+  text-decoration: underline;
+}
+
+.contact-extra {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: var(--space-xs) 0 0;
+}
+
+.contact-extra strong {
+  display: block;
+  font-weight: 700;
+}
+
+.contact-extra a {
+  color: var(--color-nvidia-green-dark);
+  text-decoration: underline;
+}
+
+.contact-extra a:hover {
+  color: var(--color-nvidia-green);
+}
+
+/* ── Region / state groups (country heading + city links) ────────────────── */
+
+.contact-group {
+  margin-bottom: var(--space-sm);
+}
+
+/* Country / state name — bold, black, small */
+.contact-group-name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 3px;
+  line-height: 1.4;
+}
+
+/* City links — medium-blue, one per line, no underline by default */
+.contact-city-link {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: #3875d7;               /* link blue — matches NVIDIA.com city links */
+  text-decoration: none;
+  line-height: 1.7;
+}
+
+.contact-city-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Speak Up Line footer note ───────────────────────────────────────────── */
+
+.contact-speak-up {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.contact-speak-up-link {
+  color: var(--color-nvidia-green-dark);
+  text-decoration: underline;
+}
+
+.contact-speak-up-link:hover {
+  color: var(--color-nvidia-green);
+}
+
+.ext-link-icon {
+  vertical-align: middle;
+  margin-left: 2px;
+  display: inline-block;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .contact-panel-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* On 2-col layout the 3rd column wraps below; give it a top margin */
+  .contact-panel-column:nth-child(3) {
+    margin-top: var(--space-lg);
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 var(--space-2xl);
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-panel-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-panel-column:nth-child(3) {
+    grid-column: auto;
+    display: block;
+  }
+
+  .contact-info-tabs ul {
+    gap: 0;
+  }
+
+  .contact-info-tabs button {
+    padding: var(--space-xs);
+    font-size: var(--font-size-sm);
+  }
+
+  .contact-section-heading {
+    font-size: var(--font-size-lg);
+  }
+}

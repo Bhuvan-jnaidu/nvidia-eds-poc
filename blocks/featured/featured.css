@@ -1,0 +1,77 @@
+/* "Featured blog" section. Content uses Kaizen Text/Button/Card/Grid; the rules
+   below are section glue (header row, hero 2-col, tag pills, image sizing). */
+
+.featured.block {
+  margin-inline: auto;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.featured .featured-head {
+  align-items: center;
+  display: flex;
+  gap: var(--space-lg, 24px);
+  justify-content: space-between;
+}
+
+.featured .featured-intro {
+  color: var(--color-text-secondary, #4a4f54);
+  margin: var(--space-sm, 12px) 0 0;
+  max-width: 60ch;
+}
+
+.featured .featured-hero {
+  align-items: center;
+  display: grid;
+  gap: var(--space-2xl, 40px);
+  grid-template-columns: 1fr 1fr;
+  margin-top: var(--space-xl, 32px);
+}
+
+@media (width <= 800px) {
+  .featured .featured-hero {
+    gap: var(--space-lg, 24px);
+    grid-template-columns: 1fr;
+  }
+}
+
+.featured .featured-hero-media img {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg, 10px);
+}
+
+.featured .featured-grid-wrap {
+  margin-top: var(--space-2xl, 48px);
+}
+
+/* Image fills its container / Kaizen Card media slot. */
+.featured .featured-img {
+  display: block;
+  height: auto;
+  object-fit: cover;
+  width: 100%;
+}
+
+.featured .featured-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs, 8px);
+  margin-bottom: var(--space-xs, 8px);
+}
+
+.featured .featured-tag {
+  background: var(--color-background, #eef0f2);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.featured .featured-date {
+  color: var(--color-text-secondary, #76797c);
+  margin: 0;
+}
+
+.featured .featured-card-link {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+}

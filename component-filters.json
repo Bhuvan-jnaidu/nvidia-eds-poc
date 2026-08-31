@@ -1,0 +1,56 @@
+[
+  {
+    "id": "accordion",
+    "components": [
+      "accordion-item"
+    ]
+  },
+  {
+    "id": "cards",
+    "components": [
+      "card"
+    ]
+  },
+  {
+    "id": "carousel",
+    "components": [
+      "carousel-slide"
+    ]
+  },
+  {
+    "id": "home-banner",
+    "components": [
+      "home-banner-slide"
+    ]
+  },
+  {
+    "id": "kcards",
+    "components": [
+      "kcard"
+    ]
+  },
+  {
+    "id": "section",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title",
+      "hero",
+      "cards",
+      "columns",
+      "fragment",
+      "contact-info",
+      "ai-search",
+      "home-banner",
+      "accordion",
+      "input-shell",
+      "featured",
+      "quote",
+      "quote-kui",
+      "panel",
+      "kcards",
+      "kpanel"
+    ]
+  }
+]

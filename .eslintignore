@@ -1,0 +1,7 @@
+helix-importer-ui
+*.min.js
+node_modules/
+scripts/kui/
+component-*.json
+playwright-report/
+test-results/

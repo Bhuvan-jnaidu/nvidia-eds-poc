@@ -1,0 +1,78 @@
+{
+  "definitions": [
+    {
+      "title": "Button",
+      "id": "button",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Button",
+              "model": "button",
+              "text": "Learn More",
+              "href": "#"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "button",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "text",
+          "label": "Label"
+        },
+        {
+          "component": "aem-content",
+          "valueType": "string",
+          "name": "href",
+          "label": "Link"
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "kind",
+          "label": "Kind",
+          "value": "primary",
+          "options": [
+            { "name": "Primary", "value": "primary" },
+            { "name": "Secondary", "value": "secondary" },
+            { "name": "Tertiary", "value": "tertiary" }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "color",
+          "label": "Color",
+          "value": "brand",
+          "options": [
+            { "name": "Brand", "value": "brand" },
+            { "name": "Neutral", "value": "neutral" },
+            { "name": "Danger", "value": "danger" }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "size",
+          "label": "Size",
+          "value": "medium",
+          "options": [
+            { "name": "Tiny", "value": "tiny" },
+            { "name": "Small", "value": "small" },
+            { "name": "Medium", "value": "medium" },
+            { "name": "Large", "value": "large" }
+          ]
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

@@ -1,0 +1,40 @@
+/*
+ * Font declarations — loaded lazily after first paint (see scripts/scripts.js loadFonts).
+ * Only add fonts here; never import this file from styles.css.
+ */
+
+/* NVIDIA Sans Variable Font */
+@font-face {
+  font-family: 'NVIDIA Sans';
+  src: url('/fonts/NVIDIASansVF_NALA_W_Wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font Awesome — Solid */
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  src: url('/fonts/fa-solid-900.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font Awesome — Regular */
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  src: url('/fonts/fa-regular-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font Awesome — Sharp Light */
+@font-face {
+  font-family: 'Font Awesome 6 Sharp';
+  src: url('/fonts/fa-sharp-light-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
