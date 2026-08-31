@@ -156,46 +156,66 @@ function gridCard(a) {
   return h(Card, { kind: "float", slotHeader: mediaImg(a.image) }, articleBody(a, "title/md"));
 }
 
+const moreBtn = (more) =>
+  more && h(Button, { asChild: true, color: "brand", kind: "secondary" },
+    h("a", { href: more.href }, more.text));
+
+const cardsGrid = (items, dark) =>
+  items.length > 0 && h(
+    "div",
+    { className: dark ? "featured-grid-wrap nv-dark" : "featured-grid-wrap" },
+    h(
+      Grid,
+      { asChild: true, colMinWidth: 300, gap: "6" },
+      h("ul", { style: LIST_RESET },
+        items.map((item, i) => h("li", { key: i, style: { display: "grid" } }, gridCard(item)))),
+    ),
+  );
+
+// Default layout: heading/intro on top, first card as a hero, then the grid.
 function FeaturedView({ heading, hero, intro, items, more }) {
   return h(
     "div",
     { className: "featured-inner" },
-    h(
-      "div",
-      { className: "featured-head" },
+    h("div", { className: "featured-head" },
       heading && h(Text, { asChild: true, kind: "display/sm" }, h("h2", null, heading)),
-      more && h(
-        Button,
-        { asChild: true, color: "brand", kind: "secondary" },
-        h("a", { href: more.href }, more.text),
-      ),
-    ),
+      moreBtn(more)),
     intro && h(Text, { asChild: true, kind: "body/regular/lg" },
       h("p", { className: "featured-intro" }, intro)),
-    hero && h(
-      "div",
-      { className: "featured-hero" },
+    hero && h("div", { className: "featured-hero" },
       hero.image && h("div", { className: "featured-hero-media" }, mediaImg(hero.image)),
-      h("div", { className: "featured-hero-body" }, articleBody(hero, "title/xl")),
-    ),
-    items.length > 0 && h(
-      "div",
-      { className: "featured-grid-wrap" },
-      h(
-        Grid,
-        { asChild: true, colMinWidth: 300, gap: "6" },
-        h("ul", { style: LIST_RESET },
-          items.map((item, i) => h("li", { key: i, style: { display: "grid" } }, gridCard(item)))),
-      ),
-    ),
+      h("div", { className: "featured-hero-body" }, articleBody(hero, "title/xl"))),
+    cardsGrid(items, false),
+  );
+}
+
+// "nim-dark" variant: intro column (heading + intro + button) on the left, an
+// all-equal grid of dark cards on the right. No hero.
+function FeaturedNimView({ heading, intro, items, more }) {
+  return h(
+    "div",
+    { className: "featured-inner" },
+    h("div", { className: "featured-aside" },
+      heading && h(Text, { asChild: true, kind: "display/sm" }, h("h2", null, heading)),
+      intro && h(Text, { asChild: true, kind: "body/regular/lg" },
+        h("p", { className: "featured-intro" }, intro)),
+      moreBtn(more)),
+    cardsGrid(items, true),
   );
 }
 
 export default function decorate(block) {
   const data = readFeatured(block);
+  const nim = block.classList.contains("nim-dark")
+    || !!block.closest(".section")?.classList.contains("nim-dark");
+  if (nim) {
+    // no hero — every card is an equal grid item
+    data.items = [data.hero, ...data.items].filter(Boolean);
+    data.hero = null;
+  }
 
   block.classList.add("nv-theme-kui11");
   flushSync(() => {
-    createRoot(block).render(h(FeaturedView, data));
+    createRoot(block).render(h(nim ? FeaturedNimView : FeaturedView, data));
   });
 }
