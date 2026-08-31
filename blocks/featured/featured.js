@@ -209,6 +209,9 @@ export default function decorate(block) {
   const nim = block.classList.contains("nim-dark")
     || !!block.closest(".section")?.classList.contains("nim-dark");
   if (nim) {
+    // ensure the class is on the block itself so .featured.nim-dark CSS matches
+    // (the variant may have been detected via the section's Style metadata)
+    block.classList.add("nim-dark");
     // no hero — every card is an equal grid item
     data.items = [data.hero, ...data.items].filter(Boolean);
     data.hero = null;
