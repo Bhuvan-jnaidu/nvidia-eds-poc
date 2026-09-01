@@ -35,6 +35,8 @@ function readKeyValues(scope) {
   });
   const img = scope.querySelector("img");
   if (img) cfg._img = { alt: img.alt || "", src: img.currentSrc || img.src };
+  const link = scope.querySelector("a[href]");
+  if (link) cfg._link = { text: link.textContent.replace(/\([^)]*\)/, "").trim(), href: link.href };
   return cfg;
 }
 
@@ -140,8 +142,13 @@ function NimCardsView({ heading, intro, cta, cards }) {
 
 export default function decorate(block) {
   const rows = [...block.children].map(readKeyValues);
-  const cfg = Object.assign({}, ...rows.filter((r) => r.heading || r.intro || r.cta));
+  const introRows = rows.filter((r) => r.heading || r.intro || r._link || r.cta);
+  const cfg = Object.assign({}, ...introRows);
+  // Prefer an authored link (the EDS way) as the CTA button; fall back to a
+  // "cta: text | href" line if present.
   const ctaParts = parts(cfg.cta);
+  const cta = cfg._link
+    || (ctaParts.length ? { text: ctaParts[0], href: ctaParts[1] || "#" } : null);
   const cards = rows.filter((r) => CARD_KEYS.some((k) => k in r) && (r.title || r.badges || r.tags))
     .map(readCard);
 
@@ -151,7 +158,7 @@ export default function decorate(block) {
     createRoot(block).render(h(NimCardsView, {
       heading: cfg.heading,
       intro: cfg.intro,
-      cta: ctaParts.length ? { text: ctaParts[0], href: ctaParts[1] || "#" } : null,
+      cta,
       cards,
     }));
   });
