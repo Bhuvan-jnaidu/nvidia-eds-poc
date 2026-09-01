@@ -60,30 +60,33 @@ const clockIcon = () =>
     h("circle", { cx: 12, cy: 12, r: 9 }),
     h("path", { d: "M12 7v5l3 2" }));
 
-// Bottom tag row: keep all tags in the DOM (stable to measure), then hide the
-// ones that spill onto a second line and show a "+N" overflow badge instead.
+const tagPill = (t, i) =>
+  h("span", { className: "nim-tag", key: i },
+    h(Badge, { color: t.color, kind: t.kind }, t.label));
+
+// Bottom tag row collapsed to one line + "+N". A hidden measuring row (always
+// ALL tags) is measured to decide how many fit; because that row never changes
+// when the visible count changes, there's no resize/measure feedback loop.
 function TagRow({ tags }) {
-  const ref = useRef(null);
+  const measureRef = useRef(null);
   const [visible, setVisible] = useState(tags.length);
 
   useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const measure = () => {
-      const spans = [...el.querySelectorAll(".nim-tag[data-tag]")];
+    const el = measureRef.current;
+    if (!el) return undefined;
+    const compute = () => {
+      const spans = [...el.children];
       if (!spans.length) return;
-      spans.forEach((s) => { s.style.display = ""; }); // show all to measure
       const top = spans[0].offsetTop;
       let fit = spans.length;
       for (let i = 1; i < spans.length; i += 1) {
         if (spans[i].offsetTop > top + 2) { fit = i; break; }
       }
-      // reserve room for the "+N" pill when something is hidden
-      if (fit < spans.length && fit > 1) fit -= 1;
+      if (fit < spans.length && fit > 1) fit -= 1; // leave room for the "+N" pill
       setVisible(fit);
     };
-    measure();
-    const ro = new ResizeObserver(measure);
+    compute();
+    const ro = new ResizeObserver(compute);
     ro.observe(el);
     return () => ro.disconnect();
   }, [tags]);
@@ -91,12 +94,11 @@ function TagRow({ tags }) {
   const hidden = tags.length - visible;
   return h(
     "div",
-    { className: "nim-card-tags", ref },
-    tags.map((t, i) =>
-      h("span", {
-        className: `nim-tag${i >= visible ? " nim-tag-hidden" : ""}`,
-        "data-tag": "1", key: i,
-      }, h(Badge, { color: t.color, kind: t.kind }, t.label))),
+    { className: "nim-card-tags" },
+    // hidden, always-all-tags measuring row (out of flow, same width as the row)
+    h("div", { className: "nim-tags-measure", ref: measureRef, "aria-hidden": "true" },
+      tags.map(tagPill)),
+    tags.slice(0, visible).map(tagPill),
     hidden > 0 && h("span", { className: "nim-tag nim-tag-more", key: "more" },
       h(Badge, { color: "gray", kind: "solid" }, `+${hidden}`)),
   );

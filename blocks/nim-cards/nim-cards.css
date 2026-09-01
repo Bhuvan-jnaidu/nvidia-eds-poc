@@ -97,13 +97,27 @@
 
 /* ── Tag row (JS collapses to one line + "+N") ─────────────────────── */
 .nim-cards .nim-card-tags {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
+/* All-tags measuring row: out of flow, invisible, same width as the real row. */
+.nim-cards .nim-tags-measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
 .nim-cards .nim-tag { display: inline-flex; }
-.nim-cards .nim-tag-hidden { display: none; }
 
 /* KUI Badge only ships a solid kind, so force a visible outline pill look on the
    dark card for the category tags. */
