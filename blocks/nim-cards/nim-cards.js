@@ -165,8 +165,11 @@ export default function decorate(block) {
     return { text: p[0], href, kind };
   };
   const cta = parseBtn(cfg.button || cfg.cta) || cfg._link;
-  const cards = rows.filter((r) => CARD_KEYS.some((k) => k in r) && (r.title || r.badges || r.tags))
+  const allCards = rows.filter((r) => CARD_KEYS.some((k) => k in r) && (r.title || r.badges || r.tags))
     .map(readCard);
+  // Optional "limit: N" line in the intro row caps how many cards show.
+  const limit = Number.parseInt(cfg.limit, 10);
+  const cards = Number.isFinite(limit) && limit > 0 ? allCards.slice(0, limit) : allCards;
 
   block.classList.add("nv-theme-kui11");
   block.textContent = "";

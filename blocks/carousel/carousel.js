@@ -28,6 +28,10 @@ const OPTION_KEYS = {
   itemwidth: "itemWidth",
   "items-per-view": "itemsPerView",
   itemsperview: "itemsPerView",
+  limit: "limit",
+  max: "limit",
+  "max-items": "limit",
+  maxitems: "limit",
   loop: "loop",
   type: "type",
 };
@@ -82,6 +86,7 @@ function optionFromRow(row) {
 
 function readOptions(options) {
   const itemsPerView = Number.parseInt(options.itemsPerView, 10);
+  const limit = Number.parseInt(options.limit, 10);
   const authoredType = keyName(options.type || "home-banner");
   const type = authoredType === "default" ? "home-banner" : authoredType;
 
@@ -90,10 +95,14 @@ function readOptions(options) {
     controls: keyName(options.controls || "footer"),
     itemWidth: options.itemWidth || undefined,
     itemsPerView: Number.isFinite(itemsPerView) ? itemsPerView : undefined,
+    limit: Number.isFinite(limit) && limit > 0 ? limit : undefined,
     loop: TRUE_VALUES.has((options.loop || "").toLowerCase()),
     type: CAROUSEL_TYPES.has(type) ? type : "home-banner",
   };
 }
+
+// Cap a list to an authored "Limit: N" (undefined = show all).
+const applyLimit = (items, limit) => (limit ? items.slice(0, limit) : items);
 
 function rowHtml(row) {
   if (row.children.length === 1) return row.firstElementChild.innerHTML;
@@ -124,7 +133,10 @@ export function readCarousel(block) {
     return readShowcase(parsedOptions, rows);
   }
 
-  return { options: parsedOptions, slides: rows.map(rowHtml) };
+  return {
+    options: parsedOptions,
+    slides: applyLimit(rows.map(rowHtml), parsedOptions.limit),
+  };
 }
 
 // ── Showcase variant ──────────────────────────────────────────────────
@@ -189,7 +201,7 @@ function readShowcase(options, rows) {
   return {
     header: readShowcaseHeader(headerRow),
     options,
-    slides: readShowcaseSlides(slideRows),
+    slides: applyLimit(readShowcaseSlides(slideRows), options.limit),
   };
 }
 
