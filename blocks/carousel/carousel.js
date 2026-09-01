@@ -1,6 +1,7 @@
 import {
   Button,
   Carousel,
+  CarouselControls,
   ChevronLeft,
   ChevronRight,
   Flex,
@@ -634,7 +635,7 @@ function ShowcaseTile({ slide }) {
       && h(
         "div",
         { className: "carousel-showcase-caption" },
-        h(Text, { asChild: true, kind: "display/xs" },
+        h(Text, { asChild: true, kind: "title/lg" },
           h("h3", { className: "carousel-showcase-title" }, slide.title)),
       ),
   );
@@ -672,13 +673,15 @@ function ShowcaseCarousel({ header, options, slides }) {
     renderCarousel(
       {
         "aria-label": options.ariaLabel,
-        itemWidth: options.itemWidth || "min(760px, 68%)",
-        itemsPerView: options.itemsPerView,
+        itemWidth: options.itemWidth,
+        itemsPerView: options.itemsPerView || 3,
         loop: options.loop,
         slotHeader,
+        // Arrows + green indicator dots, homepage-style (KUI reads scroll state).
         slotFooter: options.controls === "none"
           ? undefined
-          : h(Flex, { justify: "center" }, h(CarouselButtons)),
+          : h(CarouselControls, { buttonKind: "secondary", indicator: "visual" }),
+        style: { "--nv-carousel-item-gap": "24px" },
       },
       slides.map((slide, index) =>
         h(ShowcaseTile, { key: index, slide })),

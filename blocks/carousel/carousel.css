@@ -276,7 +276,20 @@
     font-weight: 700;
 }
 
-/* Center the active tile so the side tiles peek symmetrically */
-.carousel-showcase .nv-carousel-item {
-    scroll-snap-align: center;
+/* Title overlay a touch smaller for 3-up tiles */
+.carousel-showcase .carousel-showcase-caption {
+    padding: 18px 20px 20px;
+}
+
+/* Controls: arrows flanking green indicator dots, below the track */
+.carousel-showcase .nv-carousel-footer {
+    margin-top: 20px;
+}
+
+.carousel-showcase .nv-carousel-indicator-bar {
+    background: #c9c9c9;
+}
+
+.carousel-showcase .nv-carousel-indicator-bar--active {
+    background: var(--color-nvidia-green, #76b900);
 }
