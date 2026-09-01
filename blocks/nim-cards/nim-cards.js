@@ -133,7 +133,7 @@ function NimCardsView({ heading, intro, cta, cards }) {
       heading && h(Text, { asChild: true, kind: "display/sm" }, h("h2", null, heading)),
       intro && h(Text, { asChild: true, kind: "body/regular/lg" },
         h("p", { className: "nim-intro" }, intro)),
-      cta && h(Button, { asChild: true, color: "brand", kind: "secondary" },
+      cta && h(Button, { asChild: true, color: "brand", kind: cta.kind || "secondary" },
         h("a", { href: cta.href }, cta.text))),
     cards.length > 0 && h("div", { className: "nim-grid" },
       cards.map((c, i) => h(NimCard, { ...c, key: i }))),
@@ -144,11 +144,18 @@ export default function decorate(block) {
   const rows = [...block.children].map(readKeyValues);
   const introRows = rows.filter((r) => r.heading || r.intro || r._link || r.cta);
   const cfg = Object.assign({}, ...introRows);
-  // Prefer an authored link (the EDS way) as the CTA button; fall back to a
-  // "cta: text | href" line if present.
-  const ctaParts = parts(cfg.cta);
-  const cta = cfg._link
-    || (ctaParts.length ? { text: ctaParts[0], href: ctaParts[1] || "#" } : null);
+  // CTA button — authored as a "button: Label | href | kind" line
+  // (kind = primary | secondary | tertiary; default secondary). Falls back to an
+  // authored link if no button line is present.
+  const BTN_KINDS = ["primary", "secondary", "tertiary"];
+  const parseBtn = (v) => {
+    const p = parts(v);
+    if (!p.length) return null;
+    const kind = p.slice(1).map((s) => s.toLowerCase()).find((x) => BTN_KINDS.includes(x)) || "secondary";
+    const href = p.find((x) => x.startsWith("/") || x.startsWith("http") || x.startsWith("#")) || "#";
+    return { text: p[0], href, kind };
+  };
+  const cta = parseBtn(cfg.button || cfg.cta) || cfg._link;
   const cards = rows.filter((r) => CARD_KEYS.some((k) => k in r) && (r.title || r.badges || r.tags))
     .map(readCard);
 
