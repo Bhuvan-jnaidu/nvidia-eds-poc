@@ -41,6 +41,7 @@
 .nim-cards .nim-card .nv-card-content {
   display: flex;
   flex-direction: column;
+  align-items: stretch;   /* children span the card, not shrink to content */
   gap: 14px;
   padding: 20px 22px;
 }
@@ -48,8 +49,9 @@
 .nim-cards .nim-card-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;   /* badges left, time pinned right */
   gap: 12px;
+  width: 100%;
 }
 
 .nim-cards .nim-card-badges {
@@ -121,6 +123,16 @@
 }
 
 .nim-cards .nim-tag { display: inline-flex; }
+
+/* "+N" is a real button that expands / collapses the hidden tags */
+.nim-cards button.nim-tag-more {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+}
 
 /* KUI Badge only ships a solid kind, so force a visible outline pill look on the
    dark card for the category tags. */

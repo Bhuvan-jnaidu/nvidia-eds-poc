@@ -70,6 +70,7 @@ const tagPill = (t, i) =>
 function TagRow({ tags }) {
   const measureRef = useRef(null);
   const [visible, setVisible] = useState(tags.length);
+  const [expanded, setExpanded] = useState(false);
 
   useLayoutEffect(() => {
     const el = measureRef.current;
@@ -92,15 +93,21 @@ function TagRow({ tags }) {
   }, [tags]);
 
   const hidden = tags.length - visible;
+  const shown = expanded ? tags : tags.slice(0, visible);
   return h(
     "div",
-    { className: "nim-card-tags" },
+    { className: `nim-card-tags${expanded ? " is-expanded" : ""}` },
     // hidden, always-all-tags measuring row (out of flow, same width as the row)
     h("div", { className: "nim-tags-measure", ref: measureRef, "aria-hidden": "true" },
       tags.map(tagPill)),
-    tags.slice(0, visible).map(tagPill),
-    hidden > 0 && h("span", { className: "nim-tag nim-tag-more", key: "more" },
-      h(Badge, { color: "gray", kind: "solid" }, `+${hidden}`)),
+    shown.map(tagPill),
+    hidden > 0 && h(
+      "button",
+      { className: "nim-tag nim-tag-more", key: "more", type: "button",
+        "aria-expanded": expanded,
+        onClick: () => setExpanded((v) => !v) },
+      h(Badge, { color: "gray", kind: "solid" }, expanded ? "−" : `+${hidden}`),
+    ),
   );
 }
 
