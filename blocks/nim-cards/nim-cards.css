@@ -103,20 +103,26 @@
 }
 
 .nim-cards .nim-tag { display: inline-flex; }
+.nim-cards .nim-tag-hidden { display: none; }
 
-/* Outline pills readable on the dark card */
-.nim-cards .nim-card-tags .nv-badge--kind-outline {
+/* KUI Badge only ships a solid kind, so force a visible outline pill look on the
+   dark card for the category tags. */
+.nim-cards .nim-card-tags .nv-badge {
   background: transparent;
-  border-color: #3a3a3a;
-  color: #e5e5e5;
+  border: 1px solid #4a4a4a;
+  color: #e8e8e8;
 }
 
-.nim-cards .nim-card-tags .nv-badge--kind-outline.nv-badge--color-green {
+/* "Model" tag = green outline */
+.nim-cards .nim-card-tags .nv-badge--color-green {
+  background: transparent;
   border-color: #5dcaa5;
-  color: #5dcaa5;
+  color: #7fe0bd;
 }
 
+/* "+N" overflow = solid gray */
 .nim-cards .nim-tag-more .nv-badge {
-  background: #2a2a2a;
-  color: #cfcfcf;
+  background: #2f2f2f;
+  border-color: #2f2f2f;
+  color: #d5d5d5;
 }

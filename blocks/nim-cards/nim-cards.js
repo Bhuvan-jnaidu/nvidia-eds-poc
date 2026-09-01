@@ -58,32 +58,43 @@ const clockIcon = () =>
     h("circle", { cx: 12, cy: 12, r: 9 }),
     h("path", { d: "M12 7v5l3 2" }));
 
-// Bottom tag row that collapses to a single line + "+N" overflow badge.
+// Bottom tag row: keep all tags in the DOM (stable to measure), then hide the
+// ones that spill onto a second line and show a "+N" overflow badge instead.
 function TagRow({ tags }) {
   const ref = useRef(null);
-  const [count, setCount] = useState(tags.length);
+  const [visible, setVisible] = useState(tags.length);
 
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const pills = [...el.querySelectorAll("[data-tag]")];
-    if (!pills.length) return;
-    const top = pills[0].offsetTop;
-    let fit = pills.length;
-    for (let i = 1; i < pills.length; i += 1) {
-      if (pills[i].offsetTop > top + 2) { fit = i; break; }
-    }
-    if (fit !== count) setCount(fit);
-  });
+    const measure = () => {
+      const spans = [...el.querySelectorAll(".nim-tag[data-tag]")];
+      if (!spans.length) return;
+      spans.forEach((s) => { s.style.display = ""; }); // show all to measure
+      const top = spans[0].offsetTop;
+      let fit = spans.length;
+      for (let i = 1; i < spans.length; i += 1) {
+        if (spans[i].offsetTop > top + 2) { fit = i; break; }
+      }
+      // reserve room for the "+N" pill when something is hidden
+      if (fit < spans.length && fit > 1) fit -= 1;
+      setVisible(fit);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [tags]);
 
-  const shown = tags.slice(0, count);
-  const hidden = tags.length - count;
+  const hidden = tags.length - visible;
   return h(
     "div",
     { className: "nim-card-tags", ref },
-    shown.map((t, i) =>
-      h("span", { className: "nim-tag", "data-tag": "1", key: i },
-        h(Badge, { color: t.color, kind: t.kind }, t.label))),
+    tags.map((t, i) =>
+      h("span", {
+        className: `nim-tag${i >= visible ? " nim-tag-hidden" : ""}`,
+        "data-tag": "1", key: i,
+      }, h(Badge, { color: t.color, kind: t.kind }, t.label))),
     hidden > 0 && h("span", { className: "nim-tag nim-tag-more", key: "more" },
       h(Badge, { color: "gray", kind: "solid" }, `+${hidden}`)),
   );
