@@ -1,0 +1,122 @@
+/* NIM APIs section — intro column left, dark card grid right. */
+.nim-cards .nim-inner {
+  display: grid;
+  grid-template-columns: minmax(240px, 360px) 1fr;
+  column-gap: 64px;
+  align-items: start;
+}
+
+.nim-cards .nim-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.nim-cards .nim-intro {
+  margin: 0;
+  max-width: 32ch;
+  color: var(--color-text-secondary, #5f6368);
+}
+
+.nim-cards .nim-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 1099px) {
+  .nim-cards .nim-inner { grid-template-columns: 1fr; row-gap: 32px; }
+  .nim-cards .nim-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Dark card ─────────────────────────────────────────────────────── */
+.nim-cards .nim-card.nv-card-root {
+  background: #0b0b0b;
+  border: 1px solid #262626;
+  border-radius: 16px;
+  color: #fff;
+}
+
+.nim-cards .nim-card .nv-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 22px;
+}
+
+.nim-cards .nim-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nim-cards .nim-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nim-cards .nim-card-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #9aa0a6;
+  white-space: nowrap;
+}
+
+.nim-cards .nim-clock { flex-shrink: 0; }
+
+.nim-cards .nim-card-divider {
+  border: 0;
+  border-top: 1px solid #2a2a2a;
+  margin: 2px 0;
+}
+
+.nim-cards .nim-card-provider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d0d0d0;
+}
+
+.nim-cards .nim-card-logo { height: 18px; width: auto; }
+
+.nim-cards .nim-card-title {
+  margin: 0;
+  color: #fff;
+  font-weight: 700;
+}
+
+.nim-cards .nim-card-desc {
+  margin: 0;
+  color: #b8bcc2;
+}
+
+/* ── Tag row (JS collapses to one line + "+N") ─────────────────────── */
+.nim-cards .nim-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nim-cards .nim-tag { display: inline-flex; }
+
+/* Outline pills readable on the dark card */
+.nim-cards .nim-card-tags .nv-badge--kind-outline {
+  background: transparent;
+  border-color: #3a3a3a;
+  color: #e5e5e5;
+}
+
+.nim-cards .nim-card-tags .nv-badge--kind-outline.nv-badge--color-green {
+  border-color: #5dcaa5;
+  color: #5dcaa5;
+}
+
+.nim-cards .nim-tag-more .nv-badge {
+  background: #2a2a2a;
+  color: #cfcfcf;
+}
