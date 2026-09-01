@@ -186,3 +186,97 @@
         scroll-snap-align: start;
     }
 }
+
+/* ── Showcase variant (generic poster-tile slider) ──────────────────────
+   All rules are scoped under .carousel-showcase, so home-banner and
+   success-stories carousels are never affected. */
+.carousel-showcase {
+    --carousel-showcase-radius: 20px;
+}
+
+.carousel-showcase .carousel-showcase-header {
+    margin-bottom: 8px;
+}
+
+.carousel-showcase .carousel-showcase-heading {
+    max-width: 62ch;
+}
+
+/* Edge fade: the scrolling track dissolves into the page background at both
+   ends, so the peeking side tiles wash out toward the frame. */
+.carousel-showcase .nv-carousel-items {
+    -webkit-mask-image: linear-gradient(
+        90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+    mask-image: linear-gradient(
+        90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+}
+
+/* Tile */
+.carousel-showcase .carousel-showcase-slide {
+    position: relative;
+    width: 100%;
+}
+
+.carousel-showcase .carousel-showcase-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.carousel-showcase .carousel-showcase-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--carousel-showcase-radius);
+    overflow: hidden;
+    background: #000;
+}
+
+.carousel-showcase .carousel-showcase-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Duration / date pill, top-left */
+.carousel-showcase .carousel-showcase-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: rgb(0 0 0 / 55%);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.01em;
+}
+
+.carousel-showcase .carousel-showcase-clock {
+    flex-shrink: 0;
+}
+
+/* Title overlay, bottom, over a bottom-up scrim */
+.carousel-showcase .carousel-showcase-caption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 24px 28px 26px;
+    background: linear-gradient(
+        0deg, rgb(0 0 0 / 78%) 0%, rgb(0 0 0 / 40%) 55%, transparent 100%);
+}
+
+.carousel-showcase .carousel-showcase-title {
+    margin: 0;
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Center the active tile so the side tiles peek symmetrically */
+.carousel-showcase .nv-carousel-item {
+    scroll-snap-align: center;
+}

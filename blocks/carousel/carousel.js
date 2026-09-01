@@ -32,7 +32,7 @@ const OPTION_KEYS = {
   type: "type",
 };
 const TRUE_VALUES = new Set(["1", "true", "yes", "loop"]);
-const CAROUSEL_TYPES = new Set(["home-banner", "success-stories"]);
+const CAROUSEL_TYPES = new Set(["home-banner", "success-stories", "showcase"]);
 const HEADING_SELECTOR = "h1, h2, h3, h4, h5, h6";
 const AUTO_ROTATE_MS = 6000;
 
@@ -120,8 +120,81 @@ export function readCarousel(block) {
   if (parsedOptions.type === "success-stories") {
     return readSuccessStories(parsedOptions, rows);
   }
+  if (parsedOptions.type === "showcase") {
+    return readShowcase(parsedOptions, rows);
+  }
 
   return { options: parsedOptions, slides: rows.map(rowHtml) };
+}
+
+// ── Showcase variant ──────────────────────────────────────────────────
+// Generic "poster tile" slider: each tile = image + an overlay badge
+// (duration / date / category) + an overlaid title. Reusable for videos,
+// events, sessions, articles — anything visual. All styling is scoped to
+// `.carousel-showcase`, so the other carousel types are never affected.
+
+const clockIcon = () =>
+  h(
+    "svg",
+    {
+      className: "carousel-showcase-clock", width: 13, height: 13,
+      viewBox: "0 0 24 24", fill: "none", stroke: "currentColor",
+      strokeWidth: 2, "aria-hidden": "true",
+    },
+    h("circle", { cx: 12, cy: 12, r: 9 }),
+    h("path", { d: "M12 7v5l3 2" }),
+  );
+
+function isShowcaseHeaderRow(row) {
+  if (!row || row.querySelector("img")) return false;
+  const meta = readMeta(row);
+  return Boolean(
+    row.querySelector(HEADING_SELECTOR)
+      || meta.title || meta.heading || meta.intro || meta.description
+      || meta.cta || meta.button,
+  );
+}
+
+function readShowcaseHeader(row) {
+  const meta = row ? readMeta(row) : {};
+  const link = row?.querySelector("a[href]");
+  const body = row && readPlainParagraphs(row);
+  const ctaDefaults = { color: "brand", kind: "secondary", size: "large" };
+  return {
+    cta: link
+      ? readButtonLink(link, ctaDefaults)
+      : readButtonMeta(meta.button || meta.cta, ctaDefaults),
+    intro: meta.intro || meta.description || text(body?.[0]),
+    title: meta.title || meta.heading
+      || text(row?.querySelector(HEADING_SELECTOR)) || "",
+  };
+}
+
+function readShowcaseSlide(row) {
+  const meta = readMeta(row);
+  const link = row.querySelector("a[href]");
+  const title = meta.title
+    || text(row.querySelector("h1, h2, h3, h4, h5")) || text(link);
+  return {
+    image: readImage(row) || readImageMeta(meta.image),
+    badge: meta.duration || meta.badge || meta.time || meta.date || meta.length,
+    title,
+    href: meta.link || link?.getAttribute("href"),
+  };
+}
+
+function readShowcase(options, rows) {
+  const headerRow = isShowcaseHeaderRow(rows[0]) ? rows[0] : null;
+  const slideRows = headerRow ? rows.slice(1) : rows;
+  return {
+    header: readShowcaseHeader(headerRow),
+    options,
+    slides: readShowcaseSlides(slideRows),
+  };
+}
+
+function readShowcaseSlides(slideRows) {
+  return slideRows.map(readShowcaseSlide).filter((s) => s.image || s.title);
 }
 
 export function renderCarousel(props, children) {
@@ -527,11 +600,89 @@ function SuccessStoriesCarousel({ header, options, slides }) {
   );
 }
 
+function ShowcaseTile({ slide }) {
+  const media = h(
+    "div",
+    { className: "carousel-showcase-media" },
+    slide.image
+      && h("img", {
+        alt: slide.image.alt,
+        className: "carousel-showcase-image",
+        loading: "lazy",
+        src: slide.image.src,
+      }),
+    slide.badge
+      && h(
+        "span",
+        { className: "carousel-showcase-badge" },
+        clockIcon(),
+        slide.badge,
+      ),
+    slide.title
+      && h(
+        "div",
+        { className: "carousel-showcase-caption" },
+        h(Text, { asChild: true, kind: "display/xs" },
+          h("h3", { className: "carousel-showcase-title" }, slide.title)),
+      ),
+  );
+
+  return h(
+    "article",
+    { className: "carousel-showcase-slide" },
+    slide.href
+      ? h("a", { className: "carousel-showcase-link", href: slide.href }, media)
+      : media,
+  );
+}
+
+function ShowcaseCarousel({ header, options, slides }) {
+  const slotHeader = (header.title || header.intro || header.cta) && h(
+    Flex,
+    {
+      align: "start", className: "carousel-showcase-header",
+      gap: "6", justify: "between", wrap: "wrap",
+    },
+    h(
+      Flex,
+      { direction: "col", gap: "4", className: "carousel-showcase-heading" },
+      header.title && h(Text, { asChild: true, kind: "display/sm" },
+        h("h2", null, header.title)),
+      header.intro && h(Text, { asChild: true, kind: "body/regular/lg" },
+        h("p", null, header.intro)),
+    ),
+    header.cta && renderButton(header.cta),
+  );
+
+  return h(
+    "div",
+    { className: "carousel-showcase" },
+    renderCarousel(
+      {
+        "aria-label": options.ariaLabel,
+        itemWidth: options.itemWidth || "min(760px, 68%)",
+        itemsPerView: options.itemsPerView,
+        loop: options.loop,
+        slotHeader,
+        slotFooter: options.controls === "none"
+          ? undefined
+          : h(Flex, { justify: "center" }, h(CarouselButtons)),
+      },
+      slides.map((slide, index) =>
+        h(ShowcaseTile, { key: index, slide })),
+    ),
+  );
+}
+
 function CarouselBlock({ header, options, slides }) {
   if (!slides.length) return null;
 
   if (options.type === "success-stories") {
     return h(SuccessStoriesCarousel, { header, options, slides });
+  }
+
+  if (options.type === "showcase") {
+    return h(ShowcaseCarousel, { header, options, slides });
   }
 
   const slotFooter =
