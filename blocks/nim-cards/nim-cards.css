@@ -101,6 +101,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  width: 100%;          /* full card width so the measuring row measures the real space */
+  align-self: stretch;
+  min-width: 0;
 }
 
 /* All-tags measuring row: out of flow, invisible, same width as the real row. */
