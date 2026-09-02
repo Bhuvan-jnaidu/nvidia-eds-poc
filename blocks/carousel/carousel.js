@@ -690,8 +690,30 @@ function ShowcaseControls() {
   const c = useCarouselContext();
   const count = c.itemCount || 0;
   const active = c.firstVisibleIndex || 0;
-  const arrow = (dir, Icon, disabled, onClick) =>
+  const prevRef = React.useRef(null);
+
+  // Vertically center the side arrows on the card IMAGE (robust to header
+  // height / intro wrapping) by measuring the media and setting a CSS var.
+  React.useLayoutEffect(() => {
+    const btn = prevRef.current;
+    const scope = btn && btn.closest(".carousel-showcase");
+    const media = scope && scope.querySelector(".carousel-showcase-media");
+    if (!scope || !media) return undefined;
+    const place = () => {
+      const top = media.getBoundingClientRect().top
+        - scope.getBoundingClientRect().top + media.offsetHeight / 2;
+      scope.style.setProperty("--showcase-arrow-top", `${Math.round(top)}px`);
+    };
+    place();
+    const ro = new ResizeObserver(place);
+    ro.observe(media);
+    window.addEventListener("resize", place);
+    return () => { ro.disconnect(); window.removeEventListener("resize", place); };
+  }, []);
+
+  const arrow = (dir, Icon, disabled, onClick, ref) =>
     h("button", {
+      ref,
       className: `carousel-showcase-arrow carousel-showcase-arrow--${dir}`,
       type: "button",
       "aria-label": dir === "prev" ? "Previous" : "Next",
@@ -712,7 +734,7 @@ function ShowcaseControls() {
   return h(
     React.Fragment,
     null,
-    arrow("prev", ChevronLeft, !c.canScrollPrevious, () => c.scrollPrevious()),
+    arrow("prev", ChevronLeft, !c.canScrollPrevious, () => c.scrollPrevious(), prevRef),
     arrow("next", ChevronRight, !c.canScrollNext, () => c.scrollNext()),
     dots,
   );
@@ -753,7 +775,9 @@ function ShowcaseCarousel({ header, options, slides }) {
         // doesn't stretch it to 100%); grid = 3-up row
         itemWidth: options.itemWidth || (hero ? "68%" : undefined),
         itemsPerView: options.itemsPerView || (hero ? undefined : 3),
-        loop: options.loop,
+        // No looping: so arrows disable at the ends and "prev" on the first
+        // card doesn't wrap around to the last.
+        loop: false,
         slotHeader,
         slotFooter,
         style: { "--nv-carousel-item-gap": "24px" },

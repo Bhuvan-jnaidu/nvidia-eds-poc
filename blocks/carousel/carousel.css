@@ -372,7 +372,7 @@
 /* Big circular green side arrows, vertically centered on the card image */
 .carousel-showcase .carousel-showcase-arrow {
     position: absolute;
-    top: 40%;
+    top: var(--showcase-arrow-top, 40%);
     transform: translateY(-50%);
     z-index: 5;
     width: 52px;
@@ -394,8 +394,14 @@
 }
 
 .carousel-showcase .carousel-showcase-arrow[aria-disabled="true"] {
-    opacity: 0.4;
+    opacity: 0.35;
     cursor: default;
+    pointer-events: none;
+}
+
+.carousel-showcase .carousel-showcase-arrow[aria-disabled="true"]:hover {
+    background: #fff;
+    box-shadow: none;
 }
 
 .carousel-showcase .carousel-showcase-arrow--prev { left: 8px; }
