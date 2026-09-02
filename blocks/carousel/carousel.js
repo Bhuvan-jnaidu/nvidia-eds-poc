@@ -97,7 +97,7 @@ function readOptions(options) {
     controls: keyName(options.controls || "footer"),
     itemWidth: options.itemWidth || undefined,
     itemsPerView: Number.isFinite(itemsPerView) ? itemsPerView : undefined,
-    layout: keyName(options.layout) === "grid" ? "grid" : "hero",
+    layout: keyName(options.layout || "") === "grid" ? "grid" : "hero",
     limit: Number.isFinite(limit) && limit > 0 ? limit : undefined,
     loop: TRUE_VALUES.has((options.loop || "").toLowerCase()),
     type: CAROUSEL_TYPES.has(type) ? type : "home-banner",
