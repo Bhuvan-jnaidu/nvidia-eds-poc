@@ -224,15 +224,10 @@
 .carousel-showcase--hero .nv-carousel-item {
     scroll-snap-align: center;
 }
-
-/* Leading/trailing room so the FIRST/last card can snap to true center
-   (a card in the middle of the track has neighbours to peek; the ends need
-   this spacer). These are ignored by KUI's scroll math (not .nv-carousel-item). */
-.carousel-showcase--hero .nv-carousel-items::before,
-.carousel-showcase--hero .nv-carousel-items::after {
-    content: "";
-    flex: 0 0 16%;
-}
+/* NB: no leading/trailing spacers — they add scroll width so KUI's edge
+   detection (scrollLeft > 0) would never report the true start/end, breaking
+   arrow-disable and making "prev" on the first card scroll into empty space.
+   Middle cards still center via scroll-padding; first/last rest at the edges. */
 
 /* Card */
 .carousel-showcase .carousel-showcase-slide {
