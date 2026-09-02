@@ -333,10 +333,15 @@
     font-size: 14px;
 }
 
-/* Keep the hero card contained (never fills the whole viewport) */
-.carousel-showcase--hero .carousel-showcase-media {
-    max-width: 880px;
-    margin: 0 auto;
+/* Center the active hero card so the prev/next tiles peek symmetrically.
+   itemWidth is 66%, so pad the track by (100-66)/2 = 17% on each side. */
+.carousel-showcase--hero .nv-carousel-items {
+    padding-inline: 17%;
+    scroll-padding-inline: 17%;
+}
+
+.carousel-showcase--hero .nv-carousel-item {
+    scroll-snap-align: center;
 }
 
 /* Controls span the width: circular arrows pushed to the edges, dots centered */

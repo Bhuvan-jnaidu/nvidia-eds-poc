@@ -680,7 +680,7 @@ function ShowcaseCarousel({ header, options, slides }) {
         "aria-label": options.ariaLabel,
         // hero = one big centered card with side peeks (itemWidth only, so KUI
         // doesn't stretch it to 100%); grid = 3-up row
-        itemWidth: options.itemWidth || (hero ? "min(880px, 72%)" : undefined),
+        itemWidth: options.itemWidth || (hero ? "66%" : undefined),
         itemsPerView: options.itemsPerView || (hero ? undefined : 3),
         loop: options.loop,
         slotHeader,
