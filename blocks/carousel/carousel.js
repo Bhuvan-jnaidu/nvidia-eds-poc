@@ -29,6 +29,8 @@ const OPTION_KEYS = {
   itemwidth: "itemWidth",
   "items-per-view": "itemsPerView",
   itemsperview: "itemsPerView",
+  card: "cardStyle",
+  style: "cardStyle",
   layout: "layout",
   limit: "limit",
   max: "limit",
@@ -97,6 +99,7 @@ function readOptions(options) {
     controls: keyName(options.controls || "footer"),
     itemWidth: options.itemWidth || undefined,
     itemsPerView: Number.isFinite(itemsPerView) ? itemsPerView : undefined,
+    cardStyle: keyName(options.cardStyle || "") === "product" ? "product" : "video",
     layout: keyName(options.layout || "") === "grid" ? "grid" : "hero",
     limit: Number.isFinite(limit) && limit > 0 ? limit : undefined,
     loop: TRUE_VALUES.has((options.loop || "").toLowerCase()),
@@ -217,6 +220,8 @@ function readShowcaseSlide(row) {
     title,
     desc: meta.description || meta.desc,
     speaker: meta.speaker || meta.author || meta.presenter,
+    // product-card CTA button ("Button: Learn More | /url | primary")
+    cta: readButtonMeta(meta.button || meta.cta, { color: "brand", kind: "primary", size: "large" }),
     href: meta.link || link?.getAttribute("href"),
   };
 }
@@ -638,7 +643,38 @@ function SuccessStoriesCarousel({ header, options, slides }) {
   );
 }
 
-function ShowcaseTile({ slide }) {
+function ShowcaseProductTile({ slide }) {
+  // dark card: centered title + description + CTA button, product image bleeding
+  // off the bottom (NVIDIA "Featured Products" style)
+  const body = h(
+    "div",
+    { className: "carousel-showcase-product-body" },
+    slide.title && h(Text, { asChild: true, kind: "title/lg" },
+      h("h3", { className: "carousel-showcase-product-title" }, slide.title)),
+    slide.desc && h(Text, { asChild: true, kind: "body/regular/md" },
+      h("p", { className: "carousel-showcase-product-desc" }, slide.desc)),
+    slide.cta && h("div", { className: "carousel-showcase-product-cta" }, renderButton(slide.cta)),
+  );
+  const media = slide.image && h(
+    "div",
+    { className: "carousel-showcase-product-media" },
+    h("img", {
+      className: "carousel-showcase-product-img",
+      src: slide.image.src, alt: slide.image.alt, loading: "lazy",
+    }),
+  );
+  const card = h("div", { className: "carousel-showcase-card carousel-showcase-product" }, body, media);
+  return h(
+    "article",
+    { className: "carousel-showcase-slide" },
+    slide.href
+      ? h("a", { className: "carousel-showcase-link", href: slide.href }, card)
+      : card,
+  );
+}
+
+function ShowcaseTile({ slide, cardStyle }) {
+  if (cardStyle === "product") return h(ShowcaseProductTile, { slide });
   // media (top): image + duration badge overlaid top-left
   const media = h(
     "div",
@@ -696,7 +732,9 @@ function ShowcaseControls() {
   const els = () => {
     const scope = ref.current && ref.current.closest(".carousel-showcase");
     const track = scope && scope.querySelector(".nv-carousel-items");
-    const media = scope && scope.querySelector(".carousel-showcase-media");
+    // arrows center on the top image (video card) or the whole card (product)
+    const media = scope && (scope.querySelector(".carousel-showcase-media")
+      || scope.querySelector(".carousel-showcase-card"));
     const items = track ? [...track.querySelectorAll(".nv-carousel-item")] : [];
     return { scope, track, media, items };
   };
@@ -796,7 +834,12 @@ function ShowcaseCarousel({ header, options, slides }) {
     header.cta && renderButton(header.cta),
   );
 
-  const hero = options.layout === "hero";
+  // product = "Featured Products" style: 2-up scrolling portrait cards (never
+  // the 1-up hero). Otherwise hero (1 big + peeks) or grid (3-up).
+  const product = options.cardStyle === "product";
+  const hero = !product && options.layout === "hero";
+  const layoutClass = product ? "product" : options.layout;
+  const perView = options.itemsPerView || (product ? 2 : 3);
 
   // Footer: side arrows (positioned by CSS) + centered custom round dots.
   const slotFooter = options.controls === "none"
@@ -805,14 +848,13 @@ function ShowcaseCarousel({ header, options, slides }) {
 
   return h(
     "div",
-    { className: `carousel-showcase carousel-showcase--${options.layout}` },
+    { className: `carousel-showcase carousel-showcase--${layoutClass}` },
     renderCarousel(
       {
         "aria-label": options.ariaLabel,
-        // hero = one big centered card with side peeks (itemWidth only, so KUI
-        // doesn't stretch it to 100%); grid = 3-up row
-        itemWidth: options.itemWidth || (hero ? "68%" : undefined),
-        itemsPerView: options.itemsPerView || (hero ? undefined : 3),
+        // hero uses itemWidth (1 big card + peeks); grid/product use itemsPerView
+        itemWidth: hero ? (options.itemWidth || "68%") : options.itemWidth,
+        itemsPerView: hero ? undefined : perView,
         // No looping: so arrows disable at the ends and "prev" on the first
         // card doesn't wrap around to the last.
         loop: false,
@@ -820,7 +862,8 @@ function ShowcaseCarousel({ header, options, slides }) {
         slotFooter,
         style: { "--nv-carousel-item-gap": "24px" },
       },
-      slides.map((slide, index) => h(ShowcaseTile, { key: index, slide })),
+      slides.map((slide, index) =>
+        h(ShowcaseTile, { key: index, slide, cardStyle: options.cardStyle })),
     ),
   );
 }

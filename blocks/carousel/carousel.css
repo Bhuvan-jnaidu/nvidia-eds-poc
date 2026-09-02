@@ -414,3 +414,70 @@
     .carousel-showcase .carousel-showcase-arrow--prev { left: 2px; }
     .carousel-showcase .carousel-showcase-arrow--next { right: 2px; }
 }
+
+/* ── Product cards ("Featured Products" — 2-up, dark portrait) ─────────── */
+.carousel-showcase--product {
+    max-width: 1160px;
+    margin-inline: auto;
+}
+
+.carousel-showcase-product.carousel-showcase-card {
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 3 / 4;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 8px 28px rgb(0 0 0 / 12%);
+}
+
+.carousel-showcase-product-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px 32px 8px;
+}
+
+.carousel-showcase-product-title {
+    margin: 0;
+    color: #fff;
+    font-weight: 700;
+}
+
+.carousel-showcase-product-desc {
+    margin: 0;
+    max-width: 40ch;
+    color: #d0d0d0;
+}
+
+.carousel-showcase-product-cta {
+    margin-top: 8px;
+}
+
+.carousel-showcase-product-media {
+    margin-top: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.carousel-showcase-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+    display: block;
+}
+
+@media (max-width: 899px) {
+    .carousel-showcase-product.carousel-showcase-card {
+        aspect-ratio: auto;
+        min-height: 520px;
+    }
+}
