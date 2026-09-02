@@ -224,10 +224,16 @@
 .carousel-showcase--hero .nv-carousel-item {
     scroll-snap-align: center;
 }
-/* NB: no leading/trailing spacers — they add scroll width so KUI's edge
-   detection (scrollLeft > 0) would never report the true start/end, breaking
-   arrow-disable and making "prev" on the first card scroll into empty space.
-   Middle cards still center via scroll-padding; first/last rest at the edges. */
+
+/* Leading/trailing room so EVERY card (incl. first/last) centres with even
+   peeks and the fade only touches the peeks. Arrow-disable no longer relies
+   on KUI's scroll math — we track the active card ourselves — so these spacers
+   are safe. */
+.carousel-showcase--hero .nv-carousel-items::before,
+.carousel-showcase--hero .nv-carousel-items::after {
+    content: "";
+    flex: 0 0 16%;
+}
 
 /* Card */
 .carousel-showcase .carousel-showcase-slide {
@@ -388,13 +394,14 @@
     box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
 }
 
-.carousel-showcase .carousel-showcase-arrow[aria-disabled="true"] {
+/* Disabled arrow: greyed and non-clickable, but it still absorbs the click
+   (no pointer-events:none) so the click never falls through to the card link. */
+.carousel-showcase .carousel-showcase-arrow:disabled {
     opacity: 0.35;
     cursor: default;
-    pointer-events: none;
 }
 
-.carousel-showcase .carousel-showcase-arrow[aria-disabled="true"]:hover {
+.carousel-showcase .carousel-showcase-arrow:disabled:hover {
     background: #fff;
     box-shadow: none;
 }

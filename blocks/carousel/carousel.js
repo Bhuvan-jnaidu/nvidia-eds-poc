@@ -686,40 +686,77 @@ function ShowcaseTile({ slide }) {
 // Big circular side arrows + custom round dots. Fully custom (no KUI controls),
 // so there's no "Page X of Y" text and we control the dot shape/placement.
 // Reads scroll state from the carousel context (firstVisibleIndex / itemCount).
+// Side arrows + round dots, driven by OUR OWN scroll tracking (not KUI's), so
+// the active card is the one nearest the track centre, arrows disable at the
+// true first/last card, and clicking never falls through to the card link.
 function ShowcaseControls() {
-  const c = useCarouselContext();
-  const count = c.itemCount || 0;
-  const active = c.firstVisibleIndex || 0;
-  const prevRef = React.useRef(null);
+  const ref = React.useRef(null);            // ref on the prev button, to find the DOM
+  const [state, setState] = React.useState({ active: 0, count: 0 });
 
-  // Vertically center the side arrows on the card IMAGE (robust to header
-  // height / intro wrapping) by measuring the media and setting a CSS var.
-  React.useLayoutEffect(() => {
-    const btn = prevRef.current;
-    const scope = btn && btn.closest(".carousel-showcase");
+  const els = () => {
+    const scope = ref.current && ref.current.closest(".carousel-showcase");
+    const track = scope && scope.querySelector(".nv-carousel-items");
     const media = scope && scope.querySelector(".carousel-showcase-media");
-    if (!scope || !media) return undefined;
+    const items = track ? [...track.querySelectorAll(".nv-carousel-item")] : [];
+    return { scope, track, media, items };
+  };
+
+  React.useLayoutEffect(() => {
+    const { scope, track, media } = els();
+    if (!scope || !track) return undefined;
+    const compute = () => {
+      const items = [...track.querySelectorAll(".nv-carousel-item")];
+      if (!items.length) return;
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      let active = 0;
+      let best = Infinity;
+      items.forEach((el, i) => {
+        const d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
+        if (d < best) { best = d; active = i; }
+      });
+      setState({ active, count: items.length });
+    };
     const place = () => {
+      if (!media) return;
       const top = media.getBoundingClientRect().top
         - scope.getBoundingClientRect().top + media.offsetHeight / 2;
       scope.style.setProperty("--showcase-arrow-top", `${Math.round(top)}px`);
     };
+    compute();
     place();
-    const ro = new ResizeObserver(place);
-    ro.observe(media);
-    window.addEventListener("resize", place);
-    return () => { ro.disconnect(); window.removeEventListener("resize", place); };
+    let raf;
+    const onScroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(compute); };
+    track.addEventListener("scroll", onScroll, { passive: true });
+    const ro = new ResizeObserver(() => { compute(); place(); });
+    ro.observe(track);
+    if (media) ro.observe(media);
+    return () => {
+      track.removeEventListener("scroll", onScroll);
+      ro.disconnect();
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
-  const arrow = (dir, Icon, disabled, onClick, ref) =>
+  const go = (i) => {
+    const { items } = els();
+    const el = items[Math.max(0, Math.min(items.length - 1, i))];
+    if (el) el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
+  const { active, count } = state;
+  const prevDisabled = active <= 0;
+  const nextDisabled = count === 0 || active >= count - 1;
+
+  const arrow = (dir, Icon, disabled, onClick, r) =>
     h("button", {
-      ref,
+      ref: r,
       className: `carousel-showcase-arrow carousel-showcase-arrow--${dir}`,
       type: "button",
       "aria-label": dir === "prev" ? "Previous" : "Next",
-      "aria-disabled": disabled || undefined,
-      onClick: disabled ? undefined : onClick,
+      disabled,
+      onClick,
     }, h(Icon, { width: 22, height: 22, "aria-hidden": "true" }));
+
   const dots = count > 1 && h(
     "div",
     { className: "carousel-showcase-dots" },
@@ -728,14 +765,15 @@ function ShowcaseControls() {
       type: "button",
       className: `carousel-showcase-dot${i === active ? " is-active" : ""}`,
       "aria-label": `Go to slide ${i + 1}`,
-      onClick: () => c.scrollTo(i),
+      onClick: () => go(i),
     })),
   );
+
   return h(
     React.Fragment,
     null,
-    arrow("prev", ChevronLeft, !c.canScrollPrevious, () => c.scrollPrevious(), prevRef),
-    arrow("next", ChevronRight, !c.canScrollNext, () => c.scrollNext()),
+    arrow("prev", ChevronLeft, prevDisabled, () => go(active - 1), ref),
+    arrow("next", ChevronRight, nextDisabled, () => go(active + 1)),
     dots,
   );
 }
