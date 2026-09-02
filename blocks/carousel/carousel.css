@@ -197,6 +197,13 @@
     --carousel-showcase-radius: 16px;
 }
 
+/* Contain the hero so the card is a consistent size on any screen (a % of the
+   full viewport would blow up on wide monitors). Card is 70% of this width. */
+.carousel-showcase--hero {
+    max-width: 1160px;
+    margin-inline: auto;
+}
+
 .carousel-showcase .carousel-showcase-header {
     margin-bottom: 20px;
 }
@@ -208,10 +215,10 @@
 /* Peeking side cards dissolve toward the page background at both ends. */
 .carousel-showcase--hero .nv-carousel-items {
     -webkit-mask-image: linear-gradient(
-        90deg, transparent 0, #000 17%, #000 83%, transparent 100%);
+        90deg, transparent 0, #000 15%, #000 85%, transparent 100%);
     mask-image: linear-gradient(
-        90deg, transparent 0, #000 17%, #000 83%, transparent 100%);
-    scroll-padding-inline: 17%;          /* center the snapped card */
+        90deg, transparent 0, #000 15%, #000 85%, transparent 100%);
+    scroll-padding-inline: 15%;          /* center the snapped card */
 }
 
 .carousel-showcase--hero .nv-carousel-item {
@@ -224,7 +231,7 @@
 .carousel-showcase--hero .nv-carousel-items::before,
 .carousel-showcase--hero .nv-carousel-items::after {
     content: "";
-    flex: 0 0 17%;
+    flex: 0 0 15%;
 }
 
 /* Card */
@@ -332,19 +339,18 @@
     gap: 8px;
 }
 
-/* Uniform round dots; active = filled green circle (like the original) */
+/* Uniform small solid dots; active = green (all identical size/shape) */
 .carousel-showcase .nv-carousel-indicator-bar {
-    width: 11px;
-    height: 11px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    background: transparent;
-    border: 1.5px solid #b5b5b5;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    background: #cccccc;
+    border: 0;
+    transition: background 0.2s ease;
 }
 
 .carousel-showcase .nv-carousel-indicator-bar--active {
     background: var(--color-nvidia-green, #76b900);
-    border-color: var(--color-nvidia-green, #76b900);
 }
 
 .carousel-showcase .nv-carousel-indicator-count {
@@ -362,8 +368,8 @@
     top: 40%;
     transform: translateY(-50%);
     z-index: 5;
-    width: 60px;
-    height: 60px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     border: 1px solid var(--color-nvidia-green, #76b900);
     background: #fff;
