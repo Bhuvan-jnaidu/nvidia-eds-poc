@@ -187,33 +187,39 @@
     }
 }
 
-/* ── Showcase variant (generic poster-tile slider) ──────────────────────
-   All rules are scoped under .carousel-showcase, so home-banner and
-   success-stories carousels are never affected. */
+/* ── Showcase variant (video card slider, NVIDIA On-Demand style) ────────
+   All rules scoped under .carousel-showcase, so home-banner and
+   success-stories carousels are never affected.
+   Card anatomy: image on top (with a duration badge) + a white content
+   panel below (tags -> title -> description -> speaker). */
 .carousel-showcase {
-    --carousel-showcase-radius: 20px;
+    position: relative;                 /* anchor for the side arrows */
+    --carousel-showcase-radius: 16px;
 }
 
 .carousel-showcase .carousel-showcase-header {
-    margin-bottom: 8px;
+    margin-bottom: 20px;
 }
 
 .carousel-showcase .carousel-showcase-heading {
     max-width: 62ch;
 }
 
-/* Edge fade: the scrolling track dissolves into the page background at both
-   ends, so the peeking side tiles wash out toward the frame. */
-.carousel-showcase .nv-carousel-items {
+/* Peeking side cards dissolve toward the page background at both ends. */
+.carousel-showcase--hero .nv-carousel-items {
     -webkit-mask-image: linear-gradient(
-        90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+        90deg, transparent 0, #000 10%, #000 90%, transparent 100%);
     mask-image: linear-gradient(
-        90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+        90deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+    scroll-padding-inline: 11%;          /* center the snapped card */
 }
 
-/* Tile */
+.carousel-showcase--hero .nv-carousel-item {
+    scroll-snap-align: center;
+}
+
+/* Card */
 .carousel-showcase .carousel-showcase-slide {
-    position: relative;
     width: 100%;
 }
 
@@ -223,11 +229,17 @@
     color: inherit;
 }
 
+.carousel-showcase .carousel-showcase-card {
+    background: #fff;
+    border-radius: var(--carousel-showcase-radius);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 8%), 0 8px 28px rgb(0 0 0 / 10%);
+}
+
+/* Media (top) + duration badge */
 .carousel-showcase .carousel-showcase-media {
     position: relative;
     aspect-ratio: 16 / 9;
-    border-radius: var(--carousel-showcase-radius);
-    overflow: hidden;
     background: #000;
 }
 
@@ -238,61 +250,79 @@
     display: block;
 }
 
-/* Duration / date pill, top-left */
 .carousel-showcase .carousel-showcase-badge {
     position: absolute;
     top: 16px;
     left: 16px;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 5px 10px;
+    gap: 6px;
+    padding: 6px 11px;
     border-radius: 8px;
-    background: rgb(0 0 0 / 55%);
+    background: rgb(0 0 0 / 62%);
     backdrop-filter: blur(4px);
     color: #fff;
     font-size: 13px;
     font-weight: 600;
     line-height: 1;
-    letter-spacing: 0.01em;
 }
 
 .carousel-showcase .carousel-showcase-clock {
     flex-shrink: 0;
 }
 
-/* Title overlay, bottom, over a bottom-up scrim */
-.carousel-showcase .carousel-showcase-caption {
-    position: absolute;
-    inset: auto 0 0;
-    padding: 24px 28px 26px;
-    background: linear-gradient(
-        0deg, rgb(0 0 0 / 78%) 0%, rgb(0 0 0 / 40%) 55%, transparent 100%);
+/* Body (below, white) */
+.carousel-showcase .carousel-showcase-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 24px 24px;
+}
+
+.carousel-showcase .carousel-showcase-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .carousel-showcase .carousel-showcase-title {
     margin: 0;
-    color: #fff;
+    color: #1a1a1a;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;                 /* single line, … like original */
+}
+
+.carousel-showcase .carousel-showcase-desc {
+    margin: 0;
+    color: #6a6a6a;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.carousel-showcase .carousel-showcase-speaker {
+    margin: 4px 0 0;
+    color: #6a6a6a;
+    font-size: 14px;
     font-weight: 700;
 }
 
-/* Title overlay a touch smaller for 3-up tiles */
-.carousel-showcase .carousel-showcase-caption {
-    padding: 18px 20px 20px;
-}
-
-/* Controls: arrows flanking green indicator dots, below the track */
+/* ── Controls ─────────────────────────────────────────────────────────── */
 .carousel-showcase .nv-carousel-footer {
     margin-top: 20px;
 }
 
+/* Green indicator dots (grey dot; active = green pill), centered */
 .carousel-showcase .nv-carousel-indicator {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
 }
 
-/* Small grey dots; the active one is a green pill — like the homepage */
 .carousel-showcase .nv-carousel-indicator-bar {
     width: 8px;
     height: 8px;
@@ -306,52 +336,49 @@
     background: var(--color-nvidia-green, #76b900);
 }
 
-/* Circular green-outline arrows (homepage On-Demand style) */
-.carousel-showcase .nv-carousel-arrow-button {
-    width: 48px;
-    height: 48px;
+.carousel-showcase .nv-carousel-indicator-count {
+    display: none;
+}
+
+/* Hide KUI's own footer arrows — we use big side arrows instead */
+.carousel-showcase .nv-carousel-footer .nv-carousel-arrow-button {
+    display: none;
+}
+
+/* Big circular green side arrows, vertically centered on the card image */
+.carousel-showcase .carousel-showcase-arrow {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     border: 1px solid var(--color-nvidia-green, #76b900);
     background: #fff;
+    color: #1a1a1a;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
 }
 
-.carousel-showcase .nv-carousel-arrow-button:hover {
+.carousel-showcase .carousel-showcase-arrow:hover {
     background: #f4faec;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
 }
 
-/* Hero layout: one large centered card with side peeks; bigger title */
-.carousel-showcase--hero .carousel-showcase-caption {
-    padding: 32px 36px 34px;
+.carousel-showcase .carousel-showcase-arrow[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: default;
 }
 
-.carousel-showcase--hero .carousel-showcase-badge {
-    top: 20px;
-    left: 20px;
-    font-size: 14px;
-}
+.carousel-showcase .carousel-showcase-arrow--prev { left: 8px; }
+.carousel-showcase .carousel-showcase-arrow--next { right: 8px; }
 
-/* Center the active hero card so the prev/next tiles peek symmetrically.
-   itemWidth is 66%, so pad the track by (100-66)/2 = 17% on each side. */
-.carousel-showcase--hero .nv-carousel-items {
-    padding-inline: 17%;
-    scroll-padding-inline: 17%;
-}
-
-.carousel-showcase--hero .nv-carousel-item {
-    scroll-snap-align: center;
-}
-
-/* Controls span the width: circular arrows pushed to the edges, dots centered */
-.carousel-showcase--hero .nv-carousel-controls {
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Drop the "Page X of Y" count label — original shows dots only */
-.carousel-showcase .nv-carousel-indicator-count {
-    display: none;
+@media (max-width: 900px) {
+    .carousel-showcase .carousel-showcase-arrow { width: 44px; height: 44px; }
+    .carousel-showcase .carousel-showcase-arrow--prev { left: 2px; }
+    .carousel-showcase .carousel-showcase-arrow--next { right: 2px; }
 }

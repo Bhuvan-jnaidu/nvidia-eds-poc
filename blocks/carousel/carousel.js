@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Carousel,
   CarouselControls,
@@ -193,7 +194,10 @@ function readShowcaseSlide(row) {
   return {
     image: readImage(row) || readImageMeta(meta.image),
     badge: meta.duration || meta.badge || meta.time || meta.date || meta.length,
+    tags: parseTags(meta.tags || meta.category),
     title,
+    desc: meta.description || meta.desc,
+    speaker: meta.speaker || meta.author || meta.presenter,
     href: meta.link || link?.getAttribute("href"),
   };
 }
@@ -615,7 +619,8 @@ function SuccessStoriesCarousel({ header, options, slides }) {
   );
 }
 
-function ShowcaseTile({ slide, titleKind }) {
+function ShowcaseTile({ slide }) {
+  // media (top): image + duration badge overlaid top-left
   const media = h(
     "div",
     { className: "carousel-showcase-media" },
@@ -627,27 +632,55 @@ function ShowcaseTile({ slide, titleKind }) {
         src: slide.image.src,
       }),
     slide.badge
-      && h(
-        "span",
-        { className: "carousel-showcase-badge" },
-        clockIcon(),
-        slide.badge,
-      ),
-    slide.title
-      && h(
-        "div",
-        { className: "carousel-showcase-caption" },
-        h(Text, { asChild: true, kind: titleKind },
-          h("h3", { className: "carousel-showcase-title" }, slide.title)),
-      ),
+      && h("span", { className: "carousel-showcase-badge" },
+        clockIcon(), slide.badge),
   );
+
+  // body (below, white): tags -> title -> description -> speaker
+  const body = h(
+    "div",
+    { className: "carousel-showcase-body" },
+    slide.tags.length > 0
+      && h("div", { className: "carousel-showcase-tags" },
+        slide.tags.map((t, i) => h(Badge, { color: t.color, kind: t.kind, key: i }, t.label))),
+    slide.title
+      && h(Text, { asChild: true, kind: "title/lg" },
+        h("h3", { className: "carousel-showcase-title" }, slide.title)),
+    slide.desc
+      && h(Text, { asChild: true, kind: "body/regular/md" },
+        h("p", { className: "carousel-showcase-desc" }, slide.desc)),
+    slide.speaker
+      && h("p", { className: "carousel-showcase-speaker" }, slide.speaker),
+  );
+
+  const card = h("div", { className: "carousel-showcase-card" }, media, body);
 
   return h(
     "article",
     { className: "carousel-showcase-slide" },
     slide.href
-      ? h("a", { className: "carousel-showcase-link", href: slide.href }, media)
-      : media,
+      ? h("a", { className: "carousel-showcase-link", href: slide.href }, card)
+      : card,
+  );
+}
+
+// Big circular arrows on the card's left/right, vertically centered (original
+// On-Demand style). Rendered inside the carousel so it can read scroll state.
+function ShowcaseArrows() {
+  const carousel = useCarouselContext();
+  const arrow = (dir, Icon, disabled, onClick) =>
+    h("button", {
+      className: `carousel-showcase-arrow carousel-showcase-arrow--${dir}`,
+      type: "button",
+      "aria-label": dir === "prev" ? "Previous" : "Next",
+      "aria-disabled": disabled || undefined,
+      onClick: disabled ? undefined : onClick,
+    }, h(Icon, { width: 24, height: 24, "aria-hidden": "true" }));
+  return h(
+    React.Fragment,
+    null,
+    arrow("prev", ChevronLeft, !carousel.canScrollPrevious, () => carousel.scrollPrevious()),
+    arrow("next", ChevronRight, !carousel.canScrollNext, () => carousel.scrollNext()),
   );
 }
 
@@ -670,7 +703,14 @@ function ShowcaseCarousel({ header, options, slides }) {
   );
 
   const hero = options.layout === "hero";
-  const titleKind = hero ? "display/xs" : "title/lg";
+
+  // Footer: side arrows (positioned by CSS) + centered green dots.
+  const slotFooter = options.controls === "none" ? undefined : h(
+    React.Fragment,
+    null,
+    h(ShowcaseArrows),
+    h(CarouselControls, { buttonKind: "none", indicator: "visual" }),
+  );
 
   return h(
     "div",
@@ -680,18 +720,14 @@ function ShowcaseCarousel({ header, options, slides }) {
         "aria-label": options.ariaLabel,
         // hero = one big centered card with side peeks (itemWidth only, so KUI
         // doesn't stretch it to 100%); grid = 3-up row
-        itemWidth: options.itemWidth || (hero ? "66%" : undefined),
+        itemWidth: options.itemWidth || (hero ? "78%" : undefined),
         itemsPerView: options.itemsPerView || (hero ? undefined : 3),
         loop: options.loop,
         slotHeader,
-        // Arrows + green indicator dots, homepage-style (KUI reads scroll state).
-        slotFooter: options.controls === "none"
-          ? undefined
-          : h(CarouselControls, { buttonKind: "secondary", indicator: "visual" }),
+        slotFooter,
         style: { "--nv-carousel-item-gap": "24px" },
       },
-      slides.map((slide, index) =>
-        h(ShowcaseTile, { key: index, slide, titleKind })),
+      slides.map((slide, index) => h(ShowcaseTile, { key: index, slide })),
     ),
   );
 }
