@@ -286,10 +286,22 @@
     margin-top: 20px;
 }
 
+.carousel-showcase .nv-carousel-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Small grey dots; the active one is a green pill — like the homepage */
 .carousel-showcase .nv-carousel-indicator-bar {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
     background: #c9c9c9;
+    transition: width 0.2s ease, background 0.2s ease;
 }
 
 .carousel-showcase .nv-carousel-indicator-bar--active {
+    width: 22px;
     background: var(--color-nvidia-green, #76b900);
 }
