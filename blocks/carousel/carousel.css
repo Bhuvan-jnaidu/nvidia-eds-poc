@@ -305,3 +305,30 @@
     width: 22px;
     background: var(--color-nvidia-green, #76b900);
 }
+
+/* Circular green-outline arrows (homepage On-Demand style) */
+.carousel-showcase .nv-carousel-arrow-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--color-nvidia-green, #76b900);
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-showcase .nv-carousel-arrow-button:hover {
+    background: #f4faec;
+}
+
+/* Hero layout: one large centered card with side peeks; bigger title */
+.carousel-showcase--hero .carousel-showcase-caption {
+    padding: 32px 36px 34px;
+}
+
+.carousel-showcase--hero .carousel-showcase-badge {
+    top: 20px;
+    left: 20px;
+    font-size: 14px;
+}

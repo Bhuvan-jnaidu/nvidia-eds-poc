@@ -29,6 +29,7 @@ const OPTION_KEYS = {
   itemwidth: "itemWidth",
   "items-per-view": "itemsPerView",
   itemsperview: "itemsPerView",
+  layout: "layout",
   limit: "limit",
   max: "limit",
   "max-items": "limit",
@@ -96,6 +97,7 @@ function readOptions(options) {
     controls: keyName(options.controls || "footer"),
     itemWidth: options.itemWidth || undefined,
     itemsPerView: Number.isFinite(itemsPerView) ? itemsPerView : undefined,
+    layout: keyName(options.layout) === "grid" ? "grid" : "hero",
     limit: Number.isFinite(limit) && limit > 0 ? limit : undefined,
     loop: TRUE_VALUES.has((options.loop || "").toLowerCase()),
     type: CAROUSEL_TYPES.has(type) ? type : "home-banner",
@@ -613,7 +615,7 @@ function SuccessStoriesCarousel({ header, options, slides }) {
   );
 }
 
-function ShowcaseTile({ slide }) {
+function ShowcaseTile({ slide, titleKind }) {
   const media = h(
     "div",
     { className: "carousel-showcase-media" },
@@ -635,7 +637,7 @@ function ShowcaseTile({ slide }) {
       && h(
         "div",
         { className: "carousel-showcase-caption" },
-        h(Text, { asChild: true, kind: "title/lg" },
+        h(Text, { asChild: true, kind: titleKind },
           h("h3", { className: "carousel-showcase-title" }, slide.title)),
       ),
   );
@@ -667,14 +669,18 @@ function ShowcaseCarousel({ header, options, slides }) {
     header.cta && renderButton(header.cta),
   );
 
+  const hero = options.layout === "hero";
+  const titleKind = hero ? "display/xs" : "title/lg";
+
   return h(
     "div",
-    { className: "carousel-showcase" },
+    { className: `carousel-showcase carousel-showcase--${options.layout}` },
     renderCarousel(
       {
         "aria-label": options.ariaLabel,
-        itemWidth: options.itemWidth,
-        itemsPerView: options.itemsPerView || 3,
+        // hero = one big centered card with side peeks; grid = 3-up row
+        itemWidth: options.itemWidth || (hero ? "min(880px, 72%)" : undefined),
+        itemsPerView: options.itemsPerView || (hero ? 1 : 3),
         loop: options.loop,
         slotHeader,
         // Arrows + green indicator dots, homepage-style (KUI reads scroll state).
@@ -684,7 +690,7 @@ function ShowcaseCarousel({ header, options, slides }) {
         style: { "--nv-carousel-item-gap": "24px" },
       },
       slides.map((slide, index) =>
-        h(ShowcaseTile, { key: index, slide })),
+        h(ShowcaseTile, { key: index, slide, titleKind })),
     ),
   );
 }
