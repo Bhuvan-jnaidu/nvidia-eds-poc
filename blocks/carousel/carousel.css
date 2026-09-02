@@ -417,7 +417,7 @@
 
 /* ── Product cards ("Featured Products" — 2-up, dark portrait) ─────────── */
 .carousel-showcase--product {
-    max-width: 1160px;
+    max-width: 1040px;
     margin-inline: auto;
 }
 
@@ -427,7 +427,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 4 / 5;
     color: #fff;
     text-align: center;
     box-shadow: 0 8px 28px rgb(0 0 0 / 12%);
@@ -437,8 +437,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 40px 32px 8px;
+    gap: 12px;
+    padding: 28px 28px 6px;
 }
 
 .carousel-showcase-product-title {

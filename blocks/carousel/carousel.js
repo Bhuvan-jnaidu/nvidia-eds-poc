@@ -213,6 +213,11 @@ function readShowcaseSlide(row) {
   const link = row.querySelector("a[href]");
   const title = meta.title
     || text(row.querySelector("h1, h2, h3, h4, h5")) || text(link);
+  // CTA can be authored as a "Button: Label | /url | kind" line OR as a plain
+  // hyperlink in the card (e.g. a blue "Learn More" link in the doc).
+  const ctaDefaults = { color: "brand", kind: "primary", size: "large" };
+  const linkCta = link && readButtonLink(link, ctaDefaults);
+  const cta = readButtonMeta(meta.button || meta.cta, ctaDefaults) || linkCta;
   return {
     image: readImage(row) || readImageMeta(meta.image),
     badge: meta.duration || meta.badge || meta.time || meta.date || meta.length,
@@ -220,9 +225,9 @@ function readShowcaseSlide(row) {
     title,
     desc: meta.description || meta.desc,
     speaker: meta.speaker || meta.author || meta.presenter,
-    // product-card CTA button ("Button: Learn More | /url | primary")
-    cta: readButtonMeta(meta.button || meta.cta, { color: "brand", kind: "primary", size: "large" }),
-    href: meta.link || link?.getAttribute("href"),
+    cta,
+    // if the hyperlink is used as the CTA, don't also wrap the whole card in it
+    href: meta.link || (linkCta ? undefined : link?.getAttribute("href")),
   };
 }
 
@@ -776,9 +781,13 @@ function ShowcaseControls() {
   }, []);
 
   const go = (i) => {
-    const { items } = els();
+    const { track, items } = els();
+    if (!track || !items.length) return;
     const el = items[Math.max(0, Math.min(items.length - 1, i))];
-    if (el) el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    if (!el) return;
+    // scroll the TRACK (not the page) to center the target card
+    const target = el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2;
+    track.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
   };
 
   const { active, count } = state;
