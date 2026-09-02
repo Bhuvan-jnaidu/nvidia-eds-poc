@@ -218,6 +218,15 @@
     scroll-snap-align: center;
 }
 
+/* Leading/trailing room so the FIRST/last card can snap to true center
+   (a card in the middle of the track has neighbours to peek; the ends need
+   this spacer). These are ignored by KUI's scroll math (not .nv-carousel-item). */
+.carousel-showcase--hero .nv-carousel-items::before,
+.carousel-showcase--hero .nv-carousel-items::after {
+    content: "";
+    flex: 0 0 11%;
+}
+
 /* Card */
 .carousel-showcase .carousel-showcase-slide {
     width: 100%;
@@ -323,17 +332,19 @@
     gap: 8px;
 }
 
+/* Uniform round dots; active = filled green circle (like the original) */
 .carousel-showcase .nv-carousel-indicator-bar {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: #c9c9c9;
-    transition: width 0.2s ease, background 0.2s ease;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1.5px solid #b5b5b5;
+    transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .carousel-showcase .nv-carousel-indicator-bar--active {
-    width: 22px;
     background: var(--color-nvidia-green, #76b900);
+    border-color: var(--color-nvidia-green, #76b900);
 }
 
 .carousel-showcase .nv-carousel-indicator-count {
@@ -348,11 +359,11 @@
 /* Big circular green side arrows, vertically centered on the card image */
 .carousel-showcase .carousel-showcase-arrow {
     position: absolute;
-    top: 42%;
+    top: 40%;
     transform: translateY(-50%);
     z-index: 5;
-    width: 56px;
-    height: 56px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: 1px solid var(--color-nvidia-green, #76b900);
     background: #fff;
