@@ -417,7 +417,7 @@
 
 /* ── Product cards ("Featured Products" — 2-up, dark portrait) ─────────── */
 .carousel-showcase--product {
-    max-width: 1040px;
+    max-width: 900px;
     margin-inline: auto;
 }
 

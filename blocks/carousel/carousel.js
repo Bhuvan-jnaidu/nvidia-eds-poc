@@ -737,24 +737,33 @@ function ShowcaseControls() {
   const els = () => {
     const scope = ref.current && ref.current.closest(".carousel-showcase");
     const track = scope && scope.querySelector(".nv-carousel-items");
+    // The element that actually scrolls horizontally may be the track OR an
+    // ancestor — find it by measurement so this works for every layout.
+    let scroller = track;
+    while (scroller && scroller !== document.body
+      && scroller.scrollWidth <= scroller.clientWidth + 1) {
+      scroller = scroller.parentElement;
+    }
+    if (!scroller || scroller === document.body) scroller = track;
     // arrows center on the top image (video card) or the whole card (product)
     const media = scope && (scope.querySelector(".carousel-showcase-media")
       || scope.querySelector(".carousel-showcase-card"));
     const items = track ? [...track.querySelectorAll(".nv-carousel-item")] : [];
-    return { scope, track, media, items };
+    return { scope, track, scroller, media, items };
   };
 
   React.useLayoutEffect(() => {
-    const { scope, track, media } = els();
-    if (!scope || !track) return undefined;
+    const { scope, track, scroller, media } = els();
+    if (!scope || !track || !scroller) return undefined;
     const compute = () => {
       const items = [...track.querySelectorAll(".nv-carousel-item")];
       if (!items.length) return;
-      const mid = track.scrollLeft + track.clientWidth / 2;
+      const mid = scroller.getBoundingClientRect().left + scroller.clientWidth / 2;
       let active = 0;
       let best = Infinity;
       items.forEach((el, i) => {
-        const d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
+        const r = el.getBoundingClientRect();
+        const d = Math.abs(r.left + r.width / 2 - mid);
         if (d < best) { best = d; active = i; }
       });
       setState({ active, count: items.length });
@@ -769,25 +778,27 @@ function ShowcaseControls() {
     place();
     let raf;
     const onScroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(compute); };
-    track.addEventListener("scroll", onScroll, { passive: true });
+    scroller.addEventListener("scroll", onScroll, { passive: true });
     const ro = new ResizeObserver(() => { compute(); place(); });
     ro.observe(track);
     if (media) ro.observe(media);
     return () => {
-      track.removeEventListener("scroll", onScroll);
+      scroller.removeEventListener("scroll", onScroll);
       ro.disconnect();
       cancelAnimationFrame(raf);
     };
   }, []);
 
   const go = (i) => {
-    const { track, items } = els();
-    if (!track || !items.length) return;
+    const { scroller, items } = els();
+    if (!scroller || !items.length) return;
     const el = items[Math.max(0, Math.min(items.length - 1, i))];
     if (!el) return;
-    // scroll the TRACK (not the page) to center the target card
-    const target = el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2;
-    track.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+    // center the target card by scrolling the real scroller by the delta
+    const sRect = scroller.getBoundingClientRect();
+    const eRect = el.getBoundingClientRect();
+    const delta = (eRect.left + eRect.width / 2) - (sRect.left + sRect.width / 2);
+    scroller.scrollBy({ left: delta, behavior: "smooth" });
   };
 
   const { active, count } = state;
