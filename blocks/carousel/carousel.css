@@ -332,3 +332,21 @@
     left: 20px;
     font-size: 14px;
 }
+
+/* Keep the hero card contained (never fills the whole viewport) */
+.carousel-showcase--hero .carousel-showcase-media {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+/* Controls span the width: circular arrows pushed to the edges, dots centered */
+.carousel-showcase--hero .nv-carousel-controls {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Drop the "Page X of Y" count label — original shows dots only */
+.carousel-showcase .nv-carousel-indicator-count {
+    display: none;
+}

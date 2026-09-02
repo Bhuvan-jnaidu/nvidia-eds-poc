@@ -678,9 +678,10 @@ function ShowcaseCarousel({ header, options, slides }) {
     renderCarousel(
       {
         "aria-label": options.ariaLabel,
-        // hero = one big centered card with side peeks; grid = 3-up row
+        // hero = one big centered card with side peeks (itemWidth only, so KUI
+        // doesn't stretch it to 100%); grid = 3-up row
         itemWidth: options.itemWidth || (hero ? "min(880px, 72%)" : undefined),
-        itemsPerView: options.itemsPerView || (hero ? 1 : 3),
+        itemsPerView: options.itemsPerView || (hero ? undefined : 3),
         loop: options.loop,
         slotHeader,
         // Arrows + green indicator dots, homepage-style (KUI reads scroll state).
