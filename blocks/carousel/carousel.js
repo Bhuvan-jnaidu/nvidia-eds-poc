@@ -2,7 +2,6 @@ import {
   Badge,
   Button,
   Carousel,
-  CarouselControls,
   ChevronLeft,
   ChevronRight,
   Flex,
@@ -684,10 +683,13 @@ function ShowcaseTile({ slide }) {
   );
 }
 
-// Big circular arrows on the card's left/right, vertically centered (original
-// On-Demand style). Rendered inside the carousel so it can read scroll state.
-function ShowcaseArrows() {
-  const carousel = useCarouselContext();
+// Big circular side arrows + custom round dots. Fully custom (no KUI controls),
+// so there's no "Page X of Y" text and we control the dot shape/placement.
+// Reads scroll state from the carousel context (firstVisibleIndex / itemCount).
+function ShowcaseControls() {
+  const c = useCarouselContext();
+  const count = c.itemCount || 0;
+  const active = c.firstVisibleIndex || 0;
   const arrow = (dir, Icon, disabled, onClick) =>
     h("button", {
       className: `carousel-showcase-arrow carousel-showcase-arrow--${dir}`,
@@ -695,12 +697,24 @@ function ShowcaseArrows() {
       "aria-label": dir === "prev" ? "Previous" : "Next",
       "aria-disabled": disabled || undefined,
       onClick: disabled ? undefined : onClick,
-    }, h(Icon, { width: 24, height: 24, "aria-hidden": "true" }));
+    }, h(Icon, { width: 22, height: 22, "aria-hidden": "true" }));
+  const dots = count > 1 && h(
+    "div",
+    { className: "carousel-showcase-dots" },
+    Array.from({ length: count }, (unused, i) => h("button", {
+      key: i,
+      type: "button",
+      className: `carousel-showcase-dot${i === active ? " is-active" : ""}`,
+      "aria-label": `Go to slide ${i + 1}`,
+      onClick: () => c.scrollTo(i),
+    })),
+  );
   return h(
     React.Fragment,
     null,
-    arrow("prev", ChevronLeft, !carousel.canScrollPrevious, () => carousel.scrollPrevious()),
-    arrow("next", ChevronRight, !carousel.canScrollNext, () => carousel.scrollNext()),
+    arrow("prev", ChevronLeft, !c.canScrollPrevious, () => c.scrollPrevious()),
+    arrow("next", ChevronRight, !c.canScrollNext, () => c.scrollNext()),
+    dots,
   );
 }
 
@@ -724,13 +738,10 @@ function ShowcaseCarousel({ header, options, slides }) {
 
   const hero = options.layout === "hero";
 
-  // Footer: side arrows (positioned by CSS) + centered green dots.
-  const slotFooter = options.controls === "none" ? undefined : h(
-    React.Fragment,
-    null,
-    h(ShowcaseArrows),
-    h(CarouselControls, { buttonKind: "none", indicator: "visual" }),
-  );
+  // Footer: side arrows (positioned by CSS) + centered custom round dots.
+  const slotFooter = options.controls === "none"
+    ? undefined
+    : h(ShowcaseControls);
 
   return h(
     "div",
@@ -740,7 +751,7 @@ function ShowcaseCarousel({ header, options, slides }) {
         "aria-label": options.ariaLabel,
         // hero = one big centered card with side peeks (itemWidth only, so KUI
         // doesn't stretch it to 100%); grid = 3-up row
-        itemWidth: options.itemWidth || (hero ? "70%" : undefined),
+        itemWidth: options.itemWidth || (hero ? "68%" : undefined),
         itemsPerView: options.itemsPerView || (hero ? undefined : 3),
         loop: options.loop,
         slotHeader,

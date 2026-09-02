@@ -200,7 +200,7 @@
 /* Contain the hero so the card is a consistent size on any screen (a % of the
    full viewport would blow up on wide monitors). Card is 70% of this width. */
 .carousel-showcase--hero {
-    max-width: 1160px;
+    max-width: 900px;
     margin-inline: auto;
 }
 
@@ -215,10 +215,10 @@
 /* Peeking side cards dissolve toward the page background at both ends. */
 .carousel-showcase--hero .nv-carousel-items {
     -webkit-mask-image: linear-gradient(
-        90deg, transparent 0, #000 15%, #000 85%, transparent 100%);
+        90deg, transparent 0, #000 16%, #000 84%, transparent 100%);
     mask-image: linear-gradient(
-        90deg, transparent 0, #000 15%, #000 85%, transparent 100%);
-    scroll-padding-inline: 15%;          /* center the snapped card */
+        90deg, transparent 0, #000 16%, #000 84%, transparent 100%);
+    scroll-padding-inline: 16%;          /* center the snapped card */
 }
 
 .carousel-showcase--hero .nv-carousel-item {
@@ -231,7 +231,7 @@
 .carousel-showcase--hero .nv-carousel-items::before,
 .carousel-showcase--hero .nv-carousel-items::after {
     content: "";
-    flex: 0 0 15%;
+    flex: 0 0 16%;
 }
 
 /* Card */
@@ -331,35 +331,27 @@
     margin-top: 20px;
 }
 
-/* Green indicator dots (grey dot; active = green pill), centered */
-.carousel-showcase .nv-carousel-indicator {
+/* Custom round dots (KUI's indicator is not used), centered under the card */
+.carousel-showcase .carousel-showcase-dots {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 9px;
 }
 
-/* Uniform small solid dots; active = green (all identical size/shape) */
-.carousel-showcase .nv-carousel-indicator-bar {
+.carousel-showcase .carousel-showcase-dot {
     width: 9px;
     height: 9px;
-    border-radius: 50%;
-    background: #cccccc;
+    padding: 0;
     border: 0;
+    border-radius: 50%;
+    background: #c9c9c9;
+    cursor: pointer;
     transition: background 0.2s ease;
 }
 
-.carousel-showcase .nv-carousel-indicator-bar--active {
+.carousel-showcase .carousel-showcase-dot.is-active {
     background: var(--color-nvidia-green, #76b900);
-}
-
-.carousel-showcase .nv-carousel-indicator-count {
-    display: none;
-}
-
-/* Hide KUI's own footer arrows — we use big side arrows instead */
-.carousel-showcase .nv-carousel-footer .nv-carousel-arrow-button {
-    display: none;
 }
 
 /* Big circular green side arrows, vertically centered on the card image */
