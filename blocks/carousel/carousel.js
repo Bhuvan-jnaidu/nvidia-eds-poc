@@ -161,6 +161,26 @@ const clockIcon = () =>
     h("path", { d: "M12 7v5l3 2" }),
   );
 
+// Tag pills: "Label" | "Label (color)" | "Label (color, outline)".
+const SHOWCASE_BADGE_COLORS = ["green", "red", "yellow", "purple", "teal", "gray", "blue"];
+const SHOWCASE_BADGE_KINDS = ["solid", "outline"];
+
+function parseTag(raw) {
+  const m = raw.match(/\(([^)]*)\)/);
+  const opts = m ? m[1].split(/[\s,]+/).map((o) => o.trim().toLowerCase()).filter(Boolean) : [];
+  return {
+    label: raw.replace(/\([^)]*\)/, "").trim(),
+    color: opts.find((o) => SHOWCASE_BADGE_COLORS.includes(o)) || "gray",
+    kind: opts.find((o) => SHOWCASE_BADGE_KINDS.includes(o)) || "solid",
+  };
+}
+
+function parseTags(str) {
+  if (!str) return [];
+  return str.split(/,(?![^(]*\))/).map((s) => s.trim()).filter(Boolean)
+    .map(parseTag).filter((t) => t.label);
+}
+
 function isShowcaseHeaderRow(row) {
   if (!row || row.querySelector("img")) return false;
   const meta = readMeta(row);
