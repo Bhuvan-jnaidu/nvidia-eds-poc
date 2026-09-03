@@ -817,11 +817,16 @@ function ShowcaseControls({ centerMode, perView }) {
     scroller.scrollBy({ left: delta, behavior: "smooth" });
   };
 
-  // Arrow step: hero moves one card centred; multi-up moves a full page
-  // (Items Per View cards) aligned to the left — so two-up moves two at a time.
+  // Arrow step: hero moves one card centred; multi-up scrolls a full page
+  // (Items Per View card-widths) so two-up moves exactly two cards per click.
   const step = (dir) => {
     if (centerMode) { go(state.active + dir); return; }
-    go(state.activeLeft + dir * (perView || 1));
+    const { scroller, items } = els();
+    if (!scroller || !items.length) return;
+    const cardStep = items.length > 1
+      ? items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left
+      : items[0].getBoundingClientRect().width;
+    scroller.scrollBy({ left: dir * (perView || 1) * cardStep, behavior: "smooth" });
   };
 
   const { active, activeLeft, count, atStart, atEnd } = state;
