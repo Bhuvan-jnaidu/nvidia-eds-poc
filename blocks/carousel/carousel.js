@@ -766,9 +766,15 @@ function ShowcaseControls({ centerMode }) {
         const d = Math.abs(r.left + r.width / 2 - mid);
         if (d < best) { best = d; active = i; }
       });
+      const cardStep = items.length > 1
+        ? items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left
+        : items[0].getBoundingClientRect().width;
+      const perPage = Math.max(1, Math.round(scroller.clientWidth / cardStep));
+      const pages = Math.max(1, Math.ceil(items.length / perPage));
+      const page = Math.min(pages - 1, Math.round(scroller.scrollLeft / (perPage * cardStep)));
       const atStart = scroller.scrollLeft <= 2;
       const atEnd = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 2;
-      setState({ active, count: items.length, atStart, atEnd });
+      setState({ active, count: items.length, atStart, atEnd, page, pages, perPage });
     };
     const place = () => {
       if (!media) return;
@@ -805,19 +811,24 @@ function ShowcaseControls({ centerMode }) {
     scroller.scrollBy({ left: delta, behavior: "smooth" });
   };
 
-  // Arrow step: hero moves one card (via active±1); multi-up scrolls one
-  // card-width sideways so every card (incl. the last) is reachable.
-  const step = (dir) => {
+  // Jump to a whole page (multi-up): scroll so page p is at the start.
+  const goToPage = (p) => {
     const { scroller, items } = els();
     if (!scroller || !items.length) return;
-    if (centerMode) { go(state.active + dir); return; }
     const cardStep = items.length > 1
       ? items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left
       : items[0].getBoundingClientRect().width;
-    scroller.scrollBy({ left: dir * cardStep, behavior: "smooth" });
+    scroller.scrollTo({ left: p * state.perPage * cardStep, behavior: "smooth" });
   };
 
-  const { active, count, atStart, atEnd } = state;
+  // Arrow step: hero moves one card; multi-up moves a full page (perPage cards),
+  // so two-up moves two cards at a time and every card stays reachable.
+  const step = (dir) => {
+    if (centerMode) { go(state.active + dir); return; }
+    goToPage(Math.max(0, Math.min(state.pages - 1, state.page + dir)));
+  };
+
+  const { active, count, atStart, atEnd, page, pages } = state;
   const prevDisabled = centerMode ? active <= 0 : atStart;
   const nextDisabled = centerMode ? (count === 0 || active >= count - 1) : atEnd;
 
@@ -831,15 +842,18 @@ function ShowcaseControls({ centerMode }) {
       onClick,
     }, h(Icon, { width: 22, height: 22, "aria-hidden": "true" }));
 
-  const dots = count > 1 && h(
+  // hero: one dot per card; multi-up: one dot per page
+  const dotCount = centerMode ? count : pages;
+  const dotActive = centerMode ? active : page;
+  const dots = dotCount > 1 && h(
     "div",
     { className: "carousel-showcase-dots" },
-    Array.from({ length: count }, (unused, i) => h("button", {
+    Array.from({ length: dotCount }, (unused, i) => h("button", {
       key: i,
       type: "button",
-      className: `carousel-showcase-dot${i === active ? " is-active" : ""}`,
-      "aria-label": `Go to slide ${i + 1}`,
-      onClick: () => go(i),
+      className: `carousel-showcase-dot${i === dotActive ? " is-active" : ""}`,
+      "aria-label": `Go to ${centerMode ? "slide" : "page"} ${i + 1}`,
+      onClick: () => (centerMode ? go(i) : goToPage(i)),
     })),
   );
 

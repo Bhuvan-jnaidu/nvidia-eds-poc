@@ -417,8 +417,18 @@
 
 /* ── Product cards ("Featured Products" — 2-up, dark portrait) ─────────── */
 .carousel-showcase--product {
-    max-width: 900px;
+    max-width: 820px;
     margin-inline: auto;
+}
+
+/* Product arrows sit OUTSIDE the two-card group (in the margins), like the
+   original — not overlapping the cards. */
+.carousel-showcase--product .carousel-showcase-arrow--prev { left: -66px; }
+.carousel-showcase--product .carousel-showcase-arrow--next { right: -66px; }
+
+@media (max-width: 1040px) {
+    .carousel-showcase--product .carousel-showcase-arrow--prev { left: 4px; }
+    .carousel-showcase--product .carousel-showcase-arrow--next { right: 4px; }
 }
 
 .carousel-showcase-product.carousel-showcase-card {
