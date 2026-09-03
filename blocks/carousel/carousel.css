@@ -421,6 +421,16 @@
     margin-inline: auto;
 }
 
+/* Snap each card to the left edge so a swipe lands cleanly on a card, not
+   mid-card. */
+.carousel-showcase--product .nv-carousel-items {
+    scroll-snap-type: x mandatory;
+}
+
+.carousel-showcase--product .nv-carousel-item {
+    scroll-snap-align: start;
+}
+
 /* Product arrows sit OUTSIDE the two-card group (in the margins), like the
    original — not overlapping the cards. */
 .carousel-showcase--product .carousel-showcase-arrow--prev { left: -66px; }
