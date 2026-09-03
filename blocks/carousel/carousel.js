@@ -730,9 +730,9 @@ function ShowcaseTile({ slide, cardStyle }) {
 // Side arrows + round dots, driven by OUR OWN scroll tracking (not KUI's), so
 // the active card is the one nearest the track centre, arrows disable at the
 // true first/last card, and clicking never falls through to the card link.
-function ShowcaseControls() {
+function ShowcaseControls({ centerMode }) {
   const ref = React.useRef(null);            // ref on the prev button, to find the DOM
-  const [state, setState] = React.useState({ active: 0, count: 0 });
+  const [state, setState] = React.useState({ active: 0, count: 0, atStart: true, atEnd: false });
 
   const els = () => {
     const scope = ref.current && ref.current.closest(".carousel-showcase");
@@ -766,7 +766,9 @@ function ShowcaseControls() {
         const d = Math.abs(r.left + r.width / 2 - mid);
         if (d < best) { best = d; active = i; }
       });
-      setState({ active, count: items.length });
+      const atStart = scroller.scrollLeft <= 2;
+      const atEnd = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 2;
+      setState({ active, count: items.length, atStart, atEnd });
     };
     const place = () => {
       if (!media) return;
@@ -794,16 +796,30 @@ function ShowcaseControls() {
     if (!scroller || !items.length) return;
     const el = items[Math.max(0, Math.min(items.length - 1, i))];
     if (!el) return;
-    // center the target card by scrolling the real scroller by the delta
     const sRect = scroller.getBoundingClientRect();
     const eRect = el.getBoundingClientRect();
-    const delta = (eRect.left + eRect.width / 2) - (sRect.left + sRect.width / 2);
+    // hero: center the card; multi-up (product/grid): align it to the left
+    const delta = centerMode
+      ? (eRect.left + eRect.width / 2) - (sRect.left + sRect.width / 2)
+      : eRect.left - sRect.left;
     scroller.scrollBy({ left: delta, behavior: "smooth" });
   };
 
-  const { active, count } = state;
-  const prevDisabled = active <= 0;
-  const nextDisabled = count === 0 || active >= count - 1;
+  // Arrow step: hero moves one card (via active±1); multi-up scrolls one
+  // card-width sideways so every card (incl. the last) is reachable.
+  const step = (dir) => {
+    const { scroller, items } = els();
+    if (!scroller || !items.length) return;
+    if (centerMode) { go(state.active + dir); return; }
+    const cardStep = items.length > 1
+      ? items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left
+      : items[0].getBoundingClientRect().width;
+    scroller.scrollBy({ left: dir * cardStep, behavior: "smooth" });
+  };
+
+  const { active, count, atStart, atEnd } = state;
+  const prevDisabled = centerMode ? active <= 0 : atStart;
+  const nextDisabled = centerMode ? (count === 0 || active >= count - 1) : atEnd;
 
   const arrow = (dir, Icon, disabled, onClick, r) =>
     h("button", {
@@ -830,8 +846,8 @@ function ShowcaseControls() {
   return h(
     React.Fragment,
     null,
-    arrow("prev", ChevronLeft, prevDisabled, () => go(active - 1), ref),
-    arrow("next", ChevronRight, nextDisabled, () => go(active + 1)),
+    arrow("prev", ChevronLeft, prevDisabled, () => step(-1), ref),
+    arrow("next", ChevronRight, nextDisabled, () => step(1)),
     dots,
   );
 }
@@ -862,9 +878,10 @@ function ShowcaseCarousel({ header, options, slides }) {
   const perView = options.itemsPerView || (product ? 2 : 3);
 
   // Footer: side arrows (positioned by CSS) + centered custom round dots.
+  // centerMode = hero (1 card centered); multi-up (grid/product) pages sideways.
   const slotFooter = options.controls === "none"
     ? undefined
-    : h(ShowcaseControls);
+    : h(ShowcaseControls, { centerMode: hero });
 
   return h(
     "div",
