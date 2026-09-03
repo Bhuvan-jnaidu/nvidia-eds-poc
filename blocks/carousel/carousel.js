@@ -730,7 +730,7 @@ function ShowcaseTile({ slide, cardStyle }) {
 // Side arrows + round dots, driven by OUR OWN scroll tracking (not KUI's), so
 // the active card is the one nearest the track centre, arrows disable at the
 // true first/last card, and clicking never falls through to the card link.
-function ShowcaseControls({ centerMode }) {
+function ShowcaseControls({ centerMode, perView }) {
   const ref = React.useRef(null);            // ref on the prev button, to find the DOM
   const [state, setState] = React.useState({ active: 0, count: 0, atStart: true, atEnd: false });
 
@@ -774,7 +774,8 @@ function ShowcaseControls({ centerMode }) {
       const cardStep = items.length > 1
         ? items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left
         : items[0].getBoundingClientRect().width;
-      const perPage = Math.max(1, Math.round(scroller.clientWidth / cardStep));
+      // page = the authored Items Per View (fallback to a measured estimate)
+      const perPage = perView || Math.max(1, Math.round(scroller.clientWidth / cardStep));
       const pages = Math.max(1, Math.ceil(items.length / perPage));
       const page = Math.min(pages - 1, Math.round(scroller.scrollLeft / (perPage * cardStep)));
       const atStart = scroller.scrollLeft <= 2;
@@ -900,7 +901,7 @@ function ShowcaseCarousel({ header, options, slides }) {
   // centerMode = hero (1 card centered); multi-up (grid/product) pages sideways.
   const slotFooter = options.controls === "none"
     ? undefined
-    : h(ShowcaseControls, { centerMode: hero });
+    : h(ShowcaseControls, { centerMode: hero, perView: hero ? 1 : perView });
 
   return h(
     "div",
