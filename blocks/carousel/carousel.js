@@ -817,21 +817,11 @@ function ShowcaseControls({ centerMode, perView }) {
     scroller.scrollBy({ left: delta, behavior: "smooth" });
   };
 
-  // Jump to a whole page (multi-up): scroll so page p is at the start.
-  const goToPage = (p) => {
-    const { scroller, items } = els();
-    if (!scroller || !items.length) return;
-    const cardStep = items.length > 1
-      ? items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left
-      : items[0].getBoundingClientRect().width;
-    scroller.scrollTo({ left: p * state.perPage * cardStep, behavior: "smooth" });
-  };
-
-  // Arrow step: hero moves one card; multi-up moves a full page (perPage cards),
-  // so two-up moves two cards at a time and every card stays reachable.
+  // Arrow step: hero moves one card centred; multi-up moves one card aligned to
+  // the left, so every card (and its dot) is reachable in sequence.
   const step = (dir) => {
     if (centerMode) { go(state.active + dir); return; }
-    goToPage(Math.max(0, Math.min(state.pages - 1, state.page + dir)));
+    go(state.activeLeft + dir);
   };
 
   const { active, activeLeft, count, atStart, atEnd } = state;

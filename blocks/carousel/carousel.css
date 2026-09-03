@@ -421,6 +421,13 @@
     margin-inline: auto;
 }
 
+/* Trailing room (~one card) so the LAST card can scroll to the front, making
+   every card reachable one-by-one and every dot activatable. */
+.carousel-showcase--product .nv-carousel-items::after {
+    content: "";
+    flex: 0 0 48%;
+}
+
 /* Product arrows sit OUTSIDE the two-card group (in the margins), like the
    original — not overlapping the cards. */
 .carousel-showcase--product .carousel-showcase-arrow--prev { left: -66px; }
