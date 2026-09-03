@@ -817,11 +817,11 @@ function ShowcaseControls({ centerMode, perView }) {
     scroller.scrollBy({ left: delta, behavior: "smooth" });
   };
 
-  // Arrow step: hero moves one card centred; multi-up moves one card aligned to
-  // the left, so every card (and its dot) is reachable in sequence.
+  // Arrow step: hero moves one card centred; multi-up moves a full page
+  // (Items Per View cards) aligned to the left — so two-up moves two at a time.
   const step = (dir) => {
     if (centerMode) { go(state.active + dir); return; }
-    go(state.activeLeft + dir);
+    go(state.activeLeft + dir * (perView || 1));
   };
 
   const { active, activeLeft, count, atStart, atEnd } = state;
