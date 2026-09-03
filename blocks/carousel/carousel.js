@@ -758,13 +758,18 @@ function ShowcaseControls({ centerMode }) {
     const compute = () => {
       const items = [...track.querySelectorAll(".nv-carousel-item")];
       if (!items.length) return;
-      const mid = scroller.getBoundingClientRect().left + scroller.clientWidth / 2;
-      let active = 0;
+      const sLeft = scroller.getBoundingClientRect().left;
+      const mid = sLeft + scroller.clientWidth / 2;
+      let active = 0;      // nearest to centre (hero highlight)
       let best = Infinity;
+      let activeLeft = 0;  // nearest to the left edge (multi-up highlight)
+      let bestL = Infinity;
       items.forEach((el, i) => {
         const r = el.getBoundingClientRect();
         const d = Math.abs(r.left + r.width / 2 - mid);
         if (d < best) { best = d; active = i; }
+        const dl = Math.abs(r.left - sLeft);
+        if (dl < bestL) { bestL = dl; activeLeft = i; }
       });
       const cardStep = items.length > 1
         ? items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left
@@ -774,7 +779,7 @@ function ShowcaseControls({ centerMode }) {
       const page = Math.min(pages - 1, Math.round(scroller.scrollLeft / (perPage * cardStep)));
       const atStart = scroller.scrollLeft <= 2;
       const atEnd = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 2;
-      setState({ active, count: items.length, atStart, atEnd, page, pages, perPage });
+      setState({ active, activeLeft, count: items.length, atStart, atEnd, page, pages, perPage });
     };
     const place = () => {
       if (!media) return;
@@ -828,7 +833,7 @@ function ShowcaseControls({ centerMode }) {
     goToPage(Math.max(0, Math.min(state.pages - 1, state.page + dir)));
   };
 
-  const { active, count, atStart, atEnd, page, pages } = state;
+  const { active, activeLeft, count, atStart, atEnd } = state;
   const prevDisabled = centerMode ? active <= 0 : atStart;
   const nextDisabled = centerMode ? (count === 0 || active >= count - 1) : atEnd;
 
@@ -842,18 +847,18 @@ function ShowcaseControls({ centerMode }) {
       onClick,
     }, h(Icon, { width: 22, height: 22, "aria-hidden": "true" }));
 
-  // hero: one dot per card; multi-up: one dot per page
-  const dotCount = centerMode ? count : pages;
-  const dotActive = centerMode ? active : page;
-  const dots = dotCount > 1 && h(
+  // One dot per CARD (so all cards are represented); active follows the
+  // centred card (hero) or the left-most visible card (multi-up).
+  const dotActive = centerMode ? active : activeLeft;
+  const dots = count > 1 && h(
     "div",
     { className: "carousel-showcase-dots" },
-    Array.from({ length: dotCount }, (unused, i) => h("button", {
+    Array.from({ length: count }, (unused, i) => h("button", {
       key: i,
       type: "button",
       className: `carousel-showcase-dot${i === dotActive ? " is-active" : ""}`,
-      "aria-label": `Go to ${centerMode ? "slide" : "page"} ${i + 1}`,
-      onClick: () => (centerMode ? go(i) : goToPage(i)),
+      "aria-label": `Go to slide ${i + 1}`,
+      onClick: () => go(i),
     })),
   );
 
