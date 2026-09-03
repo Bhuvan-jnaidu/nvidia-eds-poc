@@ -817,19 +817,25 @@ function ShowcaseControls({ centerMode, perView }) {
     scroller.scrollBy({ left: delta, behavior: "smooth" });
   };
 
-  // Arrow step: hero moves one card centred; multi-up scrolls a full page
-  // (Items Per View card-widths) so two-up moves exactly two cards per click.
-  const step = (dir) => {
-    if (centerMode) { go(state.active + dir); return; }
+  // Jump to a whole page (multi-up): page p shows cards [p*perView … ].
+  const goToPage = (p) => {
     const { scroller, items } = els();
     if (!scroller || !items.length) return;
     const cardStep = items.length > 1
       ? items[1].getBoundingClientRect().left - items[0].getBoundingClientRect().left
       : items[0].getBoundingClientRect().width;
-    scroller.scrollBy({ left: dir * (perView || 1) * cardStep, behavior: "smooth" });
+    const clamped = Math.max(0, Math.min(state.pages - 1, p));
+    scroller.scrollTo({ left: clamped * (perView || 1) * cardStep, behavior: "smooth" });
   };
 
-  const { active, activeLeft, count, atStart, atEnd } = state;
+  // Arrow step: hero moves one card centred; multi-up moves a whole page
+  // (Items Per View cards) — two-up moves two cards and advances one dot.
+  const step = (dir) => {
+    if (centerMode) { go(state.active + dir); return; }
+    goToPage(state.page + dir);
+  };
+
+  const { active, count, atStart, atEnd } = state;
   const prevDisabled = centerMode ? active <= 0 : atStart;
   const nextDisabled = centerMode ? (count === 0 || active >= count - 1) : atEnd;
 
@@ -843,18 +849,19 @@ function ShowcaseControls({ centerMode, perView }) {
       onClick,
     }, h(Icon, { width: 22, height: 22, "aria-hidden": "true" }));
 
-  // One dot per CARD (so all cards are represented); active follows the
-  // centred card (hero) or the left-most visible card (multi-up).
-  const dotActive = centerMode ? active : activeLeft;
-  const dots = count > 1 && h(
+  // hero: one dot per card; multi-up: one dot per PAGE (so dots and the
+  // 2-card swipe stay in sync — no skipping).
+  const dotCount = centerMode ? count : state.pages;
+  const dotActive = centerMode ? active : state.page;
+  const dots = dotCount > 1 && h(
     "div",
     { className: "carousel-showcase-dots" },
-    Array.from({ length: count }, (unused, i) => h("button", {
+    Array.from({ length: dotCount }, (unused, i) => h("button", {
       key: i,
       type: "button",
       className: `carousel-showcase-dot${i === dotActive ? " is-active" : ""}`,
-      "aria-label": `Go to slide ${i + 1}`,
-      onClick: () => go(i),
+      "aria-label": `Go to ${centerMode ? "slide" : "page"} ${i + 1}`,
+      onClick: () => (centerMode ? go(i) : goToPage(i)),
     })),
   );
 
