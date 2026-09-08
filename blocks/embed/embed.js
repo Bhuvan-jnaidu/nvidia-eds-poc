@@ -6,8 +6,18 @@
 // only loads when the user clicks — good for performance/Lighthouse.
 
 function youTubeId(url) {
-  const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
-  return m ? m[1] : null;
+  // Handles watch?v=, youtu.be/, /embed/, /shorts/, /live/, /v/ — and even a
+  // malformed link where a full YouTube URL was pasted after "v=".
+  const patterns = [
+    /youtube\.com\/(?:embed|shorts|live|v)\/([\w-]{11})/,
+    /youtu\.be\/([\w-]{11})/,
+    /[?&]v=([\w-]{11})(?:[&?]|$)/,
+  ];
+  for (let i = 0; i < patterns.length; i += 1) {
+    const m = url.match(patterns[i]);
+    if (m) return m[1];
+  }
+  return null;
 }
 
 function vimeoId(url) {
