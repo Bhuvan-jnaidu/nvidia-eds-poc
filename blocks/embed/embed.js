@@ -51,16 +51,33 @@ function makeIframe(src, title) {
 }
 
 // Build a facade that swaps to the iframe (autoplay) on click.
-function buildFacade(frame, poster, title) {
+// `posters` is a list of thumbnail URLs tried in order (later ones are
+// fallbacks) so the real video frame shows behind the play button.
+function buildFacade(frame, posters, title) {
   const facade = document.createElement("button");
   facade.type = "button";
   facade.className = "embed-facade";
   facade.setAttribute("aria-label", `Play ${title || "video"}`);
-  if (poster) facade.style.backgroundImage = `url("${poster}")`;
+
+  const list = (Array.isArray(posters) ? posters : [posters]).filter(Boolean);
+  if (list.length) {
+    const img = document.createElement("img");
+    img.className = "embed-poster";
+    img.loading = "lazy";
+    img.alt = title || "";
+    let i = 0;
+    img.src = list[i];
+    img.addEventListener("error", () => {
+      i += 1;
+      if (i < list.length) img.src = list[i];
+      else img.remove(); // give up on the thumbnail; dark bg remains
+    });
+    facade.append(img);
+  }
+
   facade.append(playIcon());
   facade.addEventListener("click", () => {
-    const iframe = makeIframe(frame, title);
-    facade.replaceWith(iframe);
+    facade.replaceWith(makeIframe(frame, title));
   }, { once: true });
   return facade;
 }
@@ -82,8 +99,14 @@ export default function decorate(block) {
 
   if (yt) {
     const frame = `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0`;
-    const poster = posterSrc || `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`;
-    wrap.append(buildFacade(frame, poster, title));
+    // real video frame first, falling back through smaller sizes; authored
+    // poster (if any) wins.
+    const posters = posterSrc ? [posterSrc] : [
+      `https://i.ytimg.com/vi/${yt}/maxresdefault.jpg`,
+      `https://i.ytimg.com/vi/${yt}/sddefault.jpg`,
+      `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`,
+    ];
+    wrap.append(buildFacade(frame, posters, title));
   } else if (vim) {
     // Vimeo thumbnails need an API call; render the player directly.
     wrap.append(makeIframe(`https://player.vimeo.com/video/${vim}`, title));
