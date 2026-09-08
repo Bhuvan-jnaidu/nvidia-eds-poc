@@ -15,6 +15,11 @@ function vimeoId(url) {
   return m ? m[1] : null;
 }
 
+// self-hosted / direct video files (mp4, webm, …)
+function isVideoFile(url) {
+  return /\.(mp4|webm|ogv|ogg|mov|m4v)(\?.*)?$/i.test(url);
+}
+
 function playIcon() {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 68 48");
@@ -58,16 +63,32 @@ export default function decorate(block) {
   const wrap = document.createElement("div");
   wrap.className = "embed-wrap";
 
+  // optional poster image authored alongside the link
+  const posterImg = block.querySelector("img");
+  const posterSrc = posterImg && (posterImg.currentSrc || posterImg.src);
+
   const yt = youTubeId(url);
   const vim = !yt && vimeoId(url);
 
   if (yt) {
     const frame = `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0`;
-    const poster = `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`;
+    const poster = posterSrc || `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`;
     wrap.append(buildFacade(frame, poster, title));
   } else if (vim) {
     // Vimeo thumbnails need an API call; render the player directly.
     wrap.append(makeIframe(`https://player.vimeo.com/video/${vim}`, title));
+  } else if (isVideoFile(url)) {
+    // self-hosted / direct video file -> native HTML5 player
+    const video = document.createElement("video");
+    video.className = "embed-video";
+    video.controls = true;
+    video.setAttribute("playsinline", "");
+    video.setAttribute("preload", "metadata");
+    if (posterSrc) video.setAttribute("poster", posterSrc);
+    const source = document.createElement("source");
+    source.src = url;
+    video.append(source);
+    wrap.append(video);
   } else if (url) {
     // Unknown provider — keep it as a plain link rather than breaking.
     const a = document.createElement("a");
