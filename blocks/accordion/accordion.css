@@ -7,3 +7,66 @@
   max-width: 800px;
   width: 100%;
 }
+
+/* ── Dark FAQ variant (NVIDIA FAQ look) ────────────────────────────────
+   Trigger it either by a dark section (Style: dark -> .nv-dark) or by
+   authoring the block as "Accordion (dark)". Black background, white
+   questions, thin dividers, chevron on the right, green links. */
+.nv-dark .accordion.block,
+.accordion.block.dark,
+.accordion.block.faq {
+  max-width: 1120px;
+  background: #000;
+  color: #fff;
+  padding: 8px 24px;
+  border-radius: 4px;
+}
+
+.nv-dark .accordion .nv-accordion-item,
+.accordion.dark .nv-accordion-item,
+.accordion.faq .nv-accordion-item {
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.nv-dark .accordion .nv-accordion-trigger,
+.accordion.dark .nv-accordion-trigger,
+.accordion.faq .nv-accordion-trigger {
+  color: #fff;                 /* chevron uses currentColor */
+  padding-block: 22px;
+}
+
+.nv-dark .accordion .nv-accordion-label-text,
+.accordion.dark .nv-accordion-label-text,
+.accordion.faq .nv-accordion-label-text {
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--font-size-lg, 1.25rem);
+}
+
+.nv-dark .accordion .nv-accordion-trigger svg,
+.accordion.dark .nv-accordion-trigger svg,
+.accordion.faq .nv-accordion-trigger svg {
+  color: #fff;
+  fill: currentColor;
+}
+
+.nv-dark .accordion .nv-accordion-content,
+.accordion.dark .nv-accordion-content,
+.accordion.faq .nv-accordion-content {
+  color: #c8c8c8;
+  padding-bottom: 20px;
+  line-height: 1.65;
+}
+
+.nv-dark .accordion .nv-accordion-content a,
+.accordion.dark .nv-accordion-content a,
+.accordion.faq .nv-accordion-content a {
+  color: var(--color-nvidia-green, #76b900);
+  text-decoration: none;
+}
+
+.nv-dark .accordion .nv-accordion-content a:hover,
+.accordion.dark .nv-accordion-content a:hover,
+.accordion.faq .nv-accordion-content a:hover {
+  text-decoration: underline;
+}
