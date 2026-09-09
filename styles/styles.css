@@ -317,6 +317,13 @@ main {
     text-decoration-color: currentColor;
 }
 
+/* Agreement body must never render italic. If the source doc carries italic
+   formatting, EDS wraps it in <em>; neutralize it within the legal section only
+   (real NVIDIA legal pages underline defined terms, they don't italicize). */
+.section.legal em {
+    font-style: normal;
+}
+
 .section.legal ul {
     margin: 0 0 var(--space-sm);
     padding-left: 2em;
