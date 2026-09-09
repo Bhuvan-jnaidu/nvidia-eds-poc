@@ -221,6 +221,115 @@ main {
     color: var(--text-color-subtle);
 }
 
+/* ── Legal / agreement body (matches nvidia.com agreements pages) ──────────
+   Trigger with a section that carries `Style: legal` (-> .section.legal).
+   Overrides the centered default-content-wrapper with left-aligned legal
+   typography and the CSS-counter numbered clause list built by buildLegalOl. */
+.section.legal {
+    padding-top: 0; /* dark bar sits flush above the title band */
+}
+
+.section.legal > .default-content-wrapper {
+    text-align: left;
+    max-width: 1320px;
+    padding-inline: 15px;
+    font-size: 0.9375rem; /* 15px */
+    line-height: 1.66;
+}
+
+.section.legal h1 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--space-md);
+}
+
+.section.legal h2,
+.section.legal h2 strong {
+    font-weight: 700;
+}
+
+.section.legal h2 {
+    margin: var(--space-md) 0 var(--space-xs) 2.8em;
+    font-size: 0.9375rem;
+    line-height: 1.66;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.section.legal .default-content-wrapper p {
+    margin-bottom: 0;
+    padding: 10px 0;
+    color: var(--color-text, #1a1a1a);
+    line-height: 1.66;
+}
+
+.section.legal .default-content-wrapper a {
+    color: var(--color-text, #1a1a1a);
+    text-decoration: underline;
+    text-decoration-color: var(--text-color-brand, #76b900);
+    text-underline-offset: 2px;
+}
+
+.section.legal .default-content-wrapper a:hover {
+    color: var(--color-text, #1a1a1a);
+    text-decoration-color: var(--color-text, #1a1a1a);
+}
+
+.section.legal .default-content-wrapper ol.legal-ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: item;
+}
+
+.section.legal .default-content-wrapper > ol.legal-ol {
+    margin-left: 2.8em;
+}
+
+.section.legal .default-content-wrapper ol.legal-ol > li {
+    counter-increment: item;
+    padding: 10px 0 10px 3.2em;
+    text-indent: -3.2em;
+}
+
+.section.legal .default-content-wrapper ol.legal-ol > li > p {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.section.legal .default-content-wrapper ol.legal-ol > li::before {
+    content: counters(item, ".") ". ";
+}
+
+.section.legal .default-content-wrapper ol.legal-ol ol.legal-ol > li::before {
+    content: counters(item, ".") " ";
+}
+
+.section.legal u {
+    color: var(--color-text, #1a1a1a);
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+}
+
+.section.legal ul {
+    margin: 0 0 var(--space-sm);
+    padding-left: 2em;
+    list-style: none;
+}
+
+.section.legal li {
+    margin-bottom: var(--space-xs);
+    padding-left: 1.6em;
+    text-indent: -1.6em;
+    line-height: 1.55;
+    color: var(--color-text, #1a1a1a);
+    list-style: none;
+}
+
+.section.legal li::marker {
+    content: "";
+}
+
 /* Buttons — NVIDIA-branded, three variants */
 main p.button-wrapper {
     margin: 12px 0;

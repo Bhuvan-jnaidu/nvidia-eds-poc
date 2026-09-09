@@ -123,11 +123,116 @@ async function loadEager(doc) {
   }
 }
 
+// Rebuild the flat numbered agreement body into a real nested <ol><li> tree, like
+// nvidia.com. The literal "1." / "1.1" / "7.1.1" numbers are stripped; CSS counters
+// regenerate them. Section headings (h2) become <strong> inside the top-level <li>.
+function buildLegalOl(doc) {
+  const root = doc.querySelector('.section.legal .default-content-wrapper');
+  if (!root) return;
+
+  const items = [];
+  [...root.children].forEach((el) => {
+    if (el.tagName !== 'H2' && el.tagName !== 'P') return;
+    const m = el.textContent.replace(/^\s+/, '').match(/^(\d+(?:\.\d+)*)[.\s]/);
+    if (m) items.push({ el, path: m[1].split('.').map(Number), tag: el.tagName });
+  });
+  if (!items.length) return;
+
+  const mkOl = () => { const o = doc.createElement('ol'); o.className = 'legal-ol'; return o; };
+  const firstText = (node) => {
+    for (const c of node.childNodes) {
+      if (c.nodeType === 3 && c.nodeValue.trim()) return c;
+      if (c.nodeType === 1) { const r = firstText(c); if (r) return r; }
+    }
+    return null;
+  };
+  const stripNum = (el) => {
+    const t = firstText(el);
+    if (t) t.nodeValue = t.nodeValue.replace(/^\s*\d+(?:\.\d+)*\.?\s*/, '');
+  };
+  const mkLi = ({ el, tag }) => {
+    const li = doc.createElement('li');
+    stripNum(el);
+    const p = doc.createElement('p');
+    if (tag === 'H2') {
+      const s = doc.createElement('strong');
+      while (el.firstChild) s.appendChild(el.firstChild);
+      p.appendChild(s);
+    } else {
+      while (el.firstChild) p.appendChild(el.firstChild);
+    }
+    li.appendChild(p);
+    return li;
+  };
+
+  const topOl = mkOl();
+  const olAt = { 0: topOl };
+  const liAt = {};
+  items.forEach((it) => {
+    const depth = it.path.length - 1;
+    let ol;
+    if (depth === 0) {
+      ol = topOl;
+    } else {
+      const parentLi = liAt[depth - 1];
+      if (!parentLi) return;
+      if (!olAt[depth] || olAt[depth].parentNode !== parentLi) {
+        ol = mkOl(); parentLi.appendChild(ol); olAt[depth] = ol;
+      } else {
+        ol = olAt[depth];
+      }
+    }
+    ol.appendChild(mkLi(it));
+    liAt[depth] = ol.lastChild;
+    Object.keys(olAt).forEach((d) => { if (+d > depth) delete olAt[d]; });
+    Object.keys(liAt).forEach((d) => { if (+d > depth) delete liAt[d]; });
+  });
+
+  root.insertBefore(topOl, items[0].el);
+  items.forEach(({ el }) => el.remove());
+}
+
+// Auto-link bare emails/URLs in the legal body, trimming trailing punctuation.
+function linkifyLegal(doc) {
+  const root = doc.querySelector('.section.legal .default-content-wrapper');
+  if (!root) return;
+  const RE = /(https?:\/\/[^\s<)]+|[\w.+-]+@[\w-]+\.[\w.-]+)/g;
+  const walker = doc.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+  const targets = [];
+  let node;
+  // eslint-disable-next-line no-cond-assign
+  while ((node = walker.nextNode())) {
+    if (node.parentElement && node.parentElement.closest('a')) continue;
+    if ([...node.nodeValue.matchAll(RE)].length) targets.push(node);
+  }
+  targets.forEach((n) => {
+    const text = n.nodeValue;
+    const frag = doc.createDocumentFragment();
+    let last = 0;
+    [...text.matchAll(RE)].forEach((m) => {
+      if (m.index > last) frag.appendChild(doc.createTextNode(text.slice(last, m.index)));
+      let tok = m[0];
+      const trail = (tok.match(/[.,;:)]+$/) || [''])[0];
+      if (trail) tok = tok.slice(0, tok.length - trail.length);
+      const a = doc.createElement('a');
+      a.href = tok.startsWith('http') ? tok : `mailto:${tok}`;
+      a.textContent = tok;
+      frag.appendChild(a);
+      if (trail) frag.appendChild(doc.createTextNode(trail));
+      last = m.index + m[0].length;
+    });
+    if (last < text.length) frag.appendChild(doc.createTextNode(text.slice(last)));
+    n.parentNode.replaceChild(frag, n);
+  });
+}
+
 async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  buildLegalOl(doc);
+  linkifyLegal(doc);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
