@@ -28,6 +28,9 @@ export default async function decorate(block) {
       if (r.top <= 2 && r.height > h && r.height < 200) h = r.height;
     });
     document.body.style.paddingTop = h ? `${h}px` : '';
+    // Publish the fixed nav height so sticky elements (e.g. the agreement
+    // topbar) can offset themselves to sit just below the nav instead of under it.
+    document.documentElement.style.setProperty('--nav-height', h ? `${h}px` : '0px');
   };
 
   // On non-nvidia.com origins the plugin can render its mobile (flex) layout at

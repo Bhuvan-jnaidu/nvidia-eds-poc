@@ -12,6 +12,11 @@
   padding: 11px max(16px, calc(50vw - 645px)); /* align crumb with body gutter (38px) */
   background: var(--color-text, #1a1a1a);
   color: #fff;
+  /* Stick to the top on scroll, offset just below the fixed global nav
+     (--nav-height is published by header.js). Sits below the nav's z-index. */
+  position: sticky;
+  top: var(--nav-height, 0px);
+  z-index: 900;
 }
 
 .agreement-topbar.agreement-topbar--fixed {

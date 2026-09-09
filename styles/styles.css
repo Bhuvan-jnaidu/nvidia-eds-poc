@@ -81,6 +81,12 @@ body {
     color: var(--color-text);
     background-color: var(--color-surface);
     line-height: 1.6;
+    /* NVIDIA Sans VF has a slant axis whose default is non-zero; pin it so body
+       text renders upright (headings pin it too). Lost in the homepage->main
+       merge, which is why the all-paragraph legal pages rendered italic. */
+    font-variation-settings:
+        "slnt" 0,
+        "ital" 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     opacity: 0;
